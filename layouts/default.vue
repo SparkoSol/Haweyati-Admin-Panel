@@ -110,51 +110,53 @@ export default {
         {
           icon: 'mdi-home',
           title: 'Dashboard',
-          to: '/'
+          to: '/',
+          show: true
         },
         {
           icon: 'mdi-account-multiple',
           title: 'Customers',
-          to: '/customer'
+          to: '/customer',
+          show: true
         },
         {
           icon: 'mdi-store',
           title: 'Stores',
-          to: '/store'
+          to: '/store',
+          show: true
         },
         {
           icon: 'mdi-gavel',
           title: 'Products',
-          to: '/product'
+          to: '/product',
+          show: true
         },
         {
           icon: 'mdi-clipboard-multiple',
           title: 'Orders',
-          to: '/order'
+          to: '/order',
+          show: true
         },
         {
           icon: 'mdi-cog',
           title: 'Settings',
-          to: '/setting'
+          to: '/setting',
+          subItems: [{ title: 'Settings Sub' }],
+          show: false
         },
         {
           icon: 'mdi-file-chart',
           title: 'Reports',
-          to: '/report'
+          to: '/report',
+          show: true
         },
         {
           icon: 'mdi-account-plus',
           title: 'Register Admin',
-          to: '/auth/signup'
+          to: '/auth/signup',
+          show: true
         }
-      ],
-      clipped: false,
-      drawer: false,
-      fixed: false,
-      miniVariant: false,
-      right: true,
-      rightDrawer: false,
-      title: 'Vuetify.js'
+      ]
     }
   },
   methods: {
