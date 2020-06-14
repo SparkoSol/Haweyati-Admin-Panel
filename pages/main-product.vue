@@ -1,13 +1,9 @@
 <template>
-    $END$
+  <h1>Main Product Page</h1>
 </template>
 
 <script>
-  export default {
-    name: 'main-product.vue'
-  }
+export default {}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

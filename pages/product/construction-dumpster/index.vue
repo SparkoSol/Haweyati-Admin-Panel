@@ -1,13 +1,12 @@
 <template>
-    $END$
+  <product-page />
 </template>
 
 <script>
-  export default {
-    name: 'index'
-  }
+import ProductPage from '../../../components/products/product_page'
+export default {
+  components: { ProductPage }
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>

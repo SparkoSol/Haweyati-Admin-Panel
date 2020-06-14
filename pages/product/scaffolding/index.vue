@@ -1,13 +1,12 @@
 <template>
-    $END$
+  <SubCategoryPage />
 </template>
 
 <script>
-  export default {
-    name: 'index'
-  }
+import SubCategoryPage from '../../../components/products/sub-category_page'
+export default {
+  components: { SubCategoryPage }
+}
 </script>
 
-<style scoped>
-
-</style>
+<style scoped></style>
