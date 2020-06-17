@@ -13,5 +13,9 @@ export function emailValidator(value) {
 }
 
 export function phoneValidator(value) {
-  return (value.length >= 12 && value.length <= 15) || 'Enter valid phone'
+  if (value !== undefined) {
+    return (value.length >= 12 && value.length <= 15) || 'Enter valid phone'
+  } else {
+    return 'Enter valid phone'
+  }
 }

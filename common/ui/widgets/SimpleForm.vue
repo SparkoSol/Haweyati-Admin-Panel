@@ -89,7 +89,7 @@ export default defineComponent({
      * @since 1.0.0
      */
     data: {
-      type: Object,
+      type: [Object, Function],
       required: true
     },
 
@@ -141,10 +141,26 @@ export default defineComponent({
         let res = null
         switch (props.method.toLowerCase()) {
           case 'post':
-            res = await context.root.$axios.post(props.endpoint, data)
+            if (data instanceof FormData) {
+              res = await context.root.$axios.post(props.endpoint, data, {
+                headers: {
+                  'content-type': `multipart/form-data;`
+                }
+              })
+            } else {
+              res = await context.root.$axios.post(props.endpoint, data)
+            }
             break
           case 'patch':
-            res = await context.root.$axios.patch(props.endpoint, data)
+            if (data instanceof FormData) {
+              res = await context.root.$axios.patch(props.endpoint, data, {
+                headers: {
+                  'content-type': `multipart/form-data;`
+                }
+              })
+            } else {
+              res = await context.root.$axios.patch(props.endpoint, data)
+            }
             break
           default:
             state.error = 'Unknown METHOD was specified.'

@@ -101,6 +101,7 @@
 export default {
   data() {
     return {
+      drawer: 'true',
       dropdownMenuItems: [
         { title: 'John Doe', subtitle: 'johndoe@gmail.com' },
         { title: 'Settings' },

@@ -1,6 +1,14 @@
 <template>
   <v-container>
-    <data-viewer title="Stores" :columns="columns" create change remove />
+    <data-viewer
+      title="Stores"
+      :columns="columns"
+      create
+      endpoint="/suppliers"
+      create-route="/store/add"
+      change
+      remove
+    />
   </v-container>
 </template>
 
@@ -14,14 +22,13 @@ export default {
   data() {
     return {
       columns: [
-        { text: 'Order', value: 'order' },
-        { text: 'Date', value: 'date' },
-        { text: 'Customer', value: 'customer' },
-        { text: 'Total', value: 'total' },
-        { text: 'Status', value: 'status' },
-        { text: 'Actions', value: 'actions', align: 'center' }
-      ],
-      data: []
+        { text: 'Image', value: 'profilePic' },
+        { text: 'Name', value: 'name' },
+        { text: 'Email', value: 'email' },
+        { text: 'Contact', value: 'contact' },
+        { text: 'Address', value: 'address' },
+        { text: 'Services', value: 'services' }
+      ]
     }
   }
 }

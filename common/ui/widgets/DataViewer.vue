@@ -60,6 +60,9 @@
       :hide-default-footer="!pagination"
       class="data-table__content"
     >
+      <template v-slot:item.profilePic="{ item }">
+        {{ item.profilePic !== undefined ? item.profilePic.name : 'No Image' }}
+      </template>
       <template v-slot:item.action="{ item }">
         <slot name="actions" :item="item" />
         <v-icon v-if="change" small color="green" @change="changeItem(item)"

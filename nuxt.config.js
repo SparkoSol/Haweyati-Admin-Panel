@@ -30,7 +30,7 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/mask.js'],
+  plugins: ['~/plugins/mask.js', '~/plugins/composition-api.js'],
   /*
    ** Nuxt.js dev-modules
    */
@@ -54,23 +54,23 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://192.168.1.115:4000/'
+    baseURL: 'http://192.168.1.101:4000/'
   },
   auth: {
     strategies: {
       local: {
         endpoints: {
           login: {
-            url: 'http://192.168.1.115:4000/auth/sign-in',
+            url: 'http://192.168.1.101:4000/auth/sign-in',
             method: 'post',
             propertyName: 'access_token'
           },
           logout: {
-            url: 'http://192.168.1.115:4000/auth/sign-out',
+            url: 'http://192.168.1.101:4000/auth/sign-out',
             method: 'post'
           },
           user: {
-            url: 'http://192.168.1.115:4000/auth/profile',
+            url: 'http://192.168.1.101:4000/auth/profile',
             method: 'get',
             propertyName: 'user'
           }
@@ -108,6 +108,9 @@ export default {
         }
       }
     }
+  },
+  server: {
+    host: '0.0.0.0'
   },
   /*
    ** Build configuration
