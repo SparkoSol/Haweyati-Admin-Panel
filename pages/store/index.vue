@@ -3,11 +3,13 @@
     <data-viewer
       title="Stores"
       :columns="columns"
-      create
       endpoint="/suppliers"
+      create
       create-route="/store/add"
       change
+      change-route="/store/edit/$id"
       remove
+      remove-route="/suppliers/$id"
     />
   </v-container>
 </template>

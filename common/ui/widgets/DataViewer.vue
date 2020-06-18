@@ -65,7 +65,7 @@
       </template>
       <template v-slot:item.action="{ item }">
         <slot name="actions" :item="item" />
-        <v-icon v-if="change" small color="green" @change="changeItem(item)"
+        <v-icon v-if="change" small color="green" @click="changeItem(item)"
           >mdi-pencil</v-icon
         >
         <v-icon v-if="remove" small color="red" @click="removeItem(item)"
@@ -224,13 +224,20 @@ export default defineComponent({
     }
 
     async function removeItem(item) {
+      window.console.log(item)
       if (confirm('Are you sure?')) {
-        await context.root.$axios.$delete('/rooms/' + item._id)
+        await context.root.$axios.$delete(
+          props.removeRoute.replace('$id', item._id)
+        )
         loader.data.value.splice(loader.data.value.indexOf(item), 1)
       }
     }
 
-    function changeItem(item) {}
+    function changeItem(item) {
+      context.root.$options.router.push(
+        props.changeRoute.replace('$id', item._id)
+      )
+    }
 
     return {
       search,
