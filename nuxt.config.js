@@ -54,23 +54,23 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://localhost:4000/'
+    baseURL: 'http://zainpc:4000/'
   },
   auth: {
     strategies: {
       local: {
         endpoints: {
           login: {
-            url: 'http://localhost:4000/auth/sign-in',
+            url: 'http://zainpc:4000/auth/sign-in',
             method: 'post',
             propertyName: 'access_token'
           },
           logout: {
-            url: 'http://localhost:4000/auth/sign-out',
+            url: 'http://zainpc:4000/auth/sign-out',
             method: 'post'
           },
           user: {
-            url: 'http://localhost:4000/auth/profile',
+            url: 'http://zainpc:4000/auth/profile',
             method: 'get',
             propertyName: 'user'
           }

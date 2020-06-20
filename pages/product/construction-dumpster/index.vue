@@ -1,5 +1,9 @@
 <template>
-  <product-page />
+  <product-page
+    title="Construction Dumpster"
+    endpoint="dumpsters"
+    route="product/construction-dumpster"
+  />
 </template>
 
 <script>
