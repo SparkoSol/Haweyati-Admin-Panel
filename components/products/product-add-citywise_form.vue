@@ -234,6 +234,9 @@ export default {
           formData.append(key, price[key])
         }
       }
+
+      formData.forEach(console.log)
+
       return formData
     },
     async getSuppliers() {

@@ -6,7 +6,7 @@
     :label="label"
     :items="state.data"
     :disabled="state.loading"
-    :rules="[v => !!v || !required || 'Value is required']"
+    :rules="[(v) => !!v || !required || 'Value is required']"
     @change="asd"
   >
     <template v-slot:append-item>
