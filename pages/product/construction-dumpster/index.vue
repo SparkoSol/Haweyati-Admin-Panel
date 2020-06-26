@@ -1,5 +1,5 @@
 <template>
-  <product-page
+  <DumpsterMain
     title="Construction Dumpster"
     endpoint="dumpsters"
     route="product/construction-dumpster"
@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import ProductPage from '../../../components/products/product_page'
+import DumpsterMain from '../../../components/products/construction-dumpster/main'
 export default {
-  components: { ProductPage }
+  components: { DumpsterMain }
 }
 </script>
 

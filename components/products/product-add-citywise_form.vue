@@ -39,8 +39,8 @@
             outlined
             label="Description"
             dense
-          ></v-textarea>
-        </v-card>
+          ></v-textarea
+        ></v-card>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Media</v-card-title>
           <v-file-input
@@ -134,7 +134,7 @@
           <v-card-title style="color: #313F53">Stores</v-card-title>
           <EntitySelector
             endpoint="suppliers"
-            :selection="[]"
+            :selection="suppliers"
             multiple
             :columns-selected="columnsSelected"
             :columns-selector="columnsSelected"
@@ -179,7 +179,7 @@ export default {
       default: 'product-add'
     },
     constructionDumpster: {
-      type: ConstructionDumpster,
+      type: [Object, ConstructionDumpster],
       default: () => new ConstructionDumpster()
     },
     pricing: {
@@ -193,7 +193,6 @@ export default {
   },
   data: () => ({
     columnsSelected: [{ text: 'Name', value: 'name' }],
-
     optionValues: [],
     cities: [{ name: '', value: '' }],
     suppliersList: []
@@ -222,21 +221,21 @@ export default {
           for (const item of this.constructionDumpster[key]) {
             formData.append(key, item._id)
           }
+        } else if (key === 'images') {
+          for (const item of this.constructionDumpster[key]) {
+            formData.append(key, item)
+          }
         } else if (Array.isArray(this.constructionDumpster[key])) {
           for (const item of this.constructionDumpster[key]) {
             formData.append(key, item)
           }
         } else formData.append(key, this.constructionDumpster[key])
       }
-
       for (const price of this.pricing) {
         for (const key of Object.keys(price)) {
           formData.append(key, price[key])
         }
       }
-
-      formData.forEach(console.log)
-
       return formData
     },
     async getSuppliers() {

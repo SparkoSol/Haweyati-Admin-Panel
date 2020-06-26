@@ -1,27 +1,24 @@
 <template>
-  <!--  <ProductAddCityWise-->
-  <!--    :supplier="constructionDumpster"-->
-  <!--    :is-update="true"-->
-  <!--    title="Add Construction Dumpster"-->
-  <!--    endpoint="dumpsters"-->
-  <!--  />-->
-  <h1>dit</h1>
+  <DumpsterForm
+    :construction-dumpster="constructionDumpster"
+    :pricing="constructionDumpster.pricing"
+    :suppliers="constructionDumpster.suppliers"
+    :is-update="true"
+    title="Update Construction Dumpster"
+    endpoint="dumpsters"
+  />
 </template>
 
 <script>
-// import ProductAddCityWise from '../../../components/products/product-add-citywise-form'
+import DumpsterForm from '../../../../components/products/construction-dumpster/form'
 export default {
   components: {
-    // ProductAddCityWise
+    DumpsterForm
   },
   async asyncData({ $axios, route }) {
     return {
-      constructionDumpster: await $axios.$get(
-        'construction-dumpsters/' + route.params.id
-      )
+      constructionDumpster: await $axios.$get('dumpsters/' + route.params.id)
     }
   }
 }
 </script>
-
-<style scoped></style>

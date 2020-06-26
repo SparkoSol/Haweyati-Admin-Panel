@@ -1,6 +1,9 @@
 <template>
   <v-card class="data-viewer" elevation="8">
     <v-card-title class="data-viewer__title">
+      <v-btn icon @click="returnBack" v-if="back">
+        <v-icon>mdi-keyboard-backspace</v-icon>
+      </v-btn>
       <span>{{ title }}</span>
       <v-spacer />
 
@@ -60,11 +63,29 @@
       :hide-default-footer="!pagination"
       class="data-table__content"
     >
-      <template v-slot:item.profilePic="{ item }">
-        {{ item.profilePic !== undefined ? item.profilePic.name : 'No Image' }}
+      <template v-slot:item.images="{ item }">
+        <div v-if="item.images.length <= 0">
+          {{ ' No Image ' }}
+        </div>
+        <v-row>
+          <v-col
+            v-for="(image, i) in item.images.slice(0, 3)"
+            :key="i"
+            cols="6"
+            md="3"
+            sm="3"
+          >
+            <v-avatar style="margin: 2px">
+              <img src="https://cdn.vuetifyjs.com/images/john.jpg" />
+            </v-avatar>
+          </v-col>
+        </v-row>
       </template>
       <template v-slot:item.action="{ item }">
         <slot name="actions" :item="item" />
+        <v-icon v-if="detail" small color="green" @click="detailItem(item)"
+          >mdi-clipboard</v-icon
+        >
         <v-icon v-if="change" small color="green" @click="changeItem(item)"
           >mdi-pencil</v-icon
         >
@@ -155,6 +176,15 @@ export default defineComponent({
       default: false
     },
 
+    detail: {
+      type: Boolean,
+      default: false
+    },
+    back: {
+      type: Boolean,
+      default: false
+    },
+
     /**
      * Determines if the account can create remove items
      * or not.
@@ -190,6 +220,12 @@ export default defineComponent({
     },
 
     changeRoute: {
+      type: String,
+      default: null,
+      required: false
+    },
+
+    detailRoute: {
       type: String,
       default: null,
       required: false
@@ -232,11 +268,20 @@ export default defineComponent({
         loader.data.value.splice(loader.data.value.indexOf(item), 1)
       }
     }
-
+    function returnBack() {
+      this.$router.back()
+    }
     function changeItem(item) {
       context.root.$options.router.push(
         props.changeRoute.replace('$id', item._id)
       )
+    }
+    function detailItem(item) {
+      if (this.detail) {
+        context.root.$options.router.push(
+          props.detailRoute.replace('$id', item._id)
+        )
+      }
     }
 
     return {
@@ -244,7 +289,9 @@ export default defineComponent({
       filter,
       ...loader,
       removeItem,
+      returnBack,
       changeItem,
+      detailItem,
       handleCreateEvent
     }
   }

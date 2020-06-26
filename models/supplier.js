@@ -3,7 +3,7 @@ export class Supplier {
   email = undefined
   contact = undefined
   address = undefined
-  file = undefined
+  images = undefined
   location = undefined
   parentId = undefined
   services = undefined

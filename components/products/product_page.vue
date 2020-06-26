@@ -10,6 +10,8 @@
       :change-route="'/' + route + '/edit/$id'"
       remove
       :remove-route="'/' + endpoint + '/$id'"
+      detail
+      :detail-route="'/' + route + '/detail/$id'"
     />
   </v-container>
 </template>
@@ -37,11 +39,9 @@ export default {
   },
   data: () => ({
     columns: [
-      { text: 'Image', value: 'image' },
+      { text: 'Image', value: 'images' },
       { text: 'Size', value: 'size' },
-      { text: 'Description', value: 'description' },
-      { text: 'Rent', value: 'rent' },
-      { text: 'Extra Day Price', value: 'extradayprice' }
+      { text: 'Description', value: 'description' }
     ]
   }),
   methods: {

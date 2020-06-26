@@ -1,11 +1,11 @@
 <template>
-  <product-page />
+  <DeliveryVehicleMain title="Delivery Vehicle" />
 </template>
 
 <script>
-import ProductPage from '../../../components/products/product_page'
+import DeliveryVehicleMain from '../../../components/products/delivery-vehicle/main'
 export default {
-  components: { ProductPage }
+  components: { DeliveryVehicleMain }
 }
 </script>
 

@@ -1,10 +1,10 @@
 <template>
   <v-container style="display: flex;justify-content: center">
     <SimpleForm
-      return
       :method="isUpdate ? 'patch' : 'post'"
       :data="formData"
       endpoint="/suppliers"
+      return
     >
       <template v-slot:header>
         <v-row>
@@ -66,6 +66,7 @@
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Media</v-card-title>
           <v-file-input
+            v-model="supplier.images"
             color="#313F53"
             label="File input"
             multiple
@@ -171,8 +172,13 @@ export default {
           this.supplier[key].forEach((item) => {
             formData.append(key, item)
           })
+        } else if (key === 'images') {
+          this.supplier[key].forEach((item) => {
+            formData.append(key, item)
+          })
         } else formData.append(key, this.supplier[key])
       }
+      formData.forEach((item) => window.console.log(item))
       return formData
     }
   }

@@ -1,11 +1,11 @@
 <template>
-  <ProductAddCityWise title="Add Construction Dumpster" endpoint="dumpsters" />
+  <DumpsterForm title="Add Construction Dumpster" endpoint="dumpsters" />
 </template>
 
 <script>
-import ProductAddCityWise from '../../../components/products/product-add-citywise_form'
+import DumpsterForm from '../../../components/products/construction-dumpster/form'
 export default {
-  components: { ProductAddCityWise }
+  components: { DumpsterForm }
 }
 </script>
 

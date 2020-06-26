@@ -180,8 +180,8 @@ export default defineComponent({
       selectorState.selectorOpened = true
     }
 
-    function removeItem() {
-      selectorState._selection = []
+    function removeItem(i) {
+      selectorState._selection.splice(i, 1)
       context.emit('selected', null)
     }
 

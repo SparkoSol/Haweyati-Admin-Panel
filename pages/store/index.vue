@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       columns: [
-        { text: 'Image', value: 'profilePic' },
+        { text: 'Image', value: 'images' },
         { text: 'Name', value: 'name' },
         { text: 'Email', value: 'email' },
         { text: 'Contact', value: 'contact' },
