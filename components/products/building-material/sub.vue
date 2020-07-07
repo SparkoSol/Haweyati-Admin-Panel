@@ -47,7 +47,9 @@
         >
           <v-img
             :src="
-              'http://localhost:4000/uploads/' + buildingMaterialSub.images[i].name
+              $axios.defaults.baseURL +
+                'uploads/' +
+                buildingMaterialSub.images[i].name
             "
             width="100%"
             height="100%"

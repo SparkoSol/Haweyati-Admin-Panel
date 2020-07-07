@@ -44,7 +44,8 @@
                 <v-avatar size="60" color="white">
                   <img
                     :src="
-                      'http://localhost:4000/uploads/' +
+                      $axios.defaults.baseURL +
+                        'uploads/' +
                         customer.profile.image.name
                     "
                   />
@@ -100,7 +101,8 @@
                 <v-avatar size="60" color="white">
                   <img
                     :src="
-                      'http://localhost:4000/uploads/' +
+                      $axios.defaults.baseURL +
+                        'uploads/' +
                         customer.profile.image.name
                     "
                   />

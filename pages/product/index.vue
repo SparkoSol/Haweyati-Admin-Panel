@@ -24,11 +24,7 @@
           v-text="'Building Material'"
         ></v-card-title>
       </v-card>
-      <v-card
-        height="200px"
-        to="/product/scaffolding"
-        class="main-category-card scaffolding"
-      >
+      <v-card height="200px" class="main-category-card scaffolding">
         <v-card-title
           class="justify-center"
           style="color: white"

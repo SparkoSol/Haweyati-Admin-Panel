@@ -65,7 +65,9 @@
     >
       <template v-slot:item.images="{ item }">
         <v-avatar style="margin: 5px;padding: 0px">
-          <img :src="'http://localhost:4000/uploads/' + item.images[0].name" />
+          <img
+            :src="$axios.defaults.baseURL + 'uploads/' + item.images[0].name"
+          />
         </v-avatar>
       </template>
       <template v-slot:item.action="{ item }">
