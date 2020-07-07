@@ -1,157 +1,200 @@
 <template>
   <v-container>
-    <h2>Customers</h2>
-    <v-row style="display: flex;justify-content: right;align-items: center">
-      <v-col cols="12" md="4" sm="4"></v-col>
-      <v-col cols="12" md="4" sm="4" style="text-align: center">
-        <v-label style="background-color: red"
-          >Showing 1 to 10 of 150 entries
-        </v-label>
-      </v-col>
-      <v-col cols="12" md="4" sm="4">
-        <v-text-field
-          outlined
-          color="#FF974D"
-          hide-details
-          dense
-          label="Search..."
-          append-icon="mdi-magnify"
-        >
-        </v-text-field>
-      </v-col>
-    </v-row>
-    <div
-      style="display: grid; grid-template-columns: auto auto; grid-column-gap: 20px"
-    >
-      <v-card
-        v-for="(item, i) in items"
-        :key="i"
-        style="padding: 10px;margin-bottom: 25px"
-      >
-        <v-row
-          style="display: grid;grid-template-columns: 70px 2fr 100px; padding: 20px"
-        >
-          <div>
-            <v-avatar size="60" color="white">
-              <img :src="item.avatar" alt="John" />
-            </v-avatar>
-          </div>
-          <div>
-            <h3>{{ item.name }}</h3>
-            <v-label>{{ item.name }}</v-label>
-            <h5 style="color: grey">{{ item.address }}</h5>
-          </div>
-          <v-btn color="#FF974D" dark tile small @click="dialog = true"
-            >Message
-          </v-btn>
-        </v-row>
-        <div style="margin-top: 10px;margin-bottom: 15px;margin-left: 10px">
-          <v-label>41 MaidStone Road,WENDY</v-label>
-        </div>
-      </v-card>
-    </div>
+    <v-tabs v-model="tab" background-color="#313F53" color="white" dark>
+      <v-tab v-for="item in tabs" :key="item.tab">
+        {{ item.tab }}
+      </v-tab>
+    </v-tabs>
 
-    <v-dialog v-model="dialog" width="600px">
-      <v-card>
-        <v-container style="text-align: center;margin-top: 10px">
-          <div style="display: inline-block;text-align: center">
-            <v-row><h2>Send Mail</h2></v-row>
-            <v-row><h2>Madiha Munawar</h2></v-row>
-          </div>
-        </v-container>
-        <v-card-text>
-          <v-container>
-            <v-row>
-              <v-text-field outlined label="Subject"></v-text-field>
+    <v-tabs-items v-model="tab">
+      <v-tab-item v-for="item in tabs" :key="item.tab">
+        <v-row style="display: flex;justify-content: right;align-items: center">
+          <v-col cols="12" md="8" sm="8"></v-col>
+          <v-col cols="12" md="4" sm="4">
+            <v-text-field
+              outlined
+              color="#FF974D"
+              hide-details
+              dense
+              label="Search..."
+              append-icon="mdi-magnify"
+            >
+            </v-text-field>
+          </v-col>
+        </v-row>
+        <div
+          v-if="item.blocked === false && customers.length <= 0"
+          style="display: flex;justify-content: center;align-items: center;"
+        >
+          <h3>No Data Found</h3>
+        </div>
+        <div
+          v-if="item.blocked === false && customers.length > 0"
+          style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 20px"
+        >
+          <v-card
+            v-for="(customer, i) in customers"
+            :key="i"
+            style="padding: 10px;"
+          >
+            <v-row
+              style="display: grid;grid-template-columns: 15% 65% 20%; padding: 20px;"
+            >
+              <div>
+                <v-avatar size="60" color="white">
+                  <img
+                    :src="
+                      'http://localhost:4000/uploads/' +
+                        customer.profile.image.name
+                    "
+                  />
+                </v-avatar>
+              </div>
+              <div>
+                <h3>{{ customer.profile.name }}</h3>
+                <p>{{ customer.profile.email }}</p>
+                <h5 style="color: grey">{{ customer.profile.contact }}</h5>
+              </div>
+              <div>
+                <v-btn
+                  color="#FF974D"
+                  dark
+                  tile
+                  small
+                  width="100%"
+                  style="margin-bottom: 10px"
+                  >Message
+                </v-btn>
+                <v-btn
+                  color="red"
+                  dark
+                  tile
+                  small
+                  width="100%"
+                  @click="blockItem(customer)"
+                  >Block
+                </v-btn>
+              </div>
             </v-row>
-            <v-row>
-              <v-textarea
-                outlined
-                label="Type Something..."
-                class="scrollbar"
-              ></v-textarea>
+          </v-card>
+        </div>
+        <div
+          v-if="item.blocked === true && blockedCustomers.length <= 0"
+          style="display: flex;justify-content: center;align-items: center;"
+        >
+          <h3>No Data Found</h3>
+        </div>
+        <div
+          v-if="item.blocked === true && blockedCustomers.length > 0"
+          style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 20px"
+        >
+          <v-card
+            v-for="(customer, i) in blockedCustomers"
+            :key="i"
+            style="padding: 10px;"
+          >
+            <v-row
+              style="display: grid;grid-template-columns: 15% 65% 20%; padding: 20px;"
+            >
+              <div>
+                <v-avatar size="60" color="white">
+                  <img
+                    :src="
+                      'http://localhost:4000/uploads/' +
+                        customer.profile.image.name
+                    "
+                  />
+                </v-avatar>
+              </div>
+              <div>
+                <h3>{{ customer.profile.name }}</h3>
+                <p>{{ customer.profile.email }}</p>
+                <h5 style="color: grey">{{ customer.profile.contact }}</h5>
+              </div>
+              <div>
+                <v-btn
+                  color="#FF974D"
+                  dark
+                  tile
+                  small
+                  width="100%"
+                  style="margin-bottom: 10px"
+                  >Message
+                </v-btn>
+                <v-btn
+                  color="green"
+                  dark
+                  tile
+                  small
+                  width="100%"
+                  @click="unblockItem(customer)"
+                  >Unblock
+                </v-btn>
+              </div>
             </v-row>
-          </v-container>
-        </v-card-text>
-        <v-card-actions>
-          <v-spacer></v-spacer>
-          <v-btn color="blue darken-1" text @click="dialog = false"
-            >Close
-          </v-btn>
-          <v-btn color="blue darken-1" text @click="dialog = false">Send</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+          </v-card>
+        </div>
+      </v-tab-item>
+    </v-tabs-items>
   </v-container>
 </template>
 
 <script>
 export default {
-  data() {
-    return {
-      dialog: false,
-      items: [
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
-          name: 'Madiha Munawar',
-          email: 'madihamunawar@gmail.com',
-          address: 'xxx-xxxx-xx'
-        },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
-          name: 'Madiha Munawar',
-          email: 'madihamunawar@gmail.com',
-          address: 'xxx-xxxx-xx'
-        },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
-          name: 'Madiha Munawar',
-          email: 'madihamunawar@gmail.com',
-          address: 'xxx-xxxx-xx'
-        },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
-          name: 'Madiha Munawar',
-          email: 'madihamunawar@gmail.com',
-          address: 'xxx-xxxx-xx'
-        },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
-          name: 'Madiha Munawar',
-          email: 'madihamunawar@gmail.com',
-          address: 'xxx-xxxx-xx'
-        },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
-          name: 'Madiha Munawar',
-          email: 'madihamunawar@gmail.com',
-          address: 'xxx-xxxx-xx'
-        },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
-          name: 'Madiha Munawar',
-          email: 'madihamunawar@gmail.com',
-          address: 'xxx-xxxx-xx'
-        },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
-          name: 'Madiha Munawar',
-          email: 'madihamunawar@gmail.com',
-          address: 'xxx-xxxx-xx'
-        },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
-          name: 'Madiha Munawar',
-          email: 'madihamunawar@gmail.com',
-          address: 'xxx-xxxx-xx'
-        },
-        {
-          avatar: 'https://cdn.vuetifyjs.com/images/john.jpg',
-          name: 'Madiha Munawar',
-          email: 'madihamunawar@gmail.com',
-          address: 'xxx-xxxx-xx'
-        }
-      ]
+  name: 'CustomerMain',
+  data: () => ({
+    customers: [],
+    blockedCustomers: [],
+    tabs: [
+      {
+        tab: 'Active',
+        title: 'Active Customers',
+        blocked: false
+      },
+      {
+        tab: 'Blocked',
+        title: 'Blocked Customers',
+        blocked: true
+      }
+    ],
+    tab: null
+  }),
+  mounted() {
+    this.getCustomers()
+    this.getBlockedCustomers()
+  },
+  methods: {
+    async getCustomers() {
+      this.customers = await this.$axios.$get('customers')
+    },
+    async getBlockedCustomers() {
+      this.blockedCustomers = await this.$axios.$get('customers/getblocked')
+    },
+    onBlock() {
+      this.snackbarColor = 'red'
+      this.snackbarText = 'Successfully Blocked Driver!'
+      this.snackbar = true
+    },
+    onUnblocked() {
+      this.snackbarColor = 'green'
+      this.snackbarText = 'Successfully Unblocked Driver!'
+      this.snackbar = true
+    },
+    async blockItem(item) {
+      window.console.log(item)
+      if (confirm('Are you sure?')) {
+        await this.$axios.$patch('/customers/getblocked/' + item._id)
+        this.getCustomers()
+        this.getBlockedCustomers()
+      }
+    },
+    async unblockItem(item) {
+      window.console.log(item)
+      if (confirm('Are you sure?')) {
+        await this.$axios.$patch('/customers/getunblocked/' + item._id)
+        this.getCustomers()
+        this.getBlockedCustomers()
+      }
     }
   }
 }

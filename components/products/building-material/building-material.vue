@@ -40,7 +40,7 @@ export default {
   },
   data: () => ({
     columns: [
-      { text: 'Image', value: 'images' },
+      { text: 'Image', value: 'images', width: '90px' },
       { text: 'Name', value: 'name' },
       { text: 'Description', value: 'description' }
     ]

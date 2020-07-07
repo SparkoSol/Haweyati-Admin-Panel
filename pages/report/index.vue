@@ -1,10 +1,10 @@
 <template>
-  <ProductAddVariant />
+  <TabTest title="Driver Requests" endpoint="/drivers" route="drivers" />
 </template>
 
 <script>
-import ProductAddVariant from '../../components/products/product-add-variant_form'
+import TabTest from '../../components/products/tab-test'
 export default {
-  components: { ProductAddVariant }
+  components: { TabTest }
 }
 </script>

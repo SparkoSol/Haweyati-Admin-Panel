@@ -121,6 +121,12 @@ export default {
           show: true
         },
         {
+          icon: 'mdi-account',
+          title: 'Drivers',
+          to: '/driver',
+          show: true
+        },
+        {
           icon: 'mdi-store',
           title: 'Stores',
           to: '/store',

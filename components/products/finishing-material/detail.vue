@@ -1,10 +1,104 @@
 <template>
-  <h1>finshing material detail</h1>
+  <v-container>
+    <v-row>
+      <v-col
+        style="display: flex ; align-items: center; justify-content: center"
+        cols="12"
+        md="1"
+        sm="1"
+      >
+        <v-btn icon @click="returnBack">
+          <v-icon>mdi-keyboard-backspace</v-icon>
+        </v-btn>
+      </v-col>
+      <v-col cols="12" md="11" sm="11">
+        <v-card-title>{{ finishingMaterial.name }}</v-card-title>
+      </v-col>
+    </v-row>
+    <v-container>
+      <v-card style="padding: 20px">
+        <v-textarea
+          :value="finishingMaterial.description"
+          readonly
+          outlined
+          label="Description"
+          dense
+        ></v-textarea>
+        <v-text-field
+          v-if="finishingMaterial.price > 0"
+          style="align-items: center !important;"
+          outlined
+          label="Price"
+          readonly
+          :value="finishingMaterial.price"
+          dense
+          hide-details
+        ></v-text-field>
+      </v-card>
+    </v-container>
+    <v-container>
+      <v-card v-if="finishingMaterial.varient.length > 0">
+        <v-card-title>Varients</v-card-title>
+        <v-data-table
+          hide-default-footer
+          :headers="columnsVarient"
+          :items="finishingMaterial.varient"
+          fixed-header
+        >
+        </v-data-table>
+      </v-card>
+    </v-container>
+    <v-container>
+      <v-card>
+        <v-card-title>Stores</v-card-title>
+        <v-data-table
+          hide-default-footer
+          :headers="columnsStore"
+          :items="finishingMaterial.suppliers"
+          fixed-header
+        />
+      </v-card>
+    </v-container>
+  </v-container>
 </template>
 
 <script>
+import { FinishingMaterial } from '../../../models/products/finishing-material'
+
 export default {
-  name: 'FinishingMaterialDetail'
+  name: 'FinishingMaterialDetail',
+  props: {
+    finishingMaterial: {
+      type: [Object, FinishingMaterial],
+      default: () => new FinishingMaterial()
+    }
+  },
+  data: () => ({
+    columnsVarient: [],
+    columnsStore: [
+      { text: 'Image', value: 'profilePic' },
+      { text: 'Name', value: 'name' },
+      { text: 'Email', value: 'email' },
+      { text: 'Contact', value: 'contact' },
+      { text: 'Address', value: 'address' },
+      { text: 'Services', value: 'services' }
+    ]
+  }),
+  mounted() {
+    this.varientHeader()
+  },
+  methods: {
+    returnBack() {
+      this.$router.back()
+    },
+    varientHeader() {
+      this.finishingMaterial.varient.forEach((item) => {
+        for (const key of Object.keys(item)) {
+          this.columnsVarient.push({ text: key, value: key })
+        }
+      })
+    }
+  }
 }
 </script>
 

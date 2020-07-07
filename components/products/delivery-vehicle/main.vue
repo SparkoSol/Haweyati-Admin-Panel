@@ -5,12 +5,6 @@
       :columns="columns"
       :endpoint="endpoint"
       back
-      create
-      :create-route="'/' + route + '/add'"
-      change
-      :change-route="'/' + route + '/edit/$id'"
-      remove
-      :remove-route="'/' + endpoint + '/$id'"
       detail
       :detail-route="'/' + route + '/detail/$id'"
     />
@@ -40,10 +34,13 @@ export default {
   },
   data: () => ({
     columns: [
-      { text: 'Image', value: 'images' },
-      { text: 'Name', value: 'name' },
-      { text: 'Driver Name', value: 'driverName' },
-      { text: 'Contact', value: 'contact' },
+      { text: 'Vehicle Name', value: 'vehicle.name' },
+      { text: 'Vehicle Model', value: 'vehicle.model' },
+      { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+      { text: 'Driver Name', value: 'profile.name' },
+      { text: 'Driver Contact', value: 'profile.contact' },
+      { text: 'Driver License', value: 'license' },
+      { text: 'Driver City', value: 'city' },
       { text: 'Status', value: 'status' }
     ]
   }),

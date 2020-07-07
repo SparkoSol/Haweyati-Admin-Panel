@@ -46,7 +46,9 @@
           @click="productDetail(buildingMaterialSub)"
         >
           <v-img
-            src="https://image.freepik.com/free-photo/sand-beach-as-background_102618-461.jpg"
+            :src="
+              'http://localhost:4000/uploads/' + buildingMaterialSub.images[i].name
+            "
             width="100%"
             height="100%"
             class="white--text align-center"

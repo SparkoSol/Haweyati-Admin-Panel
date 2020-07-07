@@ -10,7 +10,16 @@
       change-route="/store/edit/$id"
       remove
       remove-route="/suppliers/$id"
+      :on-delete="onDelete"
     />
+    <v-snackbar
+      v-model="snackbar"
+      bottom
+      :color="snackbarColor"
+      :timeout="1500"
+    >
+      {{ snackbarText }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -23,14 +32,29 @@ export default {
   },
   data() {
     return {
+      snackbarText: 'Success!',
+      snackbarColor: 'green',
+      snackbar: false,
       columns: [
-        { text: 'Image', value: 'images' },
+        {
+          text: 'Image',
+          value: 'images',
+          filterable: false,
+          sortable: false
+        },
         { text: 'Name', value: 'name' },
         { text: 'Email', value: 'email' },
         { text: 'Contact', value: 'contact' },
-        { text: 'Address', value: 'address' },
-        { text: 'Services', value: 'services' }
+        { text: 'Address', value: 'address', sortable: false },
+        { text: 'Services', value: 'services', sortable: false, width: '300px' }
       ]
+    }
+  },
+  methods: {
+    onDelete() {
+      this.snackbarColor = 'red'
+      this.snackbarText = 'Successfully Deleted Item!'
+      this.snackbar = true
     }
   }
 }

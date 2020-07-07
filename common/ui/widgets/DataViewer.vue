@@ -1,7 +1,7 @@
 <template>
   <v-card class="data-viewer" elevation="8">
     <v-card-title class="data-viewer__title">
-      <v-btn icon @click="returnBack" v-if="back">
+      <v-btn v-if="back" icon style="margin-right: 50px" @click="returnBack">
         <v-icon>mdi-keyboard-backspace</v-icon>
       </v-btn>
       <span>{{ title }}</span>
@@ -19,21 +19,21 @@
         <span>Add New</span>
       </v-btn>
 
-      <v-bottom-sheet v-model="filter" persistent>
-        <template v-slot:activator="{ on }">
-          <v-btn icon v-on="on">
-            <v-icon>mdi-filter</v-icon>
-          </v-btn>
-        </template>
-        <v-sheet class="text-center" height="200px">
-          <v-btn class="mt-6" flat color="error" @click="sheet = !sheet"
-            >close</v-btn
-          >
-          <div class="py-3">
-            This is a bottom sheet using the persistent prop
-          </div>
-        </v-sheet>
-      </v-bottom-sheet>
+      <!--      <v-bottom-sheet v-model="filter" persistent>-->
+      <!--        <template v-slot:activator="{ on }">-->
+      <!--          <v-btn icon v-on="on">-->
+      <!--            <v-icon>mdi-filter</v-icon>-->
+      <!--          </v-btn>-->
+      <!--        </template>-->
+      <!--        <v-sheet class="text-center" height="200px">-->
+      <!--          <v-btn class="mt-6" flat color="error" @click="sheet = !sheet"-->
+      <!--            >close</v-btn-->
+      <!--          >-->
+      <!--          <div class="py-3">-->
+      <!--            This is a bottom sheet using the persistent prop-->
+      <!--          </div>-->
+      <!--        </v-sheet>-->
+      <!--      </v-bottom-sheet>-->
 
       <v-btn icon @click="load">
         <v-icon>mdi-reload</v-icon>
@@ -64,33 +64,67 @@
       class="data-table__content"
     >
       <template v-slot:item.images="{ item }">
-        <div v-if="item.images.length <= 0">
-          {{ ' No Image ' }}
-        </div>
-        <v-row>
-          <v-col
-            v-for="(image, i) in item.images.slice(0, 3)"
-            :key="i"
-            cols="6"
-            md="3"
-            sm="3"
-          >
-            <v-avatar style="margin: 2px">
-              <img src="https://cdn.vuetifyjs.com/images/john.jpg" />
-            </v-avatar>
-          </v-col>
-        </v-row>
+        <v-avatar style="margin: 5px;padding: 0px">
+          <img :src="'http://localhost:4000/uploads/' + item.images[0].name" />
+        </v-avatar>
       </template>
       <template v-slot:item.action="{ item }">
         <slot name="actions" :item="item" />
-        <v-icon v-if="detail" small color="green" @click="detailItem(item)"
+        <v-icon
+          v-if="detail"
+          style="margin: 5px"
+          size="20"
+          color="green"
+          @click="detailItem(item)"
           >mdi-clipboard</v-icon
         >
-        <v-icon v-if="change" small color="green" @click="changeItem(item)"
+        <v-icon
+          v-if="approve"
+          size="20"
+          style="margin: 5px"
+          color="green"
+          @click="approveItem(item)"
+          >mdi-check-circle</v-icon
+        >
+        <v-icon
+          v-if="reject"
+          style="margin: 5px"
+          size="20"
+          color="red"
+          @click="rejectItem(item)"
+          >mdi-close-circle</v-icon
+        >
+        <v-icon
+          v-if="change"
+          style="margin: 5px"
+          size="20"
+          color="green"
+          @click="changeItem(item)"
           >mdi-pencil</v-icon
         >
-        <v-icon v-if="remove" small color="red" @click="removeItem(item)"
+        <v-icon
+          v-if="remove"
+          style="margin: 5px"
+          size="20"
+          color="red"
+          @click="removeItem(item)"
           >mdi-delete</v-icon
+        >
+        <v-icon
+          v-if="block"
+          style="margin: 5px"
+          size="20"
+          color="red"
+          @click="blockItem(item)"
+          >mdi-block-helper</v-icon
+        >
+        <v-icon
+          v-if="unblock"
+          style="margin: 5px"
+          small
+          color="green"
+          @click="unblockItem(item)"
+          >mdi-check</v-icon
         >
       </template>
     </v-data-table>
@@ -142,6 +176,12 @@ export default defineComponent({
       required: true
     },
 
+    onBlock: Function,
+    onUnblock: Function,
+    onAccepted: Function,
+    onRejected: Function,
+    onDelete: Function,
+
     /**
      * Options or additional action that need to be
      * performed on the data such as, printing a summary
@@ -181,6 +221,22 @@ export default defineComponent({
       default: false
     },
     back: {
+      type: Boolean,
+      default: false
+    },
+    approve: {
+      type: Boolean,
+      default: false
+    },
+    reject: {
+      type: Boolean,
+      default: false
+    },
+    block: {
+      type: Boolean,
+      default: false
+    },
+    unblock: {
       type: Boolean,
       default: false
     },
@@ -230,8 +286,28 @@ export default defineComponent({
       default: null,
       required: false
     },
+    approveRoute: {
+      type: String,
+      default: null,
+      required: false
+    },
+    rejectRoute: {
+      type: String,
+      default: null,
+      required: false
+    },
 
     removeRoute: {
+      type: String,
+      default: null,
+      required: false
+    },
+    blockRoute: {
+      type: String,
+      default: null,
+      required: false
+    },
+    unblockRoute: {
       type: String,
       default: null,
       required: false
@@ -252,7 +328,8 @@ export default defineComponent({
         value: 'action',
         sortable: false,
         filterable: false,
-        align: 'right'
+        align: 'center',
+        width: '150px'
       })
 
     function handleCreateEvent() {
@@ -267,7 +344,59 @@ export default defineComponent({
         )
         loader.data.value.splice(loader.data.value.indexOf(item), 1)
       }
+      if (this.onDelete() != null) {
+        this.onDelete()
+      }
     }
+    async function approveItem(item) {
+      window.console.log(item)
+      if (confirm('Are you sure?')) {
+        await context.root.$axios.$patch(
+          props.approveRoute.replace('$id', item._id)
+        )
+        loader.data.value.splice(loader.data.value.indexOf(item), 1)
+      }
+      if (this.onAccepted() != null) {
+        this.onAccepted()
+      }
+    }
+    async function rejectItem(item) {
+      window.console.log(item)
+      if (confirm('Are you sure?')) {
+        await context.root.$axios.$patch(
+          props.rejectRoute.replace('$id', item._id)
+        )
+        loader.data.value.splice(loader.data.value.indexOf(item), 1)
+      }
+      if (this.onRejected() != null) {
+        this.onRejected()
+      }
+    }
+    async function blockItem(item) {
+      window.console.log(item)
+      if (confirm('Are you sure?')) {
+        await context.root.$axios.$patch(
+          props.blockRoute.replace('$id', item._id)
+        )
+        loader.data.value.splice(loader.data.value.indexOf(item), 1)
+      }
+      if (this.onBlock != null) {
+        this.onBlock()
+      }
+    }
+    async function unblockItem(item) {
+      window.console.log(item)
+      if (confirm('Are you sure?')) {
+        await context.root.$axios.$patch(
+          props.unblockRoute.replace('$id', item._id)
+        )
+        loader.data.value.splice(loader.data.value.indexOf(item), 1)
+      }
+      if (this.onUnblock != null) {
+        this.onUnblock()
+      }
+    }
+
     function returnBack() {
       this.$router.back()
     }
@@ -289,9 +418,13 @@ export default defineComponent({
       filter,
       ...loader,
       removeItem,
+      unblockItem,
       returnBack,
       changeItem,
       detailItem,
+      blockItem,
+      approveItem,
+      rejectItem,
       handleCreateEvent
     }
   }
@@ -301,4 +434,6 @@ export default defineComponent({
 <style lang="sass">
 .data-viewer
   width: 100% !important
+.theme--light.v-data-table tbody tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
+ background: #fff !important
 </style>

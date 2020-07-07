@@ -1,5 +1,9 @@
 <template>
-  <DeliveryVehicleMain title="Delivery Vehicle" />
+  <DeliveryVehicleMain
+    title="Delivery Vehicle"
+    endpoint="/drivers"
+    route="driver"
+  />
 </template>
 
 <script>

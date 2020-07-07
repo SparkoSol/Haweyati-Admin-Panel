@@ -3,15 +3,58 @@
     <h1 style="margin: 20px">Product Types</h1>
     <div class="my-row">
       <v-card
-        v-for="(productType, i) of productTypes"
-        :key="i"
         height="200px"
-        :to="productType.path"
-        class="main-category-card"
+        to="/product/construction-dumpster"
+        class="main-category-card dumpster"
       >
         <v-card-title
-          v-text="productType.name"
+          class="justify-center"
           style="color: white"
+          v-text="'Construction Dumpster'"
+        ></v-card-title>
+      </v-card>
+      <v-card
+        height="200px"
+        to="/product/building-material-sub"
+        class="main-category-card building"
+      >
+        <v-card-title
+          class="justify-center"
+          style="color: white"
+          v-text="'Building Material'"
+        ></v-card-title>
+      </v-card>
+      <v-card
+        height="200px"
+        to="/product/scaffolding"
+        class="main-category-card scaffolding"
+      >
+        <v-card-title
+          class="justify-center"
+          style="color: white"
+          v-text="'Scaffolding'"
+        ></v-card-title>
+      </v-card>
+      <v-card
+        height="200px"
+        to="/product/finishing-material-sub"
+        class="main-category-card finishing"
+      >
+        <v-card-title
+          class="justify-center"
+          style="color: white"
+          v-text="'Finishing Material'"
+        ></v-card-title>
+      </v-card>
+      <v-card
+        height="200px"
+        to="/product/delivery-vehicle"
+        class="main-category-card vehicle"
+      >
+        <v-card-title
+          class="justify-center"
+          style="color: white"
+          v-text="'Delivery Vehicle'"
         ></v-card-title>
       </v-card>
     </div>
@@ -20,35 +63,7 @@
 
 <script>
 export default {
-  data: () => ({
-    productTypes: [
-      {
-        name: 'Construction Dumpster',
-        pathName: 'ConstructionDumpster',
-        path: '/product/construction-dumpster'
-      },
-      {
-        name: 'Building Material',
-        pathName: 'BuildingMaterialSub',
-        path: '/product/building-material-sub'
-      },
-      {
-        name: 'Scaffolding',
-        pathName: 'ScaffoldingSub',
-        path: '/product/scaffolding'
-      },
-      {
-        name: 'Finishing Material',
-        pathName: 'FinishingMaterialSub',
-        path: '/product/finishing-material-sub'
-      },
-      {
-        name: 'Delivery Vehicle',
-        pathName: 'DeliveryVehicle',
-        path: '/product/delivery-vehicle'
-      }
-    ]
-  }),
+  data: () => ({}),
   methods: {
     reroute(route, params) {
       this.$router.push({ name: route, params })
@@ -68,7 +83,22 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-image: url('https://image.shutterstock.com/image-photo/bright-spring-view-cameo-island-260nw-1048185397.jpg') !important;
   background-size: cover;
+  border-radius: 20px !important;
+}
+.dumpster {
+  background-image: url('../../assets/images/products-main/dumpster-bg.png');
+}
+.scaffolding {
+  background-image: url('../../assets/images/products-main/scaffolding-bg.png');
+}
+.building {
+  background-image: url('../../assets/images/products-main/building-materials-bg.png');
+}
+.finishing {
+  background-image: url('../../assets/images/products-main/finishing-materials-bg.png');
+}
+.vehicle {
+  background-image: url('../../assets/images/products-main/delivery-vehaicles-bg.png');
 }
 </style>
