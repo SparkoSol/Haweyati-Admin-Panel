@@ -7,7 +7,7 @@
     change
     :change-route="'/product/finishing-material-sub/edit-sub/$id'"
     remove
-    :remove-route="'/finishing-material-category/$id'"
+    :remove-route="'/finishing-materials/deletecategory/$id'"
     detail
     :detail-route="'/product/finishing-material-sub/sub-detail/$id'"
     :products-route="'/product/finishing-material-sub/finishing-material/$id'"

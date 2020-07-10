@@ -128,7 +128,7 @@ export default {
         },
         {
           icon: 'mdi-store',
-          title: 'Stores',
+          title: 'Suppliers',
           to: '/store',
           show: true
         },

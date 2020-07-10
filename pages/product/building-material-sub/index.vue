@@ -7,7 +7,7 @@
     change
     :change-route="'/product/building-material-sub/edit-sub/$id'"
     remove
-    :remove-route="'/building-material-category/$id'"
+    :remove-route="'/building-materials/deletecategory/$id'"
     detail
     :detail-route="'/product/building-material-sub/sub-detail/$id'"
     :products-route="'/product/building-material-sub/building-material/$id'"

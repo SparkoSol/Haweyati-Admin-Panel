@@ -49,7 +49,7 @@
             :src="
               $axios.defaults.baseURL +
                 'uploads/' +
-                buildingMaterialSub.images[i].name
+                buildingMaterialSub.images[0].name
             "
             width="100%"
             height="100%"
@@ -64,18 +64,6 @@
         </v-card>
         <v-btn
           color="#FF974D"
-          style="color:#ffffff;margin: 10px;z-index: 100"
-          fab
-          small
-          class="building-material-edit-btn"
-          @click="changeItem(buildingMaterialSub)"
-        >
-          <v-icon small>
-            mdi-pencil
-          </v-icon>
-        </v-btn>
-        <v-btn
-          color="#FF974D"
           style="color:red;margin: 10px;z-index: 100"
           fab
           small
@@ -86,6 +74,18 @@
             mdi-delete
           </v-icon>
         </v-btn>
+        <v-btn
+          color="#FF974D"
+          style="color:#ffffff;margin: 10px;z-index: 100"
+          fab
+          small
+          class="building-material-edit-btn"
+          @click="changeItem(buildingMaterialSub)"
+        >
+          <v-icon small>
+            mdi-pencil
+          </v-icon>
+        </v-btn>
       </div>
     </div>
     <v-container
@@ -94,6 +94,14 @@
     >
       <h2>No Categories Found</h2>
     </v-container>
+    <v-snackbar
+      v-model="snackbar"
+      bottom
+      :color="snackbarColor"
+      :timeout="1500"
+    >
+      {{ snackbarText }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -147,6 +155,9 @@ export default {
     }
   },
   data: () => ({
+    snackbarText: 'Success!',
+    snackbarColor: 'green',
+    snackbar: false,
     buildingMaterialSubs: []
   }),
   mounted() {
@@ -163,7 +174,9 @@ export default {
         await context.root.$axios.$delete(
           props.removeRoute.replace('$id', item._id)
         )
-        location.reload()
+        this.onDelete()
+        await this.getBuildingMaterialSubs()
+        // location.reload()
       }
     }
 
@@ -203,6 +216,11 @@ export default {
       this.buildingMaterialSubs = await this.$axios.$get(
         'building-material-category'
       )
+    },
+    onDelete() {
+      this.snackbarColor = 'red'
+      this.snackbarText = 'Successfully Deleted Item!'
+      this.snackbar = true
     }
   }
 }

@@ -345,9 +345,9 @@ export default defineComponent({
           props.removeRoute.replace('$id', item._id)
         )
         loader.data.value.splice(loader.data.value.indexOf(item), 1)
-      }
-      if (this.onDelete() != null) {
-        this.onDelete()
+        if (this.onDelete() != null) {
+          this.onDelete()
+        }
       }
     }
     async function approveItem(item) {
@@ -357,22 +357,45 @@ export default defineComponent({
           props.approveRoute.replace('$id', item._id)
         )
         loader.data.value.splice(loader.data.value.indexOf(item), 1)
-      }
-      if (this.onAccepted() != null) {
-        this.onAccepted()
+        if (this.onAccepted() != null) {
+          this.onAccepted()
+        }
       }
     }
     async function rejectItem(item) {
-      window.console.log(item)
-      if (confirm('Are you sure?')) {
+      const result = prompt(
+        'Please provide reason for rejection!',
+        'Driver Credential are not according to our policy!'
+      )
+      if (result) {
+        await context.root.$axios.$patch(
+          props.rejectRoute.replace('$id', item._id),
+          {
+            message: result
+          }
+        )
+        loader.data.value.splice(loader.data.value.indexOf(item), 1)
+        if (this.onRejected() != null) {
+          this.onRejected()
+        }
+      } else {
         await context.root.$axios.$patch(
           props.rejectRoute.replace('$id', item._id)
         )
         loader.data.value.splice(loader.data.value.indexOf(item), 1)
+        if (this.onRejected() != null) {
+          this.onRejected()
+        }
       }
-      if (this.onRejected() != null) {
-        this.onRejected()
-      }
+      // if (confirm('Are you sure?')) {
+      //   // await context.root.$axios.$patch(
+      //   //   props.rejectRoute.replace('$id', item._id)
+      //   // )
+      //   // loader.data.value.splice(loader.data.value.indexOf(item), 1)
+      //   // if (this.onRejected() != null) {
+      //   //   this.onRejected()
+      //   // }
+      // }
     }
     async function blockItem(item) {
       window.console.log(item)
@@ -381,9 +404,9 @@ export default defineComponent({
           props.blockRoute.replace('$id', item._id)
         )
         loader.data.value.splice(loader.data.value.indexOf(item), 1)
-      }
-      if (this.onBlock != null) {
-        this.onBlock()
+        if (this.onBlock != null) {
+          this.onBlock()
+        }
       }
     }
     async function unblockItem(item) {
@@ -393,9 +416,9 @@ export default defineComponent({
           props.unblockRoute.replace('$id', item._id)
         )
         loader.data.value.splice(loader.data.value.indexOf(item), 1)
-      }
-      if (this.onUnblock != null) {
-        this.onUnblock()
+        if (this.onUnblock != null) {
+          this.onUnblock()
+        }
       }
     }
 

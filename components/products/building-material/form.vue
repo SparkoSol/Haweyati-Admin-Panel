@@ -115,7 +115,7 @@
         <v-card style="padding: 20px">
           <v-card-title style="color: #313F53">Stores</v-card-title>
           <EntitySelector
-            endpoint="suppliers"
+            endpoint="suppliers/all"
             :selection="suppliers"
             multiple
             :columns-selected="columnsSelected"
@@ -222,7 +222,7 @@ export default {
       return formData
     },
     async getSuppliers() {
-      this.suppliersList = await this.$axios.$get('suppliers')
+      this.suppliersList = await this.$axios.$get('suppliers/all')
     }
   }
 }

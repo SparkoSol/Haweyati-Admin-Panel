@@ -12,7 +12,19 @@
 import BuildingMaterialMain from '../../../../../components/products/building-material/building-material'
 export default {
   name: 'Index',
-  components: { BuildingMaterialMain }
+  components: { BuildingMaterialMain },
+  data: () => ({
+    snackbarText: 'Success!',
+    snackbarColor: 'green',
+    snackbar: false
+  }),
+  methods: {
+    onDelete() {
+      this.snackbarColor = 'red'
+      this.snackbarText = 'Successfully Deleted Item!'
+      this.snackbar = true
+    }
+  }
 }
 </script>
 

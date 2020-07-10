@@ -75,7 +75,8 @@
                     city: '',
                     rent: '',
                     days: '',
-                    extraDayRent: ''
+                    extraDayRent: '',
+                    helperPrice: ''
                   })
                 "
                 >Add City
@@ -85,7 +86,7 @@
           <v-row
             v-for="(price, i) of pricing"
             :key="i"
-            style="display: grid;grid-template-columns: auto auto auto auto 50px"
+            style="display: grid;grid-template-columns: auto auto auto auto auto 50px"
           >
             <v-col>
               <v-text-field
@@ -123,6 +124,15 @@
                 dense
               ></v-text-field>
             </v-col>
+            <v-col>
+              <v-text-field
+                v-model="price.helperPrice"
+                color="#313F53"
+                outlined
+                label="Helper Price"
+                dense
+              ></v-text-field>
+            </v-col>
             <v-col cols="12" md="1" sm="1">
               <v-btn icon @click="removeCity(i)">
                 <v-icon color="red">mdi-delete</v-icon>
@@ -133,7 +143,7 @@
         <v-card style="padding: 20px">
           <v-card-title style="color: #313F53">Stores</v-card-title>
           <EntitySelector
-            endpoint="suppliers"
+            endpoint="suppliers/all"
             :selection="suppliers"
             multiple
             :columns-selected="columnsSelected"
@@ -239,7 +249,7 @@ export default {
       return formData
     },
     async getSuppliers() {
-      this.suppliersList = await this.$axios.$get('suppliers')
+      this.suppliersList = await this.$axios.$get('suppliers/all')
     }
   }
 }

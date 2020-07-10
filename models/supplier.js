@@ -5,6 +5,7 @@ export class Supplier {
   address = undefined
   images = undefined
   location = undefined
-  parentId = undefined
+  parent = undefined
   services = undefined
+  status = 'Active'
 }

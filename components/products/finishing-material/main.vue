@@ -13,7 +13,16 @@
       :remove-route="'/finishing-materials/$id'"
       detail
       :detail-route="'/' + route + '/detail/$id'"
+      :on-delete="onDelete"
     />
+    <v-snackbar
+      v-model="snackbar"
+      bottom
+      :color="snackbarColor"
+      :timeout="1500"
+    >
+      {{ snackbarText }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -39,6 +48,9 @@ export default {
     }
   },
   data: () => ({
+    snackbarText: 'Success!',
+    snackbarColor: 'green',
+    snackbar: false,
     columns: [
       { text: 'Image', value: 'images', width: '90px' },
       { text: 'Name', value: 'name' },
@@ -48,6 +60,11 @@ export default {
   methods: {
     returnBack() {
       this.$router.back()
+    },
+    onDelete() {
+      this.snackbarColor = 'red'
+      this.snackbarText = 'Successfully Deleted Item!'
+      this.snackbar = true
     },
     reroute(route) {
       this.$router.push(route)

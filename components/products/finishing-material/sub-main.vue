@@ -49,7 +49,7 @@
             :src="
               $axios.defaults.baseURL +
                 'uploads/' +
-                finishingMaterialSub.images[i].name
+                finishingMaterialSub.images[0].name
             "
             width="100%"
             height="100%"
@@ -94,6 +94,14 @@
     >
       <h2>No Categories Found</h2>
     </v-container>
+    <v-snackbar
+      v-model="snackbar"
+      bottom
+      :color="snackbarColor"
+      :timeout="1500"
+    >
+      {{ snackbarText }}
+    </v-snackbar>
   </v-container>
 </template>
 
@@ -147,6 +155,9 @@ export default {
     }
   },
   data: () => ({
+    snackbarText: 'Success!',
+    snackbarColor: 'green',
+    snackbar: false,
     finishingMaterialSubs: []
   }),
   mounted() {
@@ -163,7 +174,8 @@ export default {
         await context.root.$axios.$delete(
           props.removeRoute.replace('$id', item._id)
         )
-        location.reload()
+        this.onDelete()
+        this.getfinishingMaterialSubs()
       }
     }
 
@@ -203,6 +215,11 @@ export default {
       this.finishingMaterialSubs = await this.$axios.$get(
         'finishing-material-category'
       )
+    },
+    onDelete() {
+      this.snackbarColor = 'red'
+      this.snackbarText = 'Successfully Deleted Item!'
+      this.snackbar = true
     }
   }
 }

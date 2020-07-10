@@ -57,7 +57,8 @@ export default {
       { text: 'City', value: 'city' },
       { text: 'Rent', value: 'rent' },
       { text: 'Days', value: 'days' },
-      { text: 'Extra Days Rent', value: 'extraDayRent' }
+      { text: 'Extra Days Rent', value: 'extraDayRent' },
+      { text: 'Helper Price', value: 'helperPrice' }
     ],
     columnsStore: [
       { text: 'Image', value: 'profilePic' },

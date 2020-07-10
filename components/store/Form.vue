@@ -90,24 +90,32 @@
           >
           </v-select>
         </v-card>
-        <v-card style="padding:20px;margin-bottom: 20px">
+        <v-card
+          v-if="mainSupplier == null"
+          style="padding:20px;margin-bottom: 20px"
+        >
           <v-card-title>Main Supplier</v-card-title>
           <v-checkbox
             v-model="subBranchCheck"
             label="This store is a Sub-Branch."
             @change="getSuppliers"
           ></v-checkbox>
-          <v-select
-            v-if="subBranchCheck"
-            v-model="supplier.parentId"
-            color="#313F53"
-            outlined
-            dense
-            :items="suppliers"
-            label="Suppliers"
-            item-text="name"
+          <v-card v-if="subBranchCheck" style="padding: 20px">
+            <v-card-title style="color: #313F53">Stores</v-card-title>
+            <EntitySelector
+              endpoint="suppliers"
+              :selection="suppliers"
+              :columns-selected="columnsSelected"
+              :columns-selector="columnsSelected"
+              title-selected="Selected Suppliers"
+              title-selector="Suppliers"
+              @selected="supplier.parent = $event"
+            />
+          </v-card>
+          <v-container
+            style="margin-top:20px;display: flex;align-items: center;justify-content: center"
           >
-          </v-select>
+          </v-container>
         </v-card>
       </div>
     </SimpleForm>
@@ -122,12 +130,18 @@ import {
   required,
   phoneValidator
 } from '../../common/utils/validators'
+import EntitySelector from '../../common/ui/widgets/EntitySelector'
 
 export default {
   components: {
-    SimpleForm
+    SimpleForm,
+    EntitySelector
   },
   props: {
+    mainSupplier: {
+      type: Supplier,
+      default: null
+    },
     supplier: {
       type: Supplier,
       default: () => new Supplier()
@@ -143,13 +157,13 @@ export default {
   },
   data: () => ({
     subBranchCheck: false,
+    columnsSelected: [{ text: 'Name', value: 'name' }],
     suppliers: [],
     services: [
       { name: 'Construction Dumpster' },
       { name: 'Building Material' },
       { name: 'Finishing Material' },
-      { name: 'Scaffolding' },
-      { name: 'Delivery Vehicle' }
+      { name: 'Scaffolding' }
     ]
   }),
   methods: {
@@ -166,7 +180,6 @@ export default {
     },
     formData() {
       const formData = new FormData()
-
       for (const key of Object.keys(this.supplier)) {
         if (key === 'services') {
           this.supplier[key].forEach((item) => {
@@ -176,6 +189,14 @@ export default {
           this.supplier[key].forEach((item) => {
             formData.append(key, item)
           })
+        } else if (key === 'parent') {
+          if (this.mainSupplier == null) {
+            if (this.subBranchCheck) {
+              formData.append(key, this.supplier[key]._id)
+            }
+          } else {
+            formData.append(key, this.mainSupplier._id)
+          }
         } else formData.append(key, this.supplier[key])
       }
       formData.forEach((item) => window.console.log(item))

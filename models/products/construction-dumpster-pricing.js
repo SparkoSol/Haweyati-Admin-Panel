@@ -3,4 +3,5 @@ export class ConstructionDumpsterPricing {
   rent = undefined
   days = undefined
   extraDayRent = undefined
+  helperPrice = undefined
 }
