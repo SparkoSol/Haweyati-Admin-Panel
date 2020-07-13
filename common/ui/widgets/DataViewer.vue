@@ -64,11 +64,20 @@
       class="data-table__content"
     >
       <template v-slot:item.images="{ item }">
-        <v-avatar style="margin: 5px;padding: 0px">
+        <v-avatar
+          v-if="item.images != null && item.images.length != 0"
+          style="margin: 5px;padding: 0px"
+        >
           <img
             :src="$axios.defaults.baseURL + 'uploads/' + item.images[0].name"
           />
         </v-avatar>
+        <p
+          v-if="item.images == null || item.images.length == 0"
+          style="margin: 0"
+        >
+          No Image
+        </p>
       </template>
       <template v-slot:item.action="{ item }">
         <slot name="actions" :item="item" />
@@ -365,9 +374,9 @@ export default defineComponent({
     async function rejectItem(item) {
       const result = prompt(
         'Please provide reason for rejection!',
-        'Driver Credential are not according to our policy!'
+        'Credential are not according to our policy!'
       )
-      if (result) {
+      if (result != null && result !== '') {
         await context.root.$axios.$patch(
           props.rejectRoute.replace('$id', item._id),
           {
@@ -378,7 +387,7 @@ export default defineComponent({
         if (this.onRejected() != null) {
           this.onRejected()
         }
-      } else {
+      } else if (result === '') {
         await context.root.$axios.$patch(
           props.rejectRoute.replace('$id', item._id)
         )
@@ -387,15 +396,6 @@ export default defineComponent({
           this.onRejected()
         }
       }
-      // if (confirm('Are you sure?')) {
-      //   // await context.root.$axios.$patch(
-      //   //   props.rejectRoute.replace('$id', item._id)
-      //   // )
-      //   // loader.data.value.splice(loader.data.value.indexOf(item), 1)
-      //   // if (this.onRejected() != null) {
-      //   //   this.onRejected()
-      //   // }
-      // }
     }
     async function blockItem(item) {
       window.console.log(item)

@@ -22,8 +22,11 @@
           :detail-route="item.detailRoute"
           :approve="item.approve"
           :approve-route="item.approveRoute"
+          :reject="item.reject"
+          :reject-route="item.rejectRoute"
           :on-delete="onDelete"
           :on-accepted="onAccepted"
+          :on-rejected="onRejected"
         />
       </v-tab-item>
     </v-tabs-items>
@@ -66,6 +69,47 @@ export default {
           detailRoute: '/store/detail/$id',
           approve: false,
           approveRoute: '/suppliers/getapproved/$id',
+          reject: false,
+          rejectRoute: 'suppliers/getrejected/$id',
+          columns: [
+            {
+              text: 'Image',
+              value: 'images',
+              filterable: false,
+              sortable: false
+            },
+            { text: 'Name', value: 'name' },
+            { text: 'Email', value: 'email' },
+            { text: 'Contact', value: 'contact' },
+            { text: 'Address', value: 'address', sortable: false },
+            {
+              text: 'Services',
+              value: 'services',
+              sortable: false,
+              width: '300px'
+            },
+            {
+              text: 'status',
+              value: 'status'
+            }
+          ]
+        },
+        {
+          tab: 'Pending',
+          title: 'Pending Suppliers',
+          endpoint: '/suppliers/pending',
+          create: false,
+          createRoute: '/store/add',
+          change: true,
+          changeRoute: '/store/edit/$id',
+          remove: false,
+          removeRoute: '/suppliers/$id',
+          detail: true,
+          detailRoute: '/store/detail/$id',
+          approve: true,
+          approveRoute: '/suppliers/getapproved/$id',
+          reject: true,
+          rejectRoute: 'suppliers/getrejected/$id',
           columns: [
             {
               text: 'Image',
@@ -86,9 +130,9 @@ export default {
           ]
         },
         {
-          tab: 'Pending',
-          title: 'Pending Suppliers',
-          endpoint: '/suppliers/pending',
+          tab: 'Rejected',
+          title: 'Rejected Suppliers',
+          endpoint: '/suppliers/getrejected',
           create: false,
           createRoute: '/store/add',
           change: true,
@@ -97,8 +141,10 @@ export default {
           removeRoute: '/suppliers/$id',
           detail: true,
           detailRoute: '/store/detail/$id',
-          approve: true,
+          approve: false,
           approveRoute: '/suppliers/getapproved/$id',
+          reject: false,
+          rejectRoute: 'suppliers/getrejected/$id',
           columns: [
             {
               text: 'Image',
@@ -131,6 +177,11 @@ export default {
     onAccepted() {
       this.snackbarColor = 'green'
       this.snackbarText = 'Successfully Approved Supplier!'
+      this.snackbar = true
+    },
+    onRejected() {
+      this.snackbarColor = 'red'
+      this.snackbarText = 'Successfully Rejected Supplier!'
       this.snackbar = true
     }
   }
