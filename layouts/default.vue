@@ -160,7 +160,6 @@ export default {
         {
           icon: 'mdi-file-chart',
           title: 'Reports',
-          to: '/report',
           show: true
         },
         {
