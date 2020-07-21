@@ -54,7 +54,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://zainpc:4000/'
+    baseURL: 'http://206.189.142.47:4000/'
   },
   auth: {
     strategies: {
