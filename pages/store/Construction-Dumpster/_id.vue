@@ -18,7 +18,7 @@ export default {
   },
   data: () => ({
     columns: [
-      { text: 'Image', value: 'images', width: '90px' },
+      { text: 'Image', value: 'image', width: '90px' },
       { text: 'Size', value: 'size' },
       { text: 'Description', value: 'description' }
     ]
