@@ -1,11 +1,11 @@
 <template>
-  <SubCategoryPage />
+  <ScaffoldingMain detail-route="/product/scaffolding/detail/$id" />
 </template>
 
 <script>
-import SubCategoryPage from '../../../components/products/sub-category_page'
+import ScaffoldingMain from '../../../components/products/scaffolding/main'
 export default {
-  components: { SubCategoryPage }
+  components: { ScaffoldingMain }
 }
 </script>
 

@@ -163,7 +163,8 @@ export default {
       { name: 'Construction Dumpster' },
       { name: 'Building Material' },
       { name: 'Finishing Material' },
-      { name: 'Scaffolding' }
+      { name: 'Scaffolding' },
+      { name: 'Delivery Vehicle' }
     ]
   }),
   methods: {

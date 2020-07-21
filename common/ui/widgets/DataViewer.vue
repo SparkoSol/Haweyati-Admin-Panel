@@ -60,9 +60,16 @@
       :dense="dense"
       height="500"
       fixed-header
-      :hide-default-footer="!pagination"
       class="data-table__content"
     >
+      <template v-slot:item.image="{ item }">
+        <v-avatar v-if="item.image != null" style="margin: 5px;padding: 0px">
+          <img :src="$axios.defaults.baseURL + 'uploads/' + item.image.name" />
+        </v-avatar>
+        <p v-if="item.image == null" style="margin: 0">
+          No Image
+        </p>
+      </template>
       <template v-slot:item.images="{ item }">
         <v-avatar
           v-if="item.images != null && item.images.length != 0"
@@ -74,6 +81,30 @@
         </v-avatar>
         <p
           v-if="item.images == null || item.images.length == 0"
+          style="margin: 0"
+        >
+          No Image
+        </p>
+      </template>
+      <template v-slot:item.suppliers.images="{ item }">
+        <v-avatar
+          v-if="
+            item.suppliers.images != null && item.suppliers.images.length != 0
+          "
+          style="margin: 5px;padding: 0px"
+        >
+          <img
+            :src="
+              $axios.defaults.baseURL +
+                'uploads/' +
+                item.suppliers.images[0].name
+            "
+          />
+        </v-avatar>
+        <p
+          v-if="
+            item.suppliers.images == null || item.suppliers.images.length == 0
+          "
           style="margin: 0"
         >
           No Image

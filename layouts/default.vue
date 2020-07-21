@@ -139,6 +139,12 @@ export default {
           show: true
         },
         {
+          icon: 'mdi-gavel',
+          title: 'Requests',
+          to: '/request',
+          show: true
+        },
+        {
           icon: 'mdi-clipboard-multiple',
           title: 'Orders',
           to: '/order',
@@ -154,6 +160,7 @@ export default {
         {
           icon: 'mdi-file-chart',
           title: 'Reports',
+          to: '/report',
           show: true
         },
         {

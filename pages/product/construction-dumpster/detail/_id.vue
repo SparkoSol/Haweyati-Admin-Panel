@@ -7,6 +7,7 @@ import DumpsterDetail from '../../../../components/products/construction-dumpste
 export default {
   components: { DumpsterDetail },
   async asyncData({ $axios, route }) {
+    window.console.log(await $axios.$get('dumpsters/' + route.params.id))
     return {
       constructionDumpster: await $axios.$get('dumpsters/' + route.params.id)
     }

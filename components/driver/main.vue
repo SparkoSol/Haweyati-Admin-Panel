@@ -22,6 +22,8 @@
           :block-route="'/drivers/getblocked/$id'"
           :unblock="item.unblock"
           :unblock-route="'/drivers/getunblocked/$id'"
+          :change="item.change"
+          :change-route="'/' + route + '/edit/$id'"
           :on-block="onBlock"
           :on-unblock="onUnblocked"
           :on-accepted="onAccepted"
@@ -116,6 +118,7 @@ export default {
         approve: false,
         reject: false,
         block: true,
+        change: true,
         detail: true,
         unblock: false,
         title: 'Approved Drivers',

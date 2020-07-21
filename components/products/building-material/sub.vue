@@ -89,10 +89,22 @@
       </div>
     </div>
     <v-container
-      v-if="buildingMaterialSubs === null || buildingMaterialSubs.length <= 0"
+      v-if="
+        (buildingMaterialSubs === null || buildingMaterialSubs.length <= 0) &&
+          !loading
+      "
       style="display: flex;justify-content: center;align-items: center;height: 400px"
     >
       <h2>No Categories Found</h2>
+    </v-container>
+    <v-container
+      v-if="
+        (buildingMaterialSubs === null || buildingMaterialSubs.length <= 0) &&
+          loading
+      "
+      style="display: flex;justify-content: center;align-items: center;height: 400px"
+    >
+      <v-progress-circular indeterminate color="primary" />
     </v-container>
     <v-snackbar
       v-model="snackbar"
@@ -155,6 +167,7 @@ export default {
     }
   },
   data: () => ({
+    loading: true,
     snackbarText: 'Success!',
     snackbarColor: 'green',
     snackbar: false,
@@ -174,8 +187,10 @@ export default {
         await context.root.$axios.$delete(
           props.removeRoute.replace('$id', item._id)
         )
+        this.loading = true
         this.onDelete()
         await this.getBuildingMaterialSubs()
+        this.loading = false
         // location.reload()
       }
     }
@@ -216,6 +231,7 @@ export default {
       this.buildingMaterialSubs = await this.$axios.$get(
         'building-material-category'
       )
+      this.loading = false
     },
     onDelete() {
       this.snackbarColor = 'red'

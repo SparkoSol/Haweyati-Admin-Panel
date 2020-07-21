@@ -11,39 +11,38 @@
           <v-icon>mdi-keyboard-backspace</v-icon>
         </v-btn>
       </v-col>
-      <v-col cols="12" md="11" sm="11">
-        <v-card-title
-          >{{ constructionDumpster.size }} Yard Dumpster</v-card-title
+      <v-col cols="12" md="9" sm="9">
+        <v-card-title>{{ scaffolding.type }}</v-card-title>
+      </v-col>
+      <v-col
+        style="display: flex ; align-items: center; justify-content: center"
+        cols="12"
+        md="2"
+        sm="2"
+      >
+        <v-btn
+          color="#313F53"
+          style="color: white"
+          @click="changeItem(scaffolding)"
         >
+          Edit
+        </v-btn>
       </v-col>
     </v-row>
     <v-container>
       <v-card style="padding: 20px">
-        <v-card-title>Information</v-card-title>
-        <div
-          style="display: flex;justify-content: center;align-items: center;margin-bottom: 30px"
-        >
-          <v-avatar size="200" style="border: 1px solid #313F53">
-            <img
-              :src="
-                $axios.defaults.baseURL +
-                  'uploads/' +
-                  constructionDumpster.image.name
-              "
-            />
-          </v-avatar>
-        </div>
+        <v-card-title>Scaffolding Information</v-card-title>
         <v-text-field
-          v-model="constructionDumpster.size"
+          v-model="scaffolding.type"
           color="#313F53"
           outlined
           style="color: #313F53"
           readonly
-          label="Size"
+          label="Type"
           dense
         ></v-text-field>
         <v-textarea
-          v-model="constructionDumpster.description"
+          v-model="scaffolding.description"
           color="#313F53"
           outlined
           style="color: #313F53"
@@ -59,19 +58,19 @@
         <v-data-table
           hide-default-footer
           :headers="columnsPrice"
-          :items="constructionDumpster.pricing"
+          :items="scaffolding.pricing"
           fixed-header
         >
         </v-data-table>
       </v-card>
     </v-container>
     <v-container>
-      <v-card>
+      <v-card v-if="scaffolding.suppliers !== null">
         <v-card-title>Stores</v-card-title>
         <v-data-table
           hide-default-footer
           :headers="columnsStore"
-          :items="constructionDumpster.suppliers"
+          :items="scaffolding.suppliers"
           fixed-header
         >
           <template v-slot:item.images="{ item }">
@@ -99,14 +98,18 @@
 </template>
 
 <script>
-import { ConstructionDumpster } from '../../../models/products/construction-dumpsters'
+import { Scaffolding } from '../../../models/products/scaffolding'
 
 export default {
-  name: 'DumpsterDetail',
+  name: 'ScaffoldingDetail',
   props: {
-    constructionDumpster: {
-      type: [Object, ConstructionDumpster],
-      default: () => new ConstructionDumpster()
+    scaffolding: {
+      type: [Object, Scaffolding],
+      default: () => new Scaffolding()
+    },
+    changeRoute: {
+      type: String,
+      default: null
     }
   },
   data: () => ({
@@ -114,8 +117,7 @@ export default {
       { text: 'City', value: 'city' },
       { text: 'Rent', value: 'rent' },
       { text: 'Days', value: 'days' },
-      { text: 'Extra Days Rent', value: 'extraDayRent' },
-      { text: 'Helper Price', value: 'helperPrice' }
+      { text: 'Extra Days Rent', value: 'extraDayRent' }
     ],
     columnsStore: [
       { text: 'Image', value: 'images' },
@@ -129,6 +131,9 @@ export default {
   methods: {
     returnBack() {
       this.$router.back()
+    },
+    changeItem(item) {
+      this.$router.push(this.$props.changeRoute.replace('$id', item._id))
     }
   }
 }

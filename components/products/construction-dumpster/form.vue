@@ -43,16 +43,11 @@
         ></v-card>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Media</v-card-title>
-          <v-file-input
-            v-model="constructionDumpster.images"
-            color="#313F53"
-            label="File input"
-            multiple
-            prepend-icon=""
-            prepend-inner-icon="mdi-camera"
-            outlined
-            dense
-          ></v-file-input>
+          <ImageSelector
+            v-model="imageFile"
+            :image="constructionDumpster"
+            @input="sendImage = $event"
+          />
         </v-card>
         <v-card style="padding: 20px;margin-bottom: 20px">
           <v-card-title style="color: #313F53">Pricing</v-card-title>
@@ -143,7 +138,7 @@
         <v-card style="padding: 20px">
           <v-card-title style="color: #313F53">Stores</v-card-title>
           <EntitySelector
-            endpoint="suppliers/all"
+            endpoint="suppliers/getbyservice/Construction Dumpster"
             :selection="suppliers"
             multiple
             :columns-selected="columnsSelected"
@@ -168,10 +163,12 @@ import { ConstructionDumpster } from '../../../models/products/construction-dump
 import { ConstructionDumpsterPricing } from '../../../models/products/construction-dumpster-pricing'
 // import { Supplier } from '../../../models/supplier'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
+import ImageSelector from '../../image-selector'
 
 export default {
   name: 'DumpsterForm',
   components: {
+    ImageSelector,
     SimpleForm,
     EntitySelector
   },
@@ -205,7 +202,9 @@ export default {
     columnsSelected: [{ text: 'Name', value: 'name' }],
     optionValues: [],
     cities: [{ name: '', value: '' }],
-    suppliersList: []
+    suppliersList: [],
+    imageFile: null,
+    sendImage: null
   }),
   mounted() {
     this.getSuppliers()
@@ -231,9 +230,12 @@ export default {
           for (const item of this.constructionDumpster[key]) {
             formData.append(key, item._id)
           }
-        } else if (key === 'images') {
-          for (const item of this.constructionDumpster[key]) {
-            formData.append(key, item)
+        } else if (key === 'image') {
+          if (this.sendImage !== null) {
+            window.console.log('here')
+            formData.append(key, this.sendImage)
+          } else {
+            window.console.log(this.sendImage)
           }
         } else if (Array.isArray(this.constructionDumpster[key])) {
           for (const item of this.constructionDumpster[key]) {
@@ -243,6 +245,9 @@ export default {
       }
       for (const price of this.pricing) {
         for (const key of Object.keys(price)) {
+          if (key === '_id') {
+            continue
+          }
           formData.append(key, price[key])
         }
       }

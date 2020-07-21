@@ -1,5 +1,5 @@
 export class ConstructionDumpster {
-  images = undefined
+  image = undefined
   size = undefined
   description = undefined
   pricing = []
