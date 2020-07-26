@@ -5,7 +5,7 @@
     :suppliers="buildingMaterial.suppliers"
     :is-update="true"
     title="Update Building Material"
-    endpoint="dumpsters"
+    endpoint="building-materials"
   />
 </template>
 

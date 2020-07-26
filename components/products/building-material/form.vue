@@ -43,16 +43,11 @@
         ></v-card>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Media</v-card-title>
-          <v-file-input
-            v-model="buildingMaterial.images"
-            color="#313F53"
-            label="File input"
-            multiple
-            prepend-icon=""
-            prepend-inner-icon="mdi-camera"
-            outlined
-            dense
-          ></v-file-input>
+          <ImageSelector
+            v-model="imageFile"
+            :image="buildingMaterial"
+            @input="sendImage = $event"
+          />
         </v-card>
         <v-card style="padding: 20px;margin-bottom: 20px">
           <v-card-title style="color: #313F53">Pricing</v-card-title>
@@ -115,7 +110,7 @@
         <v-card style="padding: 20px">
           <v-card-title style="color: #313F53">Stores</v-card-title>
           <EntitySelector
-            endpoint="suppliers/all"
+            endpoint="suppliers/getbyservice/Building Material"
             :selection="suppliers"
             multiple
             :columns-selected="columnsSelected"
@@ -139,12 +134,14 @@ import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
 import { BuildingMaterial } from '../../../models/products/building-material'
 import { BuildingMaterialPricing } from '../../../models/products/building-material-pricing'
+import ImageSelector from '../../image-selector'
 
 export default {
   name: 'BuildingMaterialForm',
   components: {
     SimpleForm,
-    EntitySelector
+    EntitySelector,
+    ImageSelector
   },
   props: {
     title: {
@@ -173,10 +170,12 @@ export default {
     }
   },
   data: () => ({
-    columnsSelected: [{ text: 'Name', value: 'name' }],
+    columnsSelected: [{ text: 'Name', value: 'person.name' }],
     optionValues: [],
     cities: [{ name: '', value: '' }],
-    suppliersList: []
+    suppliersList: [],
+    imageFile: null,
+    sendImage: null
   }),
   mounted() {
     this.getSuppliers()
@@ -197,27 +196,28 @@ export default {
     formData() {
       const formData = new FormData()
       for (const key of Object.keys(this.buildingMaterial)) {
+        window.console.log(key)
         if (key === 'pricing') continue
         else if (key === 'suppliers') {
           for (const item of this.buildingMaterial[key]) {
             formData.append(key, item._id)
           }
-        } else if (key === 'images') {
-          for (const item of this.buildingMaterial[key]) {
-            formData.append(key, item)
-          }
-        } else if (Array.isArray(this.buildingMaterial[key])) {
-          for (const item of this.buildingMaterial[key]) {
-            formData.append(key, item)
+        } else if (key === 'parent') {
+          formData.append(key, this.$route.params.id)
+        } else if (key === 'image') {
+          if (this.sendImage) {
+            formData.append(key, this.sendImage)
           }
         } else formData.append(key, this.buildingMaterial[key])
       }
       for (const price of this.pricing) {
         for (const key of Object.keys(price)) {
+          if (key === '_id') {
+            continue
+          }
           formData.append(key, price[key])
         }
       }
-      formData.append('parent', this.$route.params.id)
       formData.forEach((item) => window.console.log(item))
       return formData
     },

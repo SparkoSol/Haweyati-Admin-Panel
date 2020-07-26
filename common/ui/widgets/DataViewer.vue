@@ -62,6 +62,19 @@
       fixed-header
       class="data-table__content"
     >
+      <template v-slot:item.person.image="{ item }">
+        <v-avatar
+          v-if="item.person.image != null"
+          style="margin: 5px;padding: 0px"
+        >
+          <img
+            :src="$axios.defaults.baseURL + 'uploads/' + item.person.image.name"
+          />
+        </v-avatar>
+        <p v-if="item.person.image == null" style="margin: 0">
+          No Image
+        </p>
+      </template>
       <template v-slot:item.image="{ item }">
         <v-avatar v-if="item.image != null" style="margin: 5px;padding: 0px">
           <img :src="$axios.defaults.baseURL + 'uploads/' + item.image.name" />

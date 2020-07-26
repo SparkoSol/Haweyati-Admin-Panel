@@ -49,7 +49,7 @@
             :src="
               $axios.defaults.baseURL +
                 'uploads/' +
-                finishingMaterialSub.images[0].name
+                finishingMaterialSub.image.name
             "
             width="100%"
             height="100%"

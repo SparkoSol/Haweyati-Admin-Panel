@@ -26,7 +26,6 @@
           disable-pagination
           hide-default-footer
           :headers="columnsSelector"
-          @click:row="addItem($event)"
         >
           <template v-slot:item.action="{ item }">
             <v-icon @click="addItem(item)">mdi-plus</v-icon>
@@ -47,14 +46,16 @@
           :items="_selection"
         >
           <template v-slot:item.consumption="{ item }">
-            <select v-model="item.consumption" style="width: 100%">
-              <option>od</option>
-              <option>bd</option>
-              <option>td</option>
-            </select>
+            <slot name="consumption" :bind="item">
+              <select v-model="item.consumption" style="width: 100%">
+                <option>od</option>
+                <option>bd</option>
+                <option>td</option>
+              </select>
+            </slot>
           </template>
-          <template v-slot:item.action>
-            <v-icon color="red" @click="removeItem">mdi-delete</v-icon>
+          <template v-slot:item.action="{ item }">
+            <v-icon color="red" @click="removeItem(item)">mdi-delete</v-icon>
           </template>
         </v-data-table>
         <v-text-field
@@ -180,14 +181,23 @@ export default defineComponent({
       selectorState.selectorOpened = true
     }
 
-    function removeItem(i) {
-      selectorState._selection.splice(i, 1)
-      context.emit('selected', null)
+    function removeItem(item) {
+      if (props.multiple) {
+        for (let i = 0; i < selectorState._selection.length; ++i) {
+          if (selectorState._selection[i]._id === item._id)
+            selectorState._selection.splice(i, 1)
+        }
+        context.emit('selected', selectorState._selection)
+      } else {
+        selectorState._selection = []
+        context.emit('selected', null)
+      }
     }
 
     function addItem(item) {
       if (props.multiple) {
         let found = false
+        console.log(selectorState._selection)
         for (const _item of selectorState._selection) {
           if (_item._id === item._id) {
             found = true
@@ -195,8 +205,9 @@ export default defineComponent({
           }
         }
         if (!found) {
-          if (props.map) selectorState._selection.push(props.map(item))
-          else selectorState._selection.push(item)
+          if (props.map) {
+            selectorState._selection.push(props.map(item))
+          } else selectorState._selection.push(item)
           context.emit('selected', selectorState._selection)
         }
       } else {
@@ -254,7 +265,7 @@ export default defineComponent({
     position: relative !important
 
   &__reload
-      margin-left: 10px !important
+    margin-left: 10px !important
 
   &__content
     height: fit-content !important

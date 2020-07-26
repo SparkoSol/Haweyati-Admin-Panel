@@ -199,7 +199,7 @@ export default {
     }
   },
   data: () => ({
-    columnsSelected: [{ text: 'Name', value: 'name' }],
+    columnsSelected: [{ text: 'Name', value: 'person.name' }],
     optionValues: [],
     cities: [{ name: '', value: '' }],
     suppliersList: [],

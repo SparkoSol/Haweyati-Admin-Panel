@@ -43,16 +43,11 @@
             label="Description"
             dense
           ></v-textarea>
-          <v-file-input
-            v-model="buildingMaterialSub.images"
-            :rules="[required]"
-            color="#313F53"
-            label="Media"
-            prepend-icon=""
-            prepend-inner-icon="mdi-camera"
-            outlined
-            dense
-          ></v-file-input>
+          <ImageSelector
+            v-model="imageFile"
+            :image="buildingMaterialSub"
+            @input="sendImage = $event"
+          />
         </v-card>
       </div>
     </SimpleForm>
@@ -63,11 +58,13 @@
 import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import { BuildingMaterialSub } from '../../../models/products/building-material-sub'
 import { required } from '../../../common/utils/validators'
+import ImageSelector from '../../image-selector'
 
 export default {
   name: 'BuildingMaterialSubAdd',
   components: {
-    SimpleForm
+    SimpleForm,
+    ImageSelector
   },
   props: {
     title: {
@@ -87,6 +84,10 @@ export default {
       default: () => new BuildingMaterialSub()
     }
   },
+  data: () => ({
+    imageFile: null,
+    sendImage: null
+  }),
   methods: {
     required,
     returnBack() {
@@ -98,14 +99,13 @@ export default {
     formData() {
       const formData = new FormData()
       for (const key of Object.keys(this.buildingMaterialSub)) {
-        if (key === 'images') {
-          formData.append(key, this.buildingMaterialSub[key])
-        } else if (Array.isArray(this.buildingMaterialSub[key])) {
-          for (const item of this.buildingMaterialSub[key]) {
-            formData.append(key, item)
+        if (key === 'image') {
+          if (this.sendImage) {
+            formData.append(key, this.sendImage)
           }
         } else formData.append(key, this.buildingMaterialSub[key])
       }
+      formData.forEach((item) => window.console.log(item))
       return formData
     }
   }

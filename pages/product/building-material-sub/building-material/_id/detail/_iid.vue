@@ -7,10 +7,6 @@ import BuildingMaterialDetail from '../../../../../../components/products/buildi
 export default {
   components: { BuildingMaterialDetail },
   async asyncData({ $axios, route }) {
-    window.console.log('here')
-    window.console.log(
-      await $axios.$get('building-materials/' + route.params.id)
-    )
     return {
       buildingMaterial: await $axios.$get(
         'building-materials/' + route.params.iid

@@ -3,8 +3,8 @@
     <SimpleForm
       :method="isUpdate ? 'patch' : 'post'"
       :data="formData"
-      endpoint="/suppliers"
       return
+      endpoint="/suppliers"
     >
       <template v-slot:header>
         <v-row>
@@ -26,55 +26,46 @@
       <div class="span-2">
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-text-field
-            v-model="supplier.name"
+            v-model="supplier.person.name"
             color="#313F53"
             outlined
             style="color: #313F53"
-            :rules="[required]"
             dense
             label="Name"
           />
           <v-text-field
-            v-model="supplier.email"
+            v-model="supplier.person.email"
             color="#313F53"
             outlined
             style="color: #313F53"
             dense
-            :rules="[required, emailValidator]"
             label="Email"
           />
           <v-text-field
-            v-model="supplier.contact"
+            v-model="supplier.person.contact"
             v-mask="['### - #######', '#### - ########']"
             color="#313F53"
             outlined
             style="color: #313F53"
             dense
-            :rules="[required, phoneValidator]"
             label="Contact"
           />
           <v-text-field
-            v-model="supplier.address"
+            v-model="supplier.location.address"
             color="#313F53"
             outlined
             style="color: #313F53"
             dense
-            :rules="[required]"
             label="Address"
           />
         </v-card>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Media</v-card-title>
-          <v-file-input
-            v-model="supplier.images"
-            color="#313F53"
-            label="File input"
-            multiple
-            prepend-icon=""
-            prepend-inner-icon="mdi-camera"
-            outlined
-            dense
-          ></v-file-input>
+          <ImageSelector
+            v-model="imageFile"
+            :image="supplier.person"
+            @input="sendImage = $event"
+          />
         </v-card>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Services</v-card-title>
@@ -90,33 +81,6 @@
           >
           </v-select>
         </v-card>
-        <v-card
-          v-if="mainSupplier == null"
-          style="padding:20px;margin-bottom: 20px"
-        >
-          <v-card-title>Main Supplier</v-card-title>
-          <v-checkbox
-            v-model="subBranchCheck"
-            label="This store is a Sub-Branch."
-            @change="getSuppliers"
-          ></v-checkbox>
-          <v-card v-if="subBranchCheck" style="padding: 20px">
-            <v-card-title style="color: #313F53">Stores</v-card-title>
-            <EntitySelector
-              endpoint="suppliers"
-              :selection="suppliers"
-              :columns-selected="columnsSelected"
-              :columns-selector="columnsSelected"
-              title-selected="Selected Suppliers"
-              title-selector="Suppliers"
-              @selected="supplier.parent = $event"
-            />
-          </v-card>
-          <v-container
-            style="margin-top:20px;display: flex;align-items: center;justify-content: center"
-          >
-          </v-container>
-        </v-card>
       </div>
     </SimpleForm>
   </v-container>
@@ -125,17 +89,17 @@
 <script>
 import SimpleForm from '../../common/ui/widgets/SimpleForm'
 import { Supplier } from '../../models/supplier'
+import ImageSelector from '../image-selector'
 import {
   emailValidator,
   required,
   phoneValidator
 } from '../../common/utils/validators'
-import EntitySelector from '../../common/ui/widgets/EntitySelector'
 
 export default {
   components: {
-    SimpleForm,
-    EntitySelector
+    ImageSelector,
+    SimpleForm
   },
   props: {
     mainSupplier: {
@@ -156,8 +120,7 @@ export default {
     }
   },
   data: () => ({
-    subBranchCheck: false,
-    columnsSelected: [{ text: 'Name', value: 'name' }],
+    columnsSelected: [{ text: 'Name', value: 'person.name' }],
     suppliers: [],
     services: [
       { name: 'Construction Dumpster' },
@@ -165,7 +128,9 @@ export default {
       { name: 'Finishing Material' },
       { name: 'Scaffolding' },
       { name: 'Delivery Vehicle' }
-    ]
+    ],
+    imageFile: null,
+    sendImage: null
   }),
   methods: {
     emailValidator,
@@ -181,24 +146,23 @@ export default {
     },
     formData() {
       const formData = new FormData()
-      for (const key of Object.keys(this.supplier)) {
-        if (key === 'services') {
-          this.supplier[key].forEach((item) => {
-            formData.append(key, item)
-          })
-        } else if (key === 'images') {
-          this.supplier[key].forEach((item) => {
-            formData.append(key, item)
-          })
-        } else if (key === 'parent') {
-          if (this.mainSupplier == null) {
-            if (this.subBranchCheck) {
-              formData.append(key, this.supplier[key]._id)
-            }
-          } else {
-            formData.append(key, this.mainSupplier._id)
-          }
-        } else formData.append(key, this.supplier[key])
+      if (this.supplier._id) {
+        formData.append('_id', this.supplier._id)
+        formData.append('personID', this.supplier.person._id)
+      }
+      formData.append('name', this.supplier.person.name)
+      formData.append('email', this.supplier.person.email)
+      formData.append('contact', this.supplier.person.contact)
+      if (this.sendImage !== null) {
+        formData.append('image', this.sendImage)
+      }
+      formData.append('status', this.supplier.status)
+      this.supplier.services.forEach((item) => {
+        formData.append('services', item)
+      })
+      formData.append('address', this.supplier.location.address)
+      if (this.mainSupplier) {
+        formData.append('parent', this.mainSupplier._id)
       }
       formData.forEach((item) => window.console.log(item))
       return formData

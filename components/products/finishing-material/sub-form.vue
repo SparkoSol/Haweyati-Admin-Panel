@@ -43,16 +43,21 @@
             label="Description"
             dense
           ></v-textarea>
-          <v-file-input
-            v-model="finishingMaterialSub.images"
-            :rules="[required]"
-            color="#313F53"
-            label="Media"
-            prepend-icon=""
-            prepend-inner-icon="mdi-camera"
-            outlined
-            dense
-          ></v-file-input>
+          <ImageSelector
+            v-model="imageFile"
+            :image="finishingMaterialSub"
+            @input="sendImage = $event"
+          />
+          <!--          <v-file-input-->
+          <!--            v-model="finishingMaterialSub.images"-->
+          <!--            :rules="[required]"-->
+          <!--            color="#313F53"-->
+          <!--            label="Media"-->
+          <!--            prepend-icon=""-->
+          <!--            prepend-inner-icon="mdi-camera"-->
+          <!--            outlined-->
+          <!--            dense-->
+          <!--          ></v-file-input>-->
         </v-card>
       </div>
     </SimpleForm>
@@ -63,11 +68,13 @@
 import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import { FinishingMaterialSub } from '../../../models/products/finishing-material-sub'
 import { required } from '../../../common/utils/validators'
+import ImageSelector from '../../image-selector'
 
 export default {
   name: 'FinishingMaterialSubForm',
   components: {
-    SimpleForm
+    SimpleForm,
+    ImageSelector
   },
   props: {
     title: {
@@ -87,6 +94,10 @@ export default {
       default: () => new FinishingMaterialSub()
     }
   },
+  data: () => ({
+    imageFile: null,
+    sendImage: null
+  }),
   methods: {
     required,
     returnBack() {
@@ -98,14 +109,13 @@ export default {
     formData() {
       const formData = new FormData()
       for (const key of Object.keys(this.finishingMaterialSub)) {
-        if (key === 'images') {
-          formData.append(key, this.finishingMaterialSub[key])
-        } else if (Array.isArray(this.finishingMaterialSub[key])) {
-          for (const item of this.finishingMaterialSub[key]) {
-            formData.append(key, item)
+        if (key === 'image') {
+          if (this.sendImage) {
+            formData.append(key, this.sendImage)
           }
         } else formData.append(key, this.finishingMaterialSub[key])
       }
+      formData.forEach((item) => window.console.log(item))
       return formData
     }
   }

@@ -3,7 +3,7 @@
     :finishing-material-sub="finishingMaterialSub"
     :is-update="true"
     title="Update Finishing Material Form"
-    endpoint="finishing-materials"
+    endpoint="finishing-material-category"
   />
 </template>
 

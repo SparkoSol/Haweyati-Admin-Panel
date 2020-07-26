@@ -100,7 +100,7 @@ export default {
           title: 'Sub Suppliers',
           endpoint: 'suppliers/getsubsuppliers/' + this.supplier._id,
           create: true,
-          createRoute: '/store/add',
+          createRoute: '/store/addsub/' + this.supplier._id,
           change: true,
           changeRoute: '/store/edit/$id',
           remove: true,
@@ -112,14 +112,14 @@ export default {
           columns: [
             {
               text: 'Image',
-              value: 'images',
+              value: 'person.image',
               filterable: false,
               sortable: false
             },
-            { text: 'Name', value: 'name' },
-            { text: 'Email', value: 'email' },
-            { text: 'Contact', value: 'contact' },
-            { text: 'Address', value: 'address', sortable: false },
+            { text: 'Name', value: 'person.name' },
+            { text: 'Email', value: 'person.email' },
+            { text: 'Contact', value: 'person.contact' },
+            { text: 'Address', value: 'location.address', sortable: false },
             {
               text: 'Services',
               value: 'services',

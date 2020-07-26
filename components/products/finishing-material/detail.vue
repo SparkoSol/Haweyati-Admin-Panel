@@ -56,7 +56,23 @@
           :headers="columnsStore"
           :items="finishingMaterial.suppliers"
           fixed-header
-        />
+        >
+          <template v-slot:item.person.image="{ item }">
+            <v-avatar
+              v-if="item.person.image != null"
+              style="margin: 5px;padding: 0px"
+            >
+              <img
+                :src="
+                  $axios.defaults.baseURL + 'uploads/' + item.person.image.name
+                "
+              />
+            </v-avatar>
+            <p v-if="item.person.image == null" style="margin: 0">
+              No Image
+            </p>
+          </template>
+        </v-data-table>
       </v-card>
     </v-container>
   </v-container>
@@ -76,11 +92,11 @@ export default {
   data: () => ({
     columnsVarient: [],
     columnsStore: [
-      { text: 'Image', value: 'profilePic' },
-      { text: 'Name', value: 'name' },
-      { text: 'Email', value: 'email' },
-      { text: 'Contact', value: 'contact' },
-      { text: 'Address', value: 'address' },
+      { text: 'Image', value: 'person.image' },
+      { text: 'Name', value: 'person.name' },
+      { text: 'Email', value: 'person.email' },
+      { text: 'Contact', value: 'person.contact' },
+      { text: 'Address', value: 'location.address' },
       { text: 'Services', value: 'services' }
     ]
   }),

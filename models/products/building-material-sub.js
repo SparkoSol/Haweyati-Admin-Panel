@@ -1,5 +1,5 @@
 export class BuildingMaterialSub {
   name = undefined
   description = undefined
-  images = undefined
+  image = undefined
 }

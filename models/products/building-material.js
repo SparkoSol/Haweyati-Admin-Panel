@@ -1,5 +1,5 @@
 export class BuildingMaterial {
-  images = undefined
+  image = undefined
   name = undefined
   description = undefined
   pricing = []

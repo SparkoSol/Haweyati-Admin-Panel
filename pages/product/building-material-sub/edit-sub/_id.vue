@@ -3,7 +3,7 @@
     :building-material-sub="buildingMaterialSub"
     :is-update="true"
     title="Update Building Material Type"
-    endpoint="building-materials"
+    endpoint="building-material-category"
   />
 </template>
 

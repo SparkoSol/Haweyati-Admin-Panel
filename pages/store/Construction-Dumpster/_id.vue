@@ -1,7 +1,7 @@
 <template>
   <StoreProductPage
     title="Construction Dumpster"
-    :endpoint="'/dumpsters/fromsupplier/' + supplier._id"
+    :endpoint="'/dumpsters/fromsuppliers/' + supplier._id"
     route="product/construction-dumpster"
     :columns="columns"
   />

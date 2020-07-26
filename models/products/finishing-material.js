@@ -1,5 +1,5 @@
 export class FinishingMaterial {
-  images = undefined
+  image = undefined
   name = undefined
   description = undefined
   price = 0.0

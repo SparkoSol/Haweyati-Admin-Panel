@@ -40,15 +40,11 @@
         </v-card>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Media</v-card-title>
-          <v-file-input
-            v-model="finishingMaterial.images"
-            label="File input"
-            multiple
-            prepend-icon=""
-            prepend-inner-icon="mdi-camera"
-            outlined
-            dense
-          ></v-file-input>
+          <ImageSelector
+            v-model="imageFile"
+            :image="finishingMaterial"
+            @input="sendImage = $event"
+          />
         </v-card>
         <v-card style="padding:20px;margin-bottom:20px">
           <v-card-title>Pricing</v-card-title>
@@ -133,7 +129,7 @@
         <v-card style="padding: 20px;margin-bottom: 20px">
           <v-card-title style="color: #313F53">Stores</v-card-title>
           <EntitySelector
-            endpoint="suppliers/all"
+            endpoint="suppliers/getbyservice/Finishing Material"
             :selection="suppliers"
             multiple
             :columns-selected="columnsSelected"
@@ -154,11 +150,14 @@ import { FinishingMaterial } from '../../../models/products/finishing-material'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
 import { FinishingMaterialOptions } from '../../../models/products/finishing-material-options'
 import SimpleForm from '../../../common/ui/widgets/SimpleForm'
+import ImageSelector from '../../image-selector'
+
 export default {
   name: 'ProductAddVariant',
   components: {
     SimpleForm,
-    EntitySelector
+    EntitySelector,
+    ImageSelector
   },
   props: {
     title: {
@@ -191,10 +190,12 @@ export default {
     }
   },
   data: () => ({
-    columnsSelected: [{ text: 'Name', value: 'name' }],
+    columnsSelected: [{ text: 'Name', value: 'person.name' }],
     optionValues: [],
     suppliersList: [],
     optionCount: 0,
+    imageFile: null,
+    sendImage: null,
     headers: [
       {
         text: 'Variant',
@@ -359,13 +360,9 @@ export default {
                 formData.append(key, item[key])
               }
             }
-          } else if (key === 'images') {
-            if (Array.isArray(this.finishingMaterial[key])) {
-              for (const item of this.finishingMaterial[key]) {
-                formData.append(key, item)
-              }
-            } else {
-              formData.append(key, this.finishingMaterial[key])
+          } else if (key === 'image') {
+            if (this.sendImage) {
+              formData.append(key, this.sendImage)
             }
           } else if (Array.isArray(this.finishingMaterial[key])) {
             for (const item of this.finishingMaterial[key]) {
@@ -376,13 +373,9 @@ export default {
       } else {
         for (const key of Object.keys(this.finishingMaterial)) {
           window.console.log(key)
-          if (key === 'images') {
-            if (Array.isArray(this.finishingMaterial[key])) {
-              for (const item of this.finishingMaterial[key]) {
-                formData.append(key, item)
-              }
-            } else {
-              formData.append(key, this.finishingMaterial[key])
+          if (key === 'image') {
+            if (this.sendImage) {
+              formData.append(key, this.sendImage)
             }
           } else if (key === 'suppliers') {
             for (const item of this.finishingMaterial[key]) {

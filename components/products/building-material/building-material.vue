@@ -52,7 +52,7 @@ export default {
     snackbarColor: 'green',
     snackbar: false,
     columns: [
-      { text: 'Image', value: 'images', width: '90px' },
+      { text: 'Image', value: 'image', width: '90px' },
       { text: 'Name', value: 'name' },
       { text: 'Description', value: 'description' }
     ]
