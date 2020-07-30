@@ -29,11 +29,12 @@
         </ul>
         <v-text-field
           v-model="login.username"
+          v-mask="['### - #######', '#### - ########']"
           color="#313F53"
           outlined
           style="color: #313F53"
-          :rules="[required, emailValidator]"
-          label="Email"
+          :rules="[required]"
+          label="Phone"
           dense
         ></v-text-field>
         <v-text-field

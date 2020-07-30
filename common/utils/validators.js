@@ -19,3 +19,7 @@ export function phoneValidator(value) {
     return 'Enter valid phone'
   }
 }
+
+export function yearValidator(value) {
+  return value <= new Date().getFullYear() || 'Enter Valid Year'
+}

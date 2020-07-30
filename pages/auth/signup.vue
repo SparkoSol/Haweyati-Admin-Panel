@@ -41,6 +41,13 @@
             {{ error }}
           </li>
         </ul>
+        <v-container>
+          <ImageSelector
+            v-model="imageFile"
+            :image="signup"
+            @input="sendImage = $event"
+          />
+        </v-container>
         <v-text-field
           v-model="signup.name"
           :value="signup.name"
@@ -49,16 +56,6 @@
           outlined
           style="color: #313F53"
           label="Name"
-          dense
-        ></v-text-field>
-        <v-text-field
-          v-model="signup.username"
-          :value="signup.username"
-          :rules="[required, emailValidator]"
-          color="#313F53"
-          outlined
-          style="color: #313F53"
-          label="Email"
           dense
         ></v-text-field>
         <v-text-field
@@ -116,20 +113,27 @@ import {
   lengthValidator,
   phoneValidator
 } from '../../common/utils/validators'
+import ImageSelector from '../../components/image-selector'
 
 export default {
+  components: {
+    ImageSelector
+  },
   data: () => ({
     loading: false,
     success: false,
     errors: [],
     signup: {
-      username: '',
       name: '',
       password: '',
       confirmPassword: '',
       contact: '',
-      type: 0
-    }
+      type: 0,
+      scope: 'Admin',
+      image: ''
+    },
+    imageFile: null,
+    sendImage: null
   }),
   methods: {
     required,
@@ -149,13 +153,18 @@ export default {
             this.errors.push('Could not confirm password.')
             return
           }
-          await this.$axios.post('persons', {
-            name: this.signup.name,
-            username: this.signup.username,
-            password: this.signup.password,
-            contact: this.signup.contact,
-            type: this.signup.type
-          })
+          const formData = new FormData()
+
+          formData.append('name', this.signup.name)
+          formData.append('password', this.signup.password)
+          formData.append('contact', this.signup.contact)
+          formData.append('scope', this.signup.scope)
+          if (this.sendImage) {
+            formData.append('image', this.sendImage)
+          }
+
+          formData.forEach((item) => window.console.log(item))
+          await this.$axios.post('persons', formData)
           this.loading = false
           this.success = true
         } catch (err) {

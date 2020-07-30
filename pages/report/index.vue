@@ -1,20 +1,34 @@
 <template>
-  <ImageSelector v-model="imageFile" :image="data" />
+  <v-container>
+    <DataViewerReport
+      title="Report"
+      back
+      :endpoint="'/drivers'"
+      :columns="columns"
+    />
+  </v-container>
 </template>
 
 <script>
-import ImageSelector from '../../components/image-selector'
+import DataViewerReport from '../../common/ui/widgets/DataViewerReport'
 export default {
-  components: { ImageSelector },
-  async asyncData({ $axios, route }) {
-    return {
-      data: await $axios.$get('dumpsters/5f12c07ee7e0af3094e56d31')
-    }
+  layout(context) {
+    return 'report'
   },
-  data() {
-    return {
-      imageFile: null
-    }
-  }
+  components: {
+    DataViewerReport
+  },
+  data: () => ({
+    columns: [
+      { text: 'Name', value: 'profile.name' },
+      { text: 'Contact', value: 'profile.contact' },
+      { text: 'License', value: 'license' },
+      { text: 'City', value: 'city' },
+      { text: 'Vehicle Name', value: 'vehicle.name' },
+      { text: 'Vehicle Model', value: 'vehicle.model' },
+      { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+      { text: 'Status', value: 'status' }
+    ]
+  })
 }
 </script>

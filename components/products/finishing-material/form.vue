@@ -210,6 +210,7 @@ export default {
   }),
   mounted() {
     this.getSuppliers()
+    this.getUpdateValues()
   },
   methods: {
     required,
@@ -230,6 +231,60 @@ export default {
         this.optionCount++
         this.finishingMaterialOptions.push({ optionName: '', optionValues: '' })
       }
+      this.finishingMaterialVarients = []
+    },
+    getUpdateValues() {
+      // window.console.log(this.optionCount)
+      // window.console.log(this.finishingMaterialOptions.length - 1)
+      if (this.finishingMaterial.varient.length >= 1) {
+        this.variantCheck = true
+        this.finishingMaterialVarients = []
+        for (let i = 0; i < this.finishingMaterial.varient.length; i++) {
+          let name = ''
+          let price = ''
+          for (
+            let j = 0;
+            j < Object.keys(this.finishingMaterial.varient[i]).length;
+            j++
+          ) {
+            if (
+              j === Object.keys(this.finishingMaterial.varient[i]).length - 2 &&
+              Object.keys(this.finishingMaterial.varient[i])[j] !== 'price'
+            ) {
+              name =
+                name +
+                this.finishingMaterial.varient[i][
+                  Object.keys(this.finishingMaterial.varient[i])[j]
+                ]
+            } else if (
+              Object.keys(this.finishingMaterial.varient[i])[j] !== 'price'
+            ) {
+              name =
+                name +
+                this.finishingMaterial.varient[i][
+                  Object.keys(this.finishingMaterial.varient[i])[j]
+                ]
+              name = name + '/ '
+            }
+            if (Object.keys(this.finishingMaterial.varient[i])[j] === 'price') {
+              price = this.finishingMaterial.varient[i][
+                Object.keys(this.finishingMaterial.varient[i])[j]
+              ]
+            }
+          }
+          // for (const key of Object.keys(this.finishingMaterial.varient[i])) {
+          //   if (key === 'price') {
+          //     price = this.finishingMaterial.varient[i][key]
+          //   } else {
+          //     name = name + this.finishingMaterial.varient[i][key]
+          //   }
+          // }
+          this.finishingMaterialVarients.push({
+            varientName: name,
+            varientPrice: price
+          })
+        }
+      }
     },
     insertOptions() {
       this.finishingMaterial.price = 0
@@ -238,13 +293,11 @@ export default {
         if (this.finishingMaterialOptions[0].optionValues !== '') {
           let values1 = []
           values1 = this.finishingMaterialOptions[0].optionValues.split(',')
-          window.console.log(values1)
           for (let i = 0; i < values1.length; i++) {
             this.finishingMaterialVarients.push({
               varientName: values1[i],
               varientPrice: ''
             })
-            window.console.log(this.finishingMaterialVarients[i])
           }
         }
       } else if (this.finishingMaterialOptions.length === 2) {
@@ -312,41 +365,17 @@ export default {
           }
         }
       }
-      // let values1 = []
-      // values1 = this.options[0].options.split(',')
-      // for (let i = 0; i < values1.length; ++i) {
-      //   if (this.options.length === 2) {
-      //     let values2 = []
-      //     values2 = this.options[1].options.split(',')
-      //     for (let j = 0; i < values2.length; ++j) {
-      //       if (this.options.length === 3) {
-      //         let values3 = []
-      //         values3 = this.options[2].options.split(',')
-      //         for (let k = 0; k < values3.length; ++k) {
-      //           this.optionValues.push({
-      //             name: ' ' + values1[i] + '/' + values2[j] + '/' + values3[k]
-      //           })
-      //         }
-      //       } else {
-      //         this.optionValues.push({
-      //           name: ' ' + values1[i] + '/' + values2[j]
-      //         })
-      //       }
-      //     }
-      //   } else {
-      //     this.optionValues.push({ name: values1[i] })
-      //   }
-      // }
     },
     formData() {
       const formData = new FormData()
       if (this.variantCheck) {
         for (const key of Object.keys(this.finishingMaterial)) {
-          window.console.log(key)
           if (key === 'options') {
             for (const item of this.finishingMaterialOptions) {
               for (const key of Object.keys(item)) {
-                // window.console.log(key + ':' + item[key])
+                if (key === '_id') {
+                  continue
+                }
                 formData.append(key, item[key])
               }
             }
@@ -368,11 +397,12 @@ export default {
             for (const item of this.finishingMaterial[key]) {
               formData.append(key, item)
             }
+          } else if (key === 'parent') {
+            formData.append('parent', this.$route.params.id)
           } else formData.append(key, this.finishingMaterial[key])
         }
       } else {
         for (const key of Object.keys(this.finishingMaterial)) {
-          window.console.log(key)
           if (key === 'image') {
             if (this.sendImage) {
               formData.append(key, this.sendImage)
@@ -381,14 +411,15 @@ export default {
             for (const item of this.finishingMaterial[key]) {
               formData.append(key, item._id)
             }
-          } else if (Array.isArray(this.finishingMaterial[key])) {
-            for (const item of this.finishingMaterial[key]) {
-              formData.append(key, item)
-            }
+          } else if (key === 'parent') {
+            formData.append('parent', this.$route.params.id)
+          } else if (key === 'varient') {
+            continue
+          } else if (key === 'options') {
+            continue
           } else formData.append(key, this.finishingMaterial[key])
         }
       }
-      formData.append('parent', this.$route.params.id)
       formData.forEach((item) => window.console.log(item))
       return formData
     },
@@ -404,6 +435,10 @@ export default {
       }
     },
     async getSuppliers() {
+      if (this.finishingMaterialOptions.length === 0) {
+        this.optionCount++
+        this.finishingMaterialOptions.push({ optionName: '', optionValues: '' })
+      }
       this.suppliersList = await this.$axios.$get('suppliers/all')
     }
   }

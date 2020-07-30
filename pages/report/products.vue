@@ -46,6 +46,9 @@
 import DataViewer from '../../common/ui/widgets/DataViewer'
 
 export default {
+  layout(context) {
+    return 'report'
+  },
   name: 'DriverMain',
   components: {
     DataViewer
@@ -70,7 +73,7 @@ export default {
     snackbar: false,
     tabs: [
       {
-        tab: 'All',
+        tab: 'Daily',
         endpoint: '',
         approve: false,
         reject: false,
@@ -78,7 +81,7 @@ export default {
         block: false,
         change: true,
         unblock: false,
-        title: 'Drivers',
+        title: 'Daily Product Report',
         columns: [
           {
             text: 'Name',
@@ -94,7 +97,7 @@ export default {
         ]
       },
       {
-        tab: 'Pending',
+        tab: 'Weekly',
         endpoint: '/getrequests',
         approve: true,
         reject: true,
@@ -102,7 +105,7 @@ export default {
         change: true,
         block: false,
         unblock: false,
-        title: 'Pending Drivers',
+        title: 'Weekly Product Report',
         columns: [
           { text: 'Name', value: 'driver.profile.name' },
           { text: 'Contact', value: 'driver.profile.contact' },
@@ -115,7 +118,7 @@ export default {
         ]
       },
       {
-        tab: 'Approved',
+        tab: 'Monthly',
         endpoint: '/getverified',
         approve: false,
         reject: false,
@@ -123,7 +126,7 @@ export default {
         change: true,
         detail: true,
         unblock: false,
-        title: 'Approved Drivers',
+        title: 'Monthly Product Report',
         columns: [
           { text: 'Name', value: 'profile.name' },
           { text: 'Contact', value: 'profile.contact' },
@@ -136,7 +139,7 @@ export default {
         ]
       },
       {
-        tab: 'Rejected',
+        tab: 'Yearly',
         endpoint: '/getrejected',
         approve: false,
         reject: false,
@@ -144,7 +147,7 @@ export default {
         change: true,
         detail: true,
         unblock: false,
-        title: 'Rejected Drivers',
+        title: 'Yearly Product Report',
         columns: [
           { text: 'Name', value: 'profile.name' },
           { text: 'Contact', value: 'profile.contact' },
@@ -157,7 +160,7 @@ export default {
         ]
       },
       {
-        tab: 'Blocked',
+        tab: 'Custom',
         endpoint: '/getblocked',
         approve: false,
         reject: false,
@@ -165,7 +168,7 @@ export default {
         change: true,
         detail: true,
         unblock: true,
-        title: 'Blocked Drivers',
+        title: 'Custom Product Reports',
         columns: [
           { text: 'Name', value: 'profile.name' },
           { text: 'Contact', value: 'profile.contact' },

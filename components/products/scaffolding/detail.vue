@@ -73,19 +73,19 @@
           :items="scaffolding.suppliers"
           fixed-header
         >
-          <template v-slot:item.images="{ item }">
+          <template v-slot:item.person.image="{ item }">
             <v-avatar
-              v-if="item.images != null && item.images.length != 0"
+              v-if="item.person.image != null && item.person.image.length != 0"
               style="margin: 5px;padding: 0px"
             >
               <img
                 :src="
-                  $axios.defaults.baseURL + 'uploads/' + item.images[0].name
+                  $axios.defaults.baseURL + 'uploads/' + item.person.image.name
                 "
               />
             </v-avatar>
             <p
-              v-if="item.images == null || item.images.length == 0"
+              v-if="item.person.image == null || item.person.image.length == 0"
               style="margin: 0"
             >
               No Image
@@ -120,11 +120,11 @@ export default {
       { text: 'Extra Days Rent', value: 'extraDayRent' }
     ],
     columnsStore: [
-      { text: 'Image', value: 'images' },
-      { text: 'Name', value: 'name' },
-      { text: 'Email', value: 'email' },
-      { text: 'Contact', value: 'contact' },
-      { text: 'Address', value: 'address' },
+      { text: 'Image', value: 'person.image' },
+      { text: 'Name', value: 'person.name' },
+      { text: 'Email', value: 'person.email' },
+      { text: 'Contact', value: 'person.contact' },
+      { text: 'Address', value: 'location.address' },
       { text: 'Services', value: 'services' }
     ]
   }),

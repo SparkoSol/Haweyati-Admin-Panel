@@ -86,7 +86,7 @@
             <v-list-item-icon>
               <v-icon>mdi-cog</v-icon>
             </v-list-item-icon>
-            <v-list-item-title @click="toSetting">
+            <v-list-item-title>
               {{ dropdownMenuItems[1].title }}
             </v-list-item-title>
           </v-list-item>
@@ -119,63 +119,33 @@ export default {
       ],
       items: [
         {
-          icon: 'mdi-home',
-          title: 'Dashboard',
-          to: '/',
+          icon: 'mdi-format-list-bulleted-square',
+          title: 'Summary',
+          to: '/report',
+          show: true
+        },
+        {
+          icon: 'mdi-currency-usd',
+          title: 'Sales',
+          to: '/report/sales',
           show: true
         },
         {
           icon: 'mdi-account-multiple',
-          title: 'Customers',
-          to: '/customer',
-          show: true
-        },
-        {
-          icon: 'mdi-account',
-          title: 'Drivers',
-          to: '/driver',
-          show: true
-        },
-        {
-          icon: 'mdi-store',
           title: 'Suppliers',
-          to: '/store',
+          to: '/report/suppliers',
           show: true
         },
         {
           icon: 'mdi-gavel',
           title: 'Products',
-          to: '/product',
-          show: true
-        },
-        {
-          icon: 'mdi-gavel',
-          title: 'Requests',
-          to: '/request',
+          to: '/report/products',
           show: true
         },
         {
           icon: 'mdi-clipboard-multiple',
           title: 'Orders',
-          to: '/order',
-          show: true
-        },
-        {
-          icon: 'mdi-cog',
-          title: 'Settings',
-          to: '/setting',
-          show: false
-        },
-        {
-          icon: 'mdi-file-chart',
-          title: 'Reports',
-          to: '/report',
-          show: true
-        },
-        {
-          icon: 'mdi-account-plus',
-          title: 'Register Admin',
-          to: '/auth/signup',
+          to: '/report/orders',
           show: true
         }
       ]
@@ -187,8 +157,7 @@ export default {
         await this.$auth.logout()
         location.reload()
       } catch (err) {}
-    },
-    toSetting() {}
+    }
   }
 }
 </script>

@@ -17,6 +17,29 @@
     </v-row>
     <v-container>
       <v-card style="padding: 20px">
+        <v-card-title>Information</v-card-title>
+        <div
+          style="display: flex;justify-content: center;align-items: center;margin-bottom: 30px"
+        >
+          <v-avatar size="200" style="border: 1px solid #313F53">
+            <img
+              :src="
+                $axios.defaults.baseURL +
+                  'uploads/' +
+                  finishingMaterial.image.name
+              "
+            />
+          </v-avatar>
+        </div>
+        <v-text-field
+          v-model="finishingMaterial.name"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Name"
+          dense
+        ></v-text-field>
         <v-textarea
           :value="finishingMaterial.description"
           readonly
@@ -101,18 +124,20 @@ export default {
     ]
   }),
   mounted() {
-    this.varientHeader()
+    if (this.finishingMaterial.varient.length !== 0) {
+      this.varientHeader()
+    }
   },
   methods: {
     returnBack() {
       this.$router.back()
     },
     varientHeader() {
-      this.finishingMaterial.varient.forEach((item) => {
-        for (const key of Object.keys(item)) {
-          this.columnsVarient.push({ text: key, value: key })
+      for (let i = 0; i < 1; i++) {
+        for (const key of Object.keys(this.finishingMaterial.varient[i])) {
+          this.columnsVarient.push({ text: key.toUpperCase(), value: key })
         }
-      })
+      }
     }
   }
 }

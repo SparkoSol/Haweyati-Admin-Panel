@@ -1,7 +1,7 @@
 <template>
   <DeliveryVehicleMain
     title="Delivery Vehicle"
-    endpoint="/drivers"
+    endpoint="/drivers/getverified"
     route="driver"
   />
 </template>

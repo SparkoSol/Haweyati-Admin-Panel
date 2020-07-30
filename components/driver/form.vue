@@ -3,8 +3,8 @@
     <SimpleForm
       :method="isUpdate ? 'patch' : 'post'"
       :data="formData"
-      endpoint="/"
       return
+      endpoint="/drivers"
     >
       <template v-slot:header>
         <v-row>
@@ -30,6 +30,7 @@
             style="align-items: center !important;"
             outlined
             label="Driver Name"
+            v-model="driver.profile.name"
             :value="driver.profile.name"
             dense
           ></v-text-field>
@@ -37,6 +38,7 @@
             style="align-items: center !important;"
             outlined
             label="Driver Contact"
+            v-model="driver.profile.contact"
             :value="driver.profile.contact"
             dense
           ></v-text-field>
@@ -44,6 +46,7 @@
             style="align-items: center !important;"
             outlined
             label="Driver License"
+            v-model="driver.license"
             :value="driver.license"
             dense
           ></v-text-field>
@@ -51,6 +54,7 @@
             style="align-items: center !important;"
             outlined
             label="Driver City"
+            v-model="driver.city"
             :value="driver.city"
             dense
           ></v-text-field>
@@ -62,6 +66,7 @@
             outlined
             label="Vehicle Name"
             :value="driver.vehicle.name"
+            v-model="driver.vehicle.name"
             dense
           ></v-text-field>
           <v-text-field
@@ -69,6 +74,7 @@
             outlined
             label="Vehicle Model"
             :value="driver.vehicle.model"
+            v-model="driver.vehicle.model"
             dense
           ></v-text-field>
           <v-text-field
@@ -76,6 +82,7 @@
             outlined
             label="Vehicle ID"
             :value="driver.vehicle.identificationNo"
+            v-model="driver.vehicle.identificationNo"
             dense
           ></v-text-field>
         </v-card>
@@ -121,28 +128,22 @@ export default {
       this.$router.back()
     },
     formData() {
-      // const formData = new FormData()
-      // for (const key of Object.keys(this.supplier)) {
-      //   if (key === 'services') {
-      //     this.supplier[key].forEach((item) => {
-      //       formData.append(key, item)
-      //     })
-      //   } else if (key === 'images') {
-      //     this.supplier[key].forEach((item) => {
-      //       formData.append(key, item)
-      //     })
-      //   } else if (key === 'parent') {
-      //     if (this.mainSupplier == null) {
-      //       if (this.subBranchCheck) {
-      //         formData.append(key, this.supplier[key]._id)
-      //       }
-      //     } else {
-      //       formData.append(key, this.mainSupplier._id)
-      //     }
-      //   } else formData.append(key, this.supplier[key])
-      // }
-      // formData.forEach((item) => window.console.log(item))
-      // return formData
+      const formData = new FormData()
+      for (const key of Object.keys(this.driver)) {
+        if (key === 'profile') {
+          for (const profile of Object.keys(this.driver[key])) {
+            formData.append(profile, this.driver[key][profile])
+          }
+        } else if (key === 'vehicle') {
+          for (const vehicle of Object.keys(this.driver[key])) {
+            formData.append(vehicle, this.driver[key][vehicle])
+          }
+        } else {
+          formData.append(key, this.driver[key])
+        }
+      }
+      formData.forEach((item) => window.console.log(item))
+      return formData
     }
   }
 }

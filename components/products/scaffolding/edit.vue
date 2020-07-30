@@ -172,14 +172,14 @@ export default {
       { text: 'Extra Days Rent', value: 'extraDayRent' }
     ],
     columnsStore: [
-      { text: 'Image', value: 'images' },
+      { text: 'Image', value: 'image' },
       { text: 'Name', value: 'name' },
       { text: 'Email', value: 'email' },
       { text: 'Contact', value: 'contact' },
       { text: 'Address', value: 'address' },
       { text: 'Services', value: 'services' }
     ],
-    columnsSelected: [{ text: 'Name', value: 'name' }]
+    columnsSelected: [{ text: 'Name', value: 'person.name' }]
   }),
   methods: {
     returnBack() {

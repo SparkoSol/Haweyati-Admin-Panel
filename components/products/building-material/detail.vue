@@ -16,6 +16,40 @@
       </v-col>
     </v-row>
     <v-container>
+      <v-card style="padding: 20px">
+        <v-card-title>Information</v-card-title>
+        <div
+          style="display: flex;justify-content: center;align-items: center;margin-bottom: 30px"
+        >
+          <v-avatar size="200" style="border: 1px solid #313F53">
+            <img
+              :src="
+                $axios.defaults.baseURL +
+                  'uploads/' +
+                  buildingMaterial.image.name
+              "
+            />
+          </v-avatar>
+        </div>
+        <v-text-field
+          v-model="buildingMaterial.name"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Name"
+          dense
+        ></v-text-field>
+        <v-textarea
+          :value="buildingMaterial.description"
+          readonly
+          outlined
+          label="Description"
+          dense
+        ></v-textarea>
+      </v-card>
+    </v-container>
+    <v-container>
       <v-card>
         <v-card-title>Pricing</v-card-title>
         <v-data-table

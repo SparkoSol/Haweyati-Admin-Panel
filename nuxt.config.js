@@ -54,27 +54,28 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://192.168.1.119:4000/'
+    baseURL: 'http://192.168.100.100:4000/'
   },
   auth: {
     strategies: {
       local: {
         endpoints: {
           login: {
-            url: 'http://zainpc:4000/auth/sign-in',
+            url: 'http://192.168.100.100:4000/auth/sign-in',
             method: 'post',
             propertyName: 'access_token'
           },
           logout: {
-            url: 'http://zainpc:4000/auth/sign-out',
+            url: 'http://192.168.100.100:4000/auth/sign-out',
             method: 'post'
           },
           user: {
-            url: 'http://zainpc:4000/auth/profile',
+            url: 'http://192.168.100.100:4000/auth/profile',
             method: 'get',
-            propertyName: 'user'
+            propertyName: ''
           }
-        }
+        },
+        watchLoggedIn: true
         // tokenRequired: true,
         // tokenType: 'bearer',
         // globalToken: true,
@@ -121,5 +122,7 @@ export default {
      */
     extend(config, ctx) {}
   },
-  router: {}
+  router: {
+    middleware: ['auth']
+  }
 }
