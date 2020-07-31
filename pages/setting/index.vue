@@ -36,6 +36,15 @@
           dense
         ></v-text-field>
         <v-text-field
+          v-model="update.old"
+          color="#313F53"
+          outlined
+          type="password"
+          style="color: #313F53"
+          label="Old Password"
+          dense
+        ></v-text-field>
+        <v-text-field
           v-model="update.password"
           color="#313F53"
           outlined
@@ -86,7 +95,8 @@ export default {
       password: '',
       confirmPassword: '',
       _id: '',
-      image: ''
+      image: '',
+      old: ''
     },
     imageFile: null,
     sendImage: null
@@ -109,8 +119,12 @@ export default {
       if (this.$refs.form.validate()) {
         const formData = new FormData()
         if (this.update.password) {
-          if (this.update.password === this.update.confirmPassword) {
+          if (
+            this.update.password === this.update.confirmPassword &&
+            this.update.old !== ''
+          ) {
             formData.append('password', this.update.password)
+            formData.append('old', this.update.old)
           } else {
             this.errors.push('Could not confirm Password!!')
             return
@@ -123,8 +137,12 @@ export default {
         formData.append('contact', this.update.contact)
         formData.append('_id', this.update._id)
         formData.forEach((item) => window.console.log(item))
-        await this.$axios.patch('persons', formData)
-        window.location.reload()
+        try {
+          await this.$axios.patch('persons', formData)
+          window.location.reload()
+        } catch (e) {
+          this.errors.push(e.response.data.message)
+        }
       }
     }
   }

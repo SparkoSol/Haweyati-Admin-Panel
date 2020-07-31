@@ -8,97 +8,68 @@
 
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="item in tabs" :key="item.tab">
-        <data-viewer
+        <DataViewerReport
           :title="item.title"
+          :endpoint="item.endpoint"
           :columns="item.columns"
-          :endpoint="endpoint + item.endpoint"
-          :approve="item.approve"
-          :approve-route="'/drivers/getverified/$id'"
-          :reject="item.reject"
-          :reject-route="'/drivers/getrejected/$id'"
-          :detail="item.detail"
-          :detail-route="'/' + route + '/detail/$id'"
-          :block="item.block"
-          :block-route="'/drivers/getblocked/$id'"
-          :unblock="item.unblock"
-          :unblock-route="'/drivers/getunblocked/$id'"
-          :change="item.change"
-          :change-route="'/' + route + '/edit/$id'"
-          :on-block="onBlock"
-          :on-unblock="onUnblocked"
-          :on-accepted="onAccepted"
-          :on-rejected="onRejected"
+          back
+          :date="item.date"
+          :date-to="item.dateTo"
+          :week="item.week"
+          :month="item.month"
+          :year="item.year"
         />
       </v-tab-item>
     </v-tabs-items>
-    <v-snackbar
-      v-model="snackbar"
-      bottom
-      :color="snackbarColor"
-      :timeout="1500"
-    >
-      {{ snackbarText }}
-    </v-snackbar>
   </v-container>
 </template>
 
 <script>
-import DataViewer from '../../common/ui/widgets/DataViewer'
+import DataViewerReport from '../../common/ui/widgets/DataViewerReport'
 
 export default {
-  name: 'OrderMain',
-  components: {
-    DataViewer
+  layout(context) {
+    return 'report'
   },
-  props: {
-    title: {
-      type: String,
-      default: 'Orders'
-    },
-    endpoint: {
-      type: String,
-      default: 'main-category'
-    },
-    route: {
-      type: String,
-      default: 'index'
-    }
+  name: 'OrderReport',
+  components: {
+    DataViewerReport
   },
   data: () => ({
-    snackbarText: 'Success!',
-    snackbarColor: 'green',
-    snackbar: false,
+    endpoint: '',
     tabs: [
       {
-        tab: 'All',
-        endpoint: '',
-        approve: false,
-        reject: false,
-        detail: true,
-        block: false,
-        unblock: false,
-        title: 'Orders',
+        tab: 'Daily',
+        endpoint: '/drivers',
+        date: true,
+        dateTo: false,
+        week: false,
+        month: false,
+        year: false,
+        title: 'Daily Order Report',
         columns: [
           {
             text: 'Name',
-            value: 'customer.profile.name'
+            value: 'profile.name'
           },
-          { text: 'Contact', value: 'customer.profile.contact' },
-          { text: 'Service', value: 'service' },
-          { text: 'Payment Type', value: 'paymentType' },
-          { text: 'Total', value: 'details.details.total' },
+          { text: 'Contact', value: 'profile.contact' },
+          { text: 'License', value: 'license' },
+          { text: 'City', value: 'city' },
+          { text: 'Vehicle Name', value: 'vehicle.name' },
+          { text: 'Vehicle Model', value: 'vehicle.model' },
+          { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
           { text: 'Status', value: 'status' }
         ]
       },
       {
-        tab: 'Pending',
-        endpoint: '/getrequests',
-        approve: true,
-        reject: true,
-        detail: true,
-        block: false,
-        unblock: false,
-        title: 'Pending Orders',
+        tab: 'Weekly',
+        endpoint: '/drivers',
+        date: false,
+        dateTo: false,
+        week: true,
+        month: false,
+        year: false,
+        title: 'Weekly Order Report',
         columns: [
           { text: 'Name', value: 'driver.profile.name' },
           { text: 'Contact', value: 'driver.profile.contact' },
@@ -111,15 +82,14 @@ export default {
         ]
       },
       {
-        tab: 'Open',
-        endpoint: '/getverified',
-        approve: false,
-        reject: false,
-        block: true,
-        change: true,
-        detail: true,
-        unblock: false,
-        title: 'Open Orders',
+        tab: 'Monthly',
+        endpoint: '/drivers',
+        date: false,
+        dateTo: false,
+        week: false,
+        month: true,
+        year: false,
+        title: 'Monthly Order Report',
         columns: [
           { text: 'Name', value: 'profile.name' },
           { text: 'Contact', value: 'profile.contact' },
@@ -132,14 +102,14 @@ export default {
         ]
       },
       {
-        tab: 'Closed',
-        endpoint: '/getrejected',
-        approve: false,
-        reject: false,
-        block: false,
-        detail: true,
-        unblock: false,
-        title: 'Closed Orders',
+        tab: 'Yearly',
+        endpoint: '/drivers',
+        date: false,
+        dateTo: false,
+        week: false,
+        month: false,
+        year: true,
+        title: 'Yearly Order Report',
         columns: [
           { text: 'Name', value: 'profile.name' },
           { text: 'Contact', value: 'profile.contact' },
@@ -152,14 +122,14 @@ export default {
         ]
       },
       {
-        tab: 'Rejected',
-        endpoint: '/getblocked',
-        approve: false,
-        reject: false,
-        block: false,
-        detail: true,
-        unblock: true,
-        title: 'Rejected Orders',
+        tab: 'Custom',
+        endpoint: '/drivers',
+        date: true,
+        dateTo: true,
+        week: false,
+        month: false,
+        year: false,
+        title: 'Custom Order Reports',
         columns: [
           { text: 'Name', value: 'profile.name' },
           { text: 'Contact', value: 'profile.contact' },

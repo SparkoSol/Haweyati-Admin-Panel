@@ -68,9 +68,8 @@
                 @click="
                   pricing.push({
                     city: '',
-                    rent: '',
-                    days: '',
-                    extraDayRent: ''
+                    price12yard: '',
+                    price20yard: ''
                   })
                 "
                 >Add City
@@ -80,7 +79,7 @@
           <v-row
             v-for="(price, i) of pricing"
             :key="i"
-            style="display: grid;grid-template-columns: auto auto  50px"
+            style="display: grid;grid-template-columns: auto auto auto  50px"
           >
             <v-col>
               <v-text-field
@@ -93,10 +92,21 @@
             </v-col>
             <v-col>
               <v-text-field
-                v-model="price.price"
+                v-model="price.price12yard"
                 color="#313F53"
+                type="number"
                 outlined
-                label="Price"
+                label="12 Yard Price"
+                dense
+              ></v-text-field>
+            </v-col>
+            <v-col>
+              <v-text-field
+                v-model="price.price20yard"
+                color="#313F53"
+                type="number"
+                outlined
+                label="20 Yard Price"
                 dense
               ></v-text-field>
             </v-col>

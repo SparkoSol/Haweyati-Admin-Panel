@@ -17,7 +17,8 @@
     >
       <v-form ref="form" style="display: flex;align-items: start ">
         <v-text-field
-          v-model="date"
+          v-if="date"
+          v-model="dateSend"
           style="margin-right: 10px"
           :rules="[required]"
           type="date"
@@ -25,7 +26,17 @@
           outlined
         />
         <v-text-field
-          v-model="month"
+          v-if="dateTo"
+          v-model="dateToSend"
+          style="margin-right: 10px"
+          :rules="[required]"
+          type="date"
+          dense
+          outlined
+        />
+        <v-text-field
+          v-if="month"
+          v-model="monthSend"
           style="margin-right: 10px"
           :rules="[required]"
           type="month"
@@ -33,7 +44,8 @@
           outlined
         />
         <v-text-field
-          v-model="week"
+          v-if="week"
+          v-model="weekSend"
           style="margin-right: 10px"
           :rules="[required]"
           type="week"
@@ -41,7 +53,8 @@
           outlined
         />
         <v-text-field
-          v-model="year"
+          v-if="year"
+          v-model="yearSend"
           style="margin-right: 10px"
           type="number"
           :rules="[yearValidator, required]"
@@ -84,10 +97,11 @@ import { yearValidator, required } from '../../utils/validators'
 export default defineComponent({
   name: 'DataViewerReport',
   data: () => ({
-    year: new Date().getFullYear(),
-    week: '',
-    date: '',
-    month: ''
+    yearSend: new Date().getFullYear(),
+    weekSend: '',
+    dateSend: '',
+    monthSend: '',
+    dateToSend: ''
   }),
   props: {
     title: {
@@ -109,6 +123,26 @@ export default defineComponent({
     endpoint: {
       type: String,
       required: true
+    },
+    date: {
+      type: Boolean,
+      default: false
+    },
+    dateTo: {
+      type: Boolean,
+      default: false
+    },
+    week: {
+      type: Boolean,
+      default: false
+    },
+    month: {
+      type: Boolean,
+      default: false
+    },
+    year: {
+      type: Boolean,
+      default: false
     }
   },
 

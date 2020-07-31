@@ -1,5 +1,5 @@
 <template>
-  <OrderMain title="Order Requests" endpoint="/driver" route="order" />
+  <OrderMain title="Order Requests" endpoint="/orders" route="order" />
 </template>
 
 <script>

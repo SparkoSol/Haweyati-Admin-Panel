@@ -210,7 +210,7 @@ export default {
   }),
   mounted() {
     this.getSuppliers()
-    this.getUpdateValues()
+    // this.getUpdateValues()
   },
   methods: {
     required,
@@ -231,7 +231,6 @@ export default {
         this.optionCount++
         this.finishingMaterialOptions.push({ optionName: '', optionValues: '' })
       }
-      this.finishingMaterialVarients = []
     },
     getUpdateValues() {
       // window.console.log(this.optionCount)
@@ -435,10 +434,10 @@ export default {
       }
     },
     async getSuppliers() {
-      if (this.finishingMaterialOptions.length === 0) {
-        this.optionCount++
-        this.finishingMaterialOptions.push({ optionName: '', optionValues: '' })
-      }
+      // if (this.finishingMaterialOptions.length === 0) {
+      //   this.optionCount++
+      //   this.finishingMaterialOptions.push({ optionName: '', optionValues: '' })
+      // }
       this.suppliersList = await this.$axios.$get('suppliers/all')
     }
   }

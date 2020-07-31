@@ -105,7 +105,8 @@ export default {
   data: () => ({
     columnsPrice: [
       { text: 'City', value: 'city' },
-      { text: 'Price', value: 'price' }
+      { text: '12 Yard Price', value: 'price12yard' },
+      { text: '20 Yard Price', value: 'price20yard' }
     ],
     columnsStore: [
       { text: 'Image', value: 'person.image' },
