@@ -30,7 +30,11 @@ export default {
   /*
    ** Plugins to load before mounting the App
    */
-  plugins: ['~/plugins/mask.js', '~/plugins/composition-api.js'],
+  plugins: [
+    '~/plugins/mask.js',
+    '~/plugins/composition-api.js',
+    '~/plugins/Geolocation.js'
+  ],
   /*
    ** Nuxt.js dev-modules
    */

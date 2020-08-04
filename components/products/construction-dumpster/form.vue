@@ -163,7 +163,7 @@ import { ConstructionDumpster } from '../../../models/products/construction-dump
 import { ConstructionDumpsterPricing } from '../../../models/products/construction-dumpster-pricing'
 // import { Supplier } from '../../../models/supplier'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
-import ImageSelector from '../../image-selector'
+import ImageSelector from '../../misc/image-selector'
 
 export default {
   name: 'DumpsterForm',

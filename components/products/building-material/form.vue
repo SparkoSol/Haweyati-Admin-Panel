@@ -144,7 +144,7 @@ import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
 import { BuildingMaterial } from '../../../models/products/building-material'
 import { BuildingMaterialPricing } from '../../../models/products/building-material-pricing'
-import ImageSelector from '../../image-selector'
+import ImageSelector from '../../misc/image-selector'
 
 export default {
   name: 'BuildingMaterialForm',

@@ -68,7 +68,7 @@
 import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import { FinishingMaterialSub } from '../../../models/products/finishing-material-sub'
 import { required } from '../../../common/utils/validators'
-import ImageSelector from '../../image-selector'
+import ImageSelector from '../../misc/image-selector'
 
 export default {
   name: 'FinishingMaterialSubForm',

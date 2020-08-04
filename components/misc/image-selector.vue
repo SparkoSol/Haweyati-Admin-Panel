@@ -44,7 +44,6 @@ export default {
   methods: {
     chooseImage() {
       this.$refs.fileInput.click()
-      window.console.log(this.image)
     },
     onSelectFile() {
       const input = this.$refs.fileInput

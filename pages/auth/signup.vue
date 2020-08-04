@@ -113,7 +113,7 @@ import {
   lengthValidator,
   phoneValidator
 } from '../../common/utils/validators'
-import ImageSelector from '../../components/image-selector'
+import ImageSelector from '../../components/misc/image-selector'
 
 export default {
   components: {

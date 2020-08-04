@@ -39,20 +39,25 @@
               style="padding: 10px;"
             >
               <v-row
-                style="display: grid;grid-template-columns: 15% 65% 20%; padding: 20px;"
+                style="display: grid;grid-template-columns: 20% 60% 20%; padding: 20px;"
               >
                 <div>
-                  <v-avatar size="60" color="white">
+                  <v-avatar size="80" color="white">
                     <img
+                      v-if="customer.profile.image"
                       :src="
                         $axios.defaults.baseURL +
                           'uploads/' +
                           customer.profile.image.name
                       "
                     />
+                    <img
+                      v-else
+                      src="../../assets/images/placeholders/placeholder_person.jpg"
+                    />
                   </v-avatar>
                 </div>
-                <div>
+                <div style="padding-left: 10px">
                   <h3>{{ customer.profile.name }}</h3>
                   <p>{{ customer.profile.email }}</p>
                   <h5 style="color: grey">{{ customer.profile.contact }}</h5>
@@ -95,13 +100,18 @@
                 style="display: grid;grid-template-columns: 15% 65% 20%; padding: 20px;"
               >
                 <div>
-                  <v-avatar size="60" color="white">
+                  <v-avatar size="80" color="white">
                     <img
+                      v-if="customer.profile.image"
                       :src="
                         $axios.defaults.baseURL +
                           'uploads/' +
                           customer.profile.image.name
                       "
+                    />
+                    <img
+                      v-else
+                      src="../../assets/images/placeholders/placeholder_person.jpg"
                     />
                   </v-avatar>
                 </div>
@@ -183,11 +193,10 @@ export default {
   },
   methods: {
     async getCustomers() {
-      window.console.log(this.loading)
+      window.console.log(await this.$axios.$get('customers'))
       this.customers = await this.$axios.$get('customers')
     },
     async getBlockedCustomers() {
-      window.console.log(this.loading)
       this.blockedCustomers = await this.$axios.$get('customers/getblocked')
     },
     onBlock() {

@@ -50,14 +50,6 @@
             dense
             label="Contact"
           />
-          <v-text-field
-            v-model="supplier.location.address"
-            color="#313F53"
-            outlined
-            style="color: #313F53"
-            dense
-            label="Address"
-          />
         </v-card>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Media</v-card-title>
@@ -66,6 +58,10 @@
             :image="supplier.person"
             @input="sendImage = $event"
           />
+        </v-card>
+        <v-card style="padding:20px;margin-bottom: 20px">
+          <v-card-title>Location</v-card-title>
+          <GoogleMap @input="location = $event" />
         </v-card>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Services</v-card-title>
@@ -89,15 +85,17 @@
 <script>
 import SimpleForm from '../../common/ui/widgets/SimpleForm'
 import { Supplier } from '../../models/supplier'
-import ImageSelector from '../image-selector'
+import ImageSelector from '../misc/image-selector'
 import {
   emailValidator,
   required,
   phoneValidator
 } from '../../common/utils/validators'
+import GoogleMap from '../misc/GoogleMap'
 
 export default {
   components: {
+    GoogleMap,
     ImageSelector,
     SimpleForm
   },
@@ -130,7 +128,8 @@ export default {
       { name: 'Delivery Vehicle' }
     ],
     imageFile: null,
-    sendImage: null
+    sendImage: null,
+    location: null
   }),
   methods: {
     emailValidator,
@@ -160,7 +159,8 @@ export default {
       this.supplier.services.forEach((item) => {
         formData.append('services', item)
       })
-      formData.append('address', this.supplier.location.address)
+      formData.append('latitude', this.location.lat)
+      formData.append('longitude', this.location.lng)
       if (this.mainSupplier) {
         formData.append('parent', this.mainSupplier._id)
       }
@@ -170,3 +170,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.form {
+  width: 800px !important;
+}
+</style>

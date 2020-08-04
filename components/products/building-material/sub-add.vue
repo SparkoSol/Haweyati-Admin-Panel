@@ -58,7 +58,7 @@
 import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import { BuildingMaterialSub } from '../../../models/products/building-material-sub'
 import { required } from '../../../common/utils/validators'
-import ImageSelector from '../../image-selector'
+import ImageSelector from '../../misc/image-selector'
 
 export default {
   name: 'BuildingMaterialSubAdd',

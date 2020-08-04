@@ -150,7 +150,7 @@ import { FinishingMaterial } from '../../../models/products/finishing-material'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
 import { FinishingMaterialOptions } from '../../../models/products/finishing-material-options'
 import SimpleForm from '../../../common/ui/widgets/SimpleForm'
-import ImageSelector from '../../image-selector'
+import ImageSelector from '../../misc/image-selector'
 
 export default {
   name: 'ProductAddVariant',
