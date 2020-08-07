@@ -13,9 +13,9 @@
           :columns="item.columns"
           :endpoint="endpoint + item.endpoint"
           :approve="item.approve"
-          :approve-route="'/drivers/getverified/$id'"
+          :approve-route="'/orders/getactive/$id'"
           :reject="item.reject"
-          :reject-route="'/drivers/getrejected/$id'"
+          :reject-route="'/orders/getrejected/$id'"
           :detail="item.detail"
           :detail-route="'/' + route + '/detail/$id'"
           :block="item.block"
@@ -86,13 +86,14 @@ export default {
           { text: 'Contact', value: 'customer.profile.contact' },
           { text: 'Service', value: 'service' },
           { text: 'Payment Type', value: 'paymentType' },
-          { text: 'Total', value: 'details.details.total' },
+          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
       },
       {
         tab: 'Pending',
-        endpoint: '/getrequests',
+        endpoint: '/getpending',
         approve: true,
         reject: true,
         detail: true,
@@ -100,40 +101,44 @@ export default {
         unblock: false,
         title: 'Pending Orders',
         columns: [
-          { text: 'Name', value: 'driver.profile.name' },
-          { text: 'Contact', value: 'driver.profile.contact' },
-          { text: 'License', value: 'driver.license' },
-          { text: 'City', value: 'driver.city' },
-          { text: 'Vehicle Name', value: 'driver.vehicle.name' },
-          { text: 'Vehicle Model', value: 'driver.vehicle.model' },
-          { text: 'Vehicle ID', value: 'driver.vehicle.identificationNo' },
+          {
+            text: 'Name',
+            value: 'customer.profile.name'
+          },
+          { text: 'Contact', value: 'customer.profile.contact' },
+          { text: 'Service', value: 'service' },
+          { text: 'Payment Type', value: 'paymentType' },
+          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
       },
       {
-        tab: 'Open',
-        endpoint: '/getverified',
+        tab: 'Active',
+        endpoint: '/getactive',
         approve: false,
         reject: false,
-        block: true,
-        change: true,
+        block: false,
+        change: false,
         detail: true,
         unblock: false,
-        title: 'Open Orders',
+        title: 'Active Orders',
         columns: [
-          { text: 'Name', value: 'profile.name' },
-          { text: 'Contact', value: 'profile.contact' },
-          { text: 'License', value: 'license' },
-          { text: 'City', value: 'city' },
-          { text: 'Vehicle Name', value: 'vehicle.name' },
-          { text: 'Vehicle Model', value: 'vehicle.model' },
-          { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+          {
+            text: 'Name',
+            value: 'customer.profile.name'
+          },
+          { text: 'Contact', value: 'customer.profile.contact' },
+          { text: 'Service', value: 'service' },
+          { text: 'Payment Type', value: 'paymentType' },
+          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
       },
       {
         tab: 'Closed',
-        endpoint: '/getrejected',
+        endpoint: '/getclosed',
         approve: false,
         reject: false,
         block: false,
@@ -141,33 +146,37 @@ export default {
         unblock: false,
         title: 'Closed Orders',
         columns: [
-          { text: 'Name', value: 'profile.name' },
-          { text: 'Contact', value: 'profile.contact' },
-          { text: 'License', value: 'license' },
-          { text: 'City', value: 'city' },
-          { text: 'Vehicle Name', value: 'vehicle.name' },
-          { text: 'Vehicle Model', value: 'vehicle.model' },
-          { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+          {
+            text: 'Name',
+            value: 'customer.profile.name'
+          },
+          { text: 'Contact', value: 'customer.profile.contact' },
+          { text: 'Service', value: 'service' },
+          { text: 'Payment Type', value: 'paymentType' },
+          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
       },
       {
         tab: 'Rejected',
-        endpoint: '/getblocked',
+        endpoint: '/getrejected',
         approve: false,
         reject: false,
         block: false,
         detail: true,
-        unblock: true,
+        unblock: false,
         title: 'Rejected Orders',
         columns: [
-          { text: 'Name', value: 'profile.name' },
-          { text: 'Contact', value: 'profile.contact' },
-          { text: 'License', value: 'license' },
-          { text: 'City', value: 'city' },
-          { text: 'Vehicle Name', value: 'vehicle.name' },
-          { text: 'Vehicle Model', value: 'vehicle.model' },
-          { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+          {
+            text: 'Name',
+            value: 'customer.profile.name'
+          },
+          { text: 'Contact', value: 'customer.profile.contact' },
+          { text: 'Service', value: 'service' },
+          { text: 'Payment Type', value: 'paymentType' },
+          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
       }
@@ -199,14 +208,14 @@ export default {
       window.console.log(this.snackbarText)
       window.console.log(this.snackbar)
       this.snackbarColor = 'red'
-      this.snackbarText = 'Successfully Rejected Driver!'
+      this.snackbarText = 'Successfully Rejected Order!'
       this.snackbar = true
     },
     onAccepted() {
       window.console.log(this.snackbarText)
       window.console.log(this.snackbar)
       this.snackbarColor = 'green'
-      this.snackbarText = 'Successfully Approved Driver!'
+      this.snackbarText = 'Successfully Approved Order!'
       this.snackbar = true
     }
   }

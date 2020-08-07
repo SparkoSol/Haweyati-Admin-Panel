@@ -75,6 +75,38 @@
           No Image
         </p>
       </template>
+      <template v-slot:item.profile.image="{ item }">
+        <v-avatar
+          v-if="item.profile.image != null"
+          style="margin: 5px;padding: 0px"
+        >
+          <img
+            :src="
+              $axios.defaults.baseURL + 'uploads/' + item.profile.image.name
+            "
+          />
+        </v-avatar>
+        <p v-if="item.profile.image == null" style="margin: 0">
+          No Image
+        </p>
+      </template>
+      <template v-slot:item.driver.profile.image="{ item }">
+        <v-avatar
+          v-if="item.driver.profile.image != null"
+          style="margin: 5px;padding: 0px"
+        >
+          <img
+            :src="
+              $axios.defaults.baseURL +
+                'uploads/' +
+                item.driver.profile.image.name
+            "
+          />
+        </v-avatar>
+        <p v-if="item.driver.profile.image == null" style="margin: 0">
+          No Image
+        </p>
+      </template>
       <template v-slot:item.image="{ item }">
         <v-avatar v-if="item.image != null" style="margin: 5px;padding: 0px">
           <img :src="$axios.defaults.baseURL + 'uploads/' + item.image.name" />
@@ -121,6 +153,16 @@
           style="margin: 0"
         >
           No Image
+        </p>
+      </template>
+      <template v-slot:item.createdAt="{ item }">
+        <slot name="createdAt" :item="item" />
+        <p>{{ date(item.dropoff.dropoffDate) }}</p>
+      </template>
+      <template v-slot:item.person="{ item }">
+        <slot name="person" :item="item" />
+        <p v-for="(person, i) of item.person" :key="i">
+          {{ item.person[i] }}
         </p>
       </template>
       <template v-slot:item.action="{ item }">
@@ -187,6 +229,7 @@
 </template>
 
 <script>
+import moment from 'moment'
 import { defineComponent, onMounted, ref } from '@vue/composition-api'
 import { setupDataLoader } from '../../lib/data-loader'
 
@@ -306,6 +349,10 @@ export default defineComponent({
       type: Boolean,
       default: false
     },
+    action: {
+      type: Boolean,
+      default: true
+    },
 
     /**
      * It is the Service that will make the request to
@@ -377,7 +424,10 @@ export default defineComponent({
     const search = ref('')
     const filter = ref(false)
 
-    if (props.columns[props.columns.length - 1].text !== 'Action')
+    if (
+      props.columns[props.columns.length - 1].text !== 'Action' &&
+      props.action
+    )
       props.columns.push({
         text: 'Action',
         value: 'action',
@@ -494,6 +544,7 @@ export default defineComponent({
       blockItem,
       approveItem,
       rejectItem,
+      date: (date) => moment(date).format('MMMM Do YYYY'),
       handleCreateEvent
     }
   }

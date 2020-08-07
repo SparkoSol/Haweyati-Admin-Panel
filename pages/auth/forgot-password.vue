@@ -13,7 +13,7 @@
         />
       </v-container>
       <v-container style="display: flex;justify-content: center;padding: 0">
-        <v-card-title>Login</v-card-title>
+        <v-card-title>Forgot Password</v-card-title>
       </v-container>
       <v-progress-linear
         v-if="loading"
@@ -21,40 +21,25 @@
         color="#313F53"
         class="mb-0"
       ></v-progress-linear>
-      <v-form v-if="!loading" ref="form">
-        <ul v-if="messageCheck" style="color: green;margin-bottom: 15px">
-          <li>
-            {{ message }}
-          </li>
-        </ul>
+      <MailSent v-if="mail" />
+      <v-form v-if="!loading && !mail" ref="form">
         <ul v-if="errors.length" style="color: red;margin-bottom: 15px">
           <li v-for="(error, i) of errors" :key="i">
             {{ error }}
           </li>
         </ul>
         <v-text-field
-          v-model="login.username"
-          v-mask="['### - #######', '#### - ########']"
+          v-model="data.email"
           color="#313F53"
           outlined
           style="color: #313F53"
-          :rules="[required]"
-          label="Phone"
+          :rules="[required, emailValidator]"
+          label="Email"
           dense
         ></v-text-field>
-        <v-text-field
-          v-model="login.password"
-          color="#313F53"
-          outlined
-          :rules="[required]"
-          type="password"
-          style="color: #313F53"
-          label="Password"
-          dense
-        ></v-text-field>
-        <nuxt-link to="/auth/forgot-password" style="text-decoration: none">
+        <nuxt-link to="/auth/login" style="text-decoration: none">
           <p style="font-size: 12px;text-align: right;color:black;">
-            Forgot Password?
+            Have an Account? Login
           </p></nuxt-link
         >
         <v-btn
@@ -63,9 +48,9 @@
           style="color:#ffffff"
           large
           elevation="0"
-          @click="userLogin"
+          @click="reset"
         >
-          Log In
+          Submit
         </v-btn>
       </v-form>
     </v-card>
@@ -73,44 +58,37 @@
 </template>
 
 <script>
-import { required, emailValidator } from '../../common/utils/validators'
+import { emailValidator, required } from '../../common/utils/validators'
+import MailSent from '../../components/misc/mail-sent'
+
 export default {
+  components: { MailSent },
   layout(context) {
     return 'none'
   },
+  auth: false,
   data: () => ({
+    mail: false,
     loading: false,
     errors: [],
-    login: {
-      username: '',
-      password: ''
-    },
-    message: 'Your Password was changed!',
-    messageCheck: false
+    data: {
+      email: ''
+    }
   }),
-  mounted() {
-    this.messageCheck = window.localStorage.getItem('messageCheck')
-  },
   methods: {
     required,
     emailValidator,
-    async gotoReset() {
-      console.log('pressed')
-      await this.$router.push('/auth/reset-password')
-    },
-    async userLogin() {
+    async reset() {
       if (this.$refs.form.validate()) {
         try {
           this.loading = true
           this.errors = []
-          this.messageCheck = false
-          window.localStorage.removeItem('messageCheck')
-          await this.$auth.loginWith('local', {
-            data: this.login
-          })
+          window.console.log(this.data)
+          await this.$axios.post('persons/forgotpassword', this.data)
+          this.mail = true
+          this.loading = false
         } catch (err) {
           this.loading = false
-          window.console.log(err)
           if (err.response) {
             this.errors.push(err.response.data.message)
           } else {
@@ -122,3 +100,5 @@ export default {
   }
 }
 </script>
+
+<style scoped></style>

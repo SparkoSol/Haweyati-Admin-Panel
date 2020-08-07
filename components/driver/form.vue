@@ -4,7 +4,8 @@
       :method="isUpdate ? 'patch' : 'post'"
       :data="formData"
       return
-      endpoint="/drivers"
+      endpoint="/persons"
+      @response="formDataAxios"
     >
       <template v-slot:header>
         <v-row>
@@ -26,35 +27,42 @@
       <div class="span-2">
         <v-card style="padding: 20px;margin-bottom: 30px">
           <v-card-title>Driver Information</v-card-title>
+          <div style="margin-bottom: 20px">
+            <ImageSelector
+              v-model="imageFile"
+              :image="driver.profile"
+              @input="sendImage = $event"
+            />
+          </div>
           <v-text-field
+            v-model="driver.profile.name"
             style="align-items: center !important;"
             outlined
             label="Driver Name"
-            v-model="driver.profile.name"
             :value="driver.profile.name"
             dense
           ></v-text-field>
           <v-text-field
+            v-model="driver.profile.contact"
             style="align-items: center !important;"
             outlined
             label="Driver Contact"
-            v-model="driver.profile.contact"
             :value="driver.profile.contact"
             dense
           ></v-text-field>
           <v-text-field
+            v-model="driver.license"
             style="align-items: center !important;"
             outlined
             label="Driver License"
-            v-model="driver.license"
             :value="driver.license"
             dense
           ></v-text-field>
           <v-text-field
+            v-model="driver.city"
             style="align-items: center !important;"
             outlined
             label="Driver City"
-            v-model="driver.city"
             :value="driver.city"
             dense
           ></v-text-field>
@@ -62,27 +70,27 @@
         <v-card style="padding: 20px;margin-bottom: 20px">
           <v-card-title>Driver Vehicle</v-card-title>
           <v-text-field
+            v-model="driver.vehicle.name"
             style="align-items: center !important;"
             outlined
             label="Vehicle Name"
             :value="driver.vehicle.name"
-            v-model="driver.vehicle.name"
             dense
           ></v-text-field>
           <v-text-field
+            v-model="driver.vehicle.model"
             style="align-items: center !important;"
             outlined
             label="Vehicle Model"
             :value="driver.vehicle.model"
-            v-model="driver.vehicle.model"
             dense
           ></v-text-field>
           <v-text-field
+            v-model="driver.vehicle.identificationNo"
             style="align-items: center !important;"
             outlined
             label="Vehicle ID"
             :value="driver.vehicle.identificationNo"
-            v-model="driver.vehicle.identificationNo"
             dense
           ></v-text-field>
         </v-card>
@@ -94,6 +102,7 @@
 <script>
 import SimpleForm from '../../common/ui/widgets/SimpleForm'
 import { Driver } from '../../models/driver'
+import ImageSelector from '../misc/image-selector'
 import {
   emailValidator,
   required,
@@ -103,7 +112,8 @@ import {
 export default {
   name: 'DriverForm',
   components: {
-    SimpleForm
+    SimpleForm,
+    ImageSelector
   },
   props: {
     driver: {
@@ -119,7 +129,10 @@ export default {
       default: 'Form'
     }
   },
-  data: () => ({}),
+  data: () => ({
+    imageFile: null,
+    sendImage: null
+  }),
   methods: {
     emailValidator,
     required,
@@ -129,21 +142,46 @@ export default {
     },
     formData() {
       const formData = new FormData()
+      let image = false
       for (const key of Object.keys(this.driver)) {
-        if (key === 'profile') {
+        if (key === '_id') {
+          continue
+        } else if (key === 'profile') {
           for (const profile of Object.keys(this.driver[key])) {
-            formData.append(profile, this.driver[key][profile])
+            if (profile === 'image') {
+              if (this.sendImage) {
+                formData.append('image', this.sendImage)
+                image = true
+              } else {
+                continue
+              }
+            } else {
+              formData.append(profile, this.driver[key][profile])
+            }
           }
         } else if (key === 'vehicle') {
-          for (const vehicle of Object.keys(this.driver[key])) {
-            formData.append(vehicle, this.driver[key][vehicle])
-          }
+          continue
+        } else if (key === 'license') {
+          continue
+        } else if (key === 'city') {
+          continue
+        } else if (key === '__v') {
+          continue
         } else {
           formData.append(key, this.driver[key])
         }
       }
+      console.log(image)
+      if (!image) {
+        if (this.sendImage) {
+          formData.append('image', this.sendImage)
+        }
+      }
       formData.forEach((item) => window.console.log(item))
       return formData
+    },
+    async formDataAxios(res) {
+      await this.$axios.patch('drivers', this.driver)
     }
   }
 }

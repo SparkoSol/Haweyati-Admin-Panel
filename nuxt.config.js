@@ -33,7 +33,8 @@ export default {
   plugins: [
     '~/plugins/mask.js',
     '~/plugins/composition-api.js',
-    '~/plugins/Geolocation.js'
+    '~/plugins/Geolocation.js',
+    '~/plugins/moment.js'
   ],
   /*
    ** Nuxt.js dev-modules

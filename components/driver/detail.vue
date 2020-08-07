@@ -12,12 +12,28 @@
         </v-btn>
       </v-col>
       <v-col cols="12" md="11" sm="11">
-        <v-card-title>Driver Detail</v-card-title>
+        <v-card-title>{{ title }}</v-card-title>
       </v-col>
     </v-row>
     <v-container>
       <v-card style="padding: 20px;margin-bottom: 30px">
         <v-card-title>Driver Information</v-card-title>
+        <div
+          style="display: flex;justify-content: center;align-items: center;margin-bottom: 30px"
+        >
+          <v-avatar size="200" style="border: 1px solid #313F53">
+            <img
+              v-if="driver.profile.image"
+              :src="
+                $axios.defaults.baseURL + 'uploads/' + driver.profile.image.name
+              "
+            />
+            <img
+              v-else
+              src="../../assets/images/placeholders/placeholder_person.jpg"
+            />
+          </v-avatar>
+        </div>
         <v-text-field
           style="align-items: center !important;"
           outlined
@@ -99,6 +115,9 @@ export default {
     driver: {
       type: [Object, Driver],
       default: () => new Driver()
+    },
+    title: {
+      type: String
     }
   },
   data: () => ({}),

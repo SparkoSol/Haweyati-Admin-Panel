@@ -59,6 +59,16 @@
           dense
         ></v-text-field>
         <v-text-field
+          v-model="signup.email"
+          :value="signup.email"
+          color="#313F53"
+          :rules="[required, emailValidator]"
+          outlined
+          style="color: #313F53"
+          label="Email"
+          dense
+        ></v-text-field>
+        <v-text-field
           v-model="signup.contact"
           v-mask="['### - #######', '#### - ########']"
           :value="signup.contact"
@@ -125,6 +135,7 @@ export default {
     errors: [],
     signup: {
       name: '',
+      email: '',
       password: '',
       confirmPassword: '',
       contact: '',
@@ -156,6 +167,7 @@ export default {
           const formData = new FormData()
 
           formData.append('name', this.signup.name)
+          formData.append('email', this.signup.email)
           formData.append('password', this.signup.password)
           formData.append('contact', this.signup.contact)
           formData.append('scope', this.signup.scope)
@@ -169,7 +181,11 @@ export default {
           this.success = true
         } catch (err) {
           this.loading = false
-          this.errors.push('Provide Valid Details.')
+          if (err.response) {
+            this.errors.push(err.response.data.message)
+          } else {
+            this.errors.push('Unable to process, Try again later')
+          }
         }
       }
     }

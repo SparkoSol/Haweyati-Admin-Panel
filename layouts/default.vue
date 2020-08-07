@@ -161,6 +161,18 @@ export default {
           show: true
         },
         {
+          icon: 'mdi-clock-time-four',
+          title: 'Manage Time Slots',
+          to: '/time-slot',
+          show: true
+        },
+        {
+          icon: 'mdi-bell',
+          title: 'Manage Notifications',
+          to: '/notification',
+          show: true
+        },
+        {
           icon: 'mdi-cog',
           title: 'Settings',
           to: '/setting',

@@ -81,6 +81,10 @@ export default {
         title: 'Drivers',
         columns: [
           {
+            text: 'Image',
+            value: 'profile.image'
+          },
+          {
             text: 'Name',
             value: 'profile.name'
           },
@@ -104,6 +108,10 @@ export default {
         unblock: false,
         title: 'Pending Drivers',
         columns: [
+          {
+            text: 'Image',
+            value: 'driver.profile.image'
+          },
           { text: 'Name', value: 'driver.profile.name' },
           { text: 'Contact', value: 'driver.profile.contact' },
           { text: 'License', value: 'driver.license' },
@@ -125,6 +133,10 @@ export default {
         unblock: false,
         title: 'Approved Drivers',
         columns: [
+          {
+            text: 'Image',
+            value: 'profile.image'
+          },
           { text: 'Name', value: 'profile.name' },
           { text: 'Contact', value: 'profile.contact' },
           { text: 'License', value: 'license' },
@@ -146,6 +158,10 @@ export default {
         unblock: false,
         title: 'Rejected Drivers',
         columns: [
+          {
+            text: 'Image',
+            value: 'profile.image'
+          },
           { text: 'Name', value: 'profile.name' },
           { text: 'Contact', value: 'profile.contact' },
           { text: 'License', value: 'license' },
@@ -167,6 +183,10 @@ export default {
         unblock: true,
         title: 'Blocked Drivers',
         columns: [
+          {
+            text: 'Image',
+            value: 'profile.image'
+          },
           { text: 'Name', value: 'profile.name' },
           { text: 'Contact', value: 'profile.contact' },
           { text: 'License', value: 'license' },

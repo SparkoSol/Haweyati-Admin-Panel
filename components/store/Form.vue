@@ -61,7 +61,15 @@
         </v-card>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Location</v-card-title>
-          <GoogleMap @input="location = $event" />
+          <GoogleMap
+            v-if="!supplier.location.latitude"
+            @input="location = $event"
+          />
+          <GoogleMap
+            v-if="supplier.location.latitude"
+            :old-marker="supplier.location"
+            @input="location = $event"
+          />
         </v-card>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Services</v-card-title>

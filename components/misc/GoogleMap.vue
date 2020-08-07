@@ -8,6 +8,10 @@
 export default {
   name: 'GoogleMap',
   props: {
+    click: {
+      type: Boolean,
+      default: true
+    },
     oldMarker: {
       type: Object,
       default: null
@@ -34,12 +38,13 @@ export default {
           this.myCoordinates = coordinates
         })
         .catch((error) => alert(error))
-      this.marker = this.oldMarker
+      this.marker.lat = Number(this.oldMarker.latitude)
+      this.marker.lng = Number(this.oldMarker.longitude)
     } else {
       this.$getLocation({})
         .then((coordinates) => {
-          this.myCoordinates = coordinates
           this.marker = coordinates
+          this.myCoordinates = coordinates
         })
         .catch((error) => alert(error))
     }
@@ -49,16 +54,18 @@ export default {
     script.onload = () => {
       // eslint-disable-next-line no-undef
       const map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 4,
+        zoom: 15,
         center: this.oldMarker ? this.marker : this.myCoordinates
       })
       this.map = map
       // eslint-disable-next-line no-undef,no-unused-vars
       const marker = new google.maps.Marker({ position: this.marker, map })
       this.mapMarker = marker
-      map.addListener('click', (event) => {
-        this.updateMarker(event.latLng.lat(), event.latLng.lng())
-      })
+      if (this.click) {
+        map.addListener('click', (event) => {
+          this.updateMarker(event.latLng.lat(), event.latLng.lng())
+        })
+      }
       this.$emit('input', this.marker)
     }
     script.async = true

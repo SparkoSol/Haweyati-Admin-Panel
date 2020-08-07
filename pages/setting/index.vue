@@ -9,12 +9,14 @@
             {{ error }}
           </li>
         </ul>
-        <v-container>
-          <ImageSelector
-            v-model="imageFile"
-            :image="update"
-            @input="sendImage = $event"
-          />
+        <v-container style="display:flex;justify-content: center">
+          <v-avatar size="200" style="border: 1px solid #313F53">
+            <ImageSelector
+              v-model="imageFile"
+              :image="update"
+              @input="sendImage = $event"
+            />
+          </v-avatar>
         </v-container>
         <v-text-field
           v-model="update.name"
@@ -140,8 +142,12 @@ export default {
         try {
           await this.$axios.patch('persons', formData)
           window.location.reload()
-        } catch (e) {
-          this.errors.push(e.response.data.message)
+        } catch (err) {
+          if (err.response) {
+            this.errors.push(err.response.data.message)
+          } else {
+            this.errors.push('Unable to process, Try again later')
+          }
         }
       }
     }

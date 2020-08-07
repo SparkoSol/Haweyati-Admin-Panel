@@ -17,6 +17,7 @@
     "@nuxtjs/axios": "^5.11.0",
     "@nuxtjs/pwa": "^3.0.0-0",
     "@vue/composition-api": "^0.6.3",
+    "moment": "^2.27.0",
     "nuxt": "^2.0.0",
     "prettier-eslint": "^11.0.0",
     "v-mask": "^2.2.1",

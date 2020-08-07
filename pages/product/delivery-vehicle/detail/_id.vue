@@ -1,9 +1,9 @@
 <template>
-  <DriverDetail :driver="driver" title="Driver Detail" />
+  <DriverDetail :driver="driver" title="Delivery Vehicle Detail" />
 </template>
 
 <script>
-import DriverDetail from '../../../components/driver/detail'
+import DriverDetail from '../../../../components/driver/detail'
 export default {
   components: { DriverDetail },
   async asyncData({ $axios, route }) {
