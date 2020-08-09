@@ -68,6 +68,7 @@
           style="margin: 5px;padding: 0px"
         >
           <img
+            style="object-fit: cover"
             :src="$axios.defaults.baseURL + 'uploads/' + item.person.image.name"
           />
         </v-avatar>
@@ -81,6 +82,7 @@
           style="margin: 5px;padding: 0px"
         >
           <img
+            style="object-fit: cover"
             :src="
               $axios.defaults.baseURL + 'uploads/' + item.profile.image.name
             "
@@ -96,6 +98,7 @@
           style="margin: 5px;padding: 0px"
         >
           <img
+            style="object-fit: cover"
             :src="
               $axios.defaults.baseURL +
                 'uploads/' +
@@ -109,7 +112,10 @@
       </template>
       <template v-slot:item.image="{ item }">
         <v-avatar v-if="item.image != null" style="margin: 5px;padding: 0px">
-          <img :src="$axios.defaults.baseURL + 'uploads/' + item.image.name" />
+          <img
+            style="object-fit: cover"
+            :src="$axios.defaults.baseURL + 'uploads/' + item.image.name"
+          />
         </v-avatar>
         <p v-if="item.image == null" style="margin: 0">
           No Image
@@ -121,6 +127,7 @@
           style="margin: 5px;padding: 0px"
         >
           <img
+            style="object-fit: cover"
             :src="$axios.defaults.baseURL + 'uploads/' + item.images[0].name"
           />
         </v-avatar>
@@ -139,6 +146,7 @@
           style="margin: 5px;padding: 0px"
         >
           <img
+            style="object-fit: cover"
             :src="
               $axios.defaults.baseURL +
                 'uploads/' +
@@ -157,7 +165,7 @@
       </template>
       <template v-slot:item.createdAt="{ item }">
         <slot name="createdAt" :item="item" />
-        <p>{{ date(item.dropoff.dropoffDate) }}</p>
+        <p>{{ date(item.createdAt) }}</p>
       </template>
       <template v-slot:item.person="{ item }">
         <slot name="person" :item="item" />

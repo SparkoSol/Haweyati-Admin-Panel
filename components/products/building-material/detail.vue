@@ -18,19 +18,7 @@
     <v-container>
       <v-card style="padding: 20px">
         <v-card-title>Information</v-card-title>
-        <div
-          style="display: flex;justify-content: center;align-items: center;margin-bottom: 30px"
-        >
-          <v-avatar size="200" style="border: 1px solid #313F53">
-            <img
-              :src="
-                $axios.defaults.baseURL +
-                  'uploads/' +
-                  buildingMaterial.image.name
-              "
-            />
-          </v-avatar>
-        </div>
+        <ImageViewer :image="buildingMaterial.image" />
         <v-text-field
           v-model="buildingMaterial.name"
           color="#313F53"
@@ -93,9 +81,13 @@
 
 <script>
 import { BuildingMaterial } from '../../../models/products/building-material'
+import ImageViewer from '../../../components/misc/image-viewer'
 
 export default {
   name: 'BuildingMaterialDetail',
+  components: {
+    ImageViewer
+  },
   props: {
     buildingMaterial: {
       type: [Object, BuildingMaterial],

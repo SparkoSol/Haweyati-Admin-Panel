@@ -1,5 +1,5 @@
 <template>
-  <ScaffoldingSubMain
+  <ScaffoldingDetail
     title="Patented Scaffolding"
     :scaffolding="scaffolding"
     :change-route="'/product/scaffolding/edit/$id'"
@@ -7,9 +7,9 @@
 </template>
 
 <script>
-import ScaffoldingSubMain from '../../../../components/products/scaffolding/detail'
+import ScaffoldingDetail from '../../../../components/products/scaffolding/detail'
 export default {
-  components: { ScaffoldingSubMain },
+  components: { ScaffoldingDetail },
   async asyncData({ $axios, route }) {
     return {
       scaffolding: await $axios.$get('scaffoldings/' + route.params.id)

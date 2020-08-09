@@ -8,7 +8,7 @@ export default {
   components: { CustomerDetail },
   async asyncData({ $axios, route }) {
     return {
-      customer: await $axios.$get('customers/' + route.params.id)
+      customer: await $axios.$get('customers/getall/' + route.params.id)
     }
   }
 }

@@ -25,7 +25,12 @@
           :approve-route="item.approveRoute"
           :on-delete="onDelete"
         />
-        <v-row v-if="item.title != 'Sub Suppliers'">
+        <supplier-detail-info
+          v-if="item.title === 'Detail'"
+          :supplier="supplier"
+          title="Detail"
+        />
+        <v-row v-if="item.title === 'Services'">
           <v-col
             style="display: flex ; align-items: center; justify-content: center"
             cols="12"
@@ -41,7 +46,7 @@
           </v-col>
         </v-row>
         <div
-          v-if="item.title != 'Sub Suppliers'"
+          v-if="item.title === 'Services'"
           style="margin-top: 20px;width: 97.5%;"
           class="my-row"
         >
@@ -77,10 +82,12 @@
 <script>
 import DataViewer from '../../common/ui/widgets/DataViewer'
 import { Supplier } from '../../models/supplier'
+import SupplierDetailInfo from './detail-info'
 
 export default {
   name: 'SupplierDetail',
   components: {
+    SupplierDetailInfo,
     DataViewer
   },
   props: {
@@ -95,6 +102,14 @@ export default {
       snackbarColor: 'green',
       snackbar: false,
       tabs: [
+        {
+          tab: 'Detail',
+          title: 'Detail'
+        },
+        {
+          tab: 'Services',
+          title: 'Services'
+        },
         {
           tab: 'Sub Suppliers',
           title: 'Sub Suppliers',
@@ -127,10 +142,6 @@ export default {
               width: '300px'
             }
           ]
-        },
-        {
-          tab: 'Services',
-          title: 'Services'
         }
       ],
       tab: null,

@@ -8,35 +8,37 @@
           <v-icon color="black">mdi-cart</v-icon>
         </v-card-title>
         <v-card-text style="font-size: 30px;color: black">428</v-card-text>
-        <v-card-subtitle style="color: orange"> Products Sold</v-card-subtitle>
+        <v-card-subtitle style="color: orange">Products Sold</v-card-subtitle>
       </v-card>
       <v-card>
         <v-card-title>
           <v-icon color="black">mdi-cart</v-icon>
         </v-card-title>
         <v-card-text style="font-size: 30px;color: black">428</v-card-text>
-        <v-card-subtitle style="color: orange"> Products Sold</v-card-subtitle>
+        <v-card-subtitle style="color: orange">New Customers</v-card-subtitle>
       </v-card>
       <v-card>
         <v-card-title>
           <v-icon color="black">mdi-cart</v-icon>
         </v-card-title>
         <v-card-text style="font-size: 30px;color: black">428</v-card-text>
-        <v-card-subtitle style="color: orange"> Products Sold</v-card-subtitle>
+        <v-card-subtitle style="color: orange">New Suppliers</v-card-subtitle>
       </v-card>
       <v-card>
         <v-card-title>
           <v-icon color="black">mdi-cart</v-icon>
         </v-card-title>
         <v-card-text style="font-size: 30px;color: black">428</v-card-text>
-        <v-card-subtitle style="color: orange"> Products Sold</v-card-subtitle>
+        <v-card-subtitle style="color: orange">Revenue</v-card-subtitle>
       </v-card>
       <v-card>
         <v-card-title>
           <v-icon color="black">mdi-cart</v-icon>
         </v-card-title>
         <v-card-text style="font-size: 30px;color: black">428</v-card-text>
-        <v-card-subtitle style="color: orange"> Products Sold</v-card-subtitle>
+        <v-card-subtitle style="color: orange">
+          Orders This Month</v-card-subtitle
+        >
       </v-card>
     </div>
     <div

@@ -77,7 +77,7 @@ export default {
           user: {
             url: 'http://192.168.100.100:4000/auth/profile',
             method: 'get',
-            propertyName: ''
+            propertyName: 'profile'
           }
         },
         watchLoggedIn: true

@@ -22,6 +22,7 @@
         ></v-text-field>
         <v-text-field
           v-model="time.from"
+          hint="Only Hours will be used."
           outlined
           type="time"
           label="Available From"
@@ -29,6 +30,19 @@
         ></v-text-field>
         <v-text-field
           v-model="time.to"
+          :rules="[
+            (value) => {
+              if (value && time.from) {
+                return (
+                  (value.split(':')[0] - time.from.split(':')[0]) % 3 === 0 ||
+                  'Enter Valid Time SLot'
+                )
+              } else {
+                return true
+              }
+            }
+          ]"
+          hint="Only Hours will be used."
           outlined
           type="time"
           label="Available To"

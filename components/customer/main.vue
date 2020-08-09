@@ -138,6 +138,7 @@
                     tile
                     small
                     width="100%"
+                    @click="detail(customer)"
                     >Detail
                   </v-btn>
                   <v-btn
@@ -206,14 +207,11 @@ export default {
   mounted() {
     this.getCustomers()
     this.getBlockedCustomers()
-    window.console.log(this.loading)
     this.loading = false
-    window.console.log(this.loading)
   },
   methods: {
     async getCustomers() {
-      window.console.log(await this.$axios.$get('customers'))
-      this.customers = await this.$axios.$get('customers')
+      this.customers = await this.$axios.$get('customers/getactive')
     },
     async getBlockedCustomers() {
       this.blockedCustomers = await this.$axios.$get('customers/getblocked')
@@ -254,10 +252,8 @@ export default {
           this.onBlock()
         }
       }
-      window.console.log(item)
     },
     async unblockItem(item) {
-      window.console.log(item)
       if (confirm('Are you sure?')) {
         this.loading = true
         await this.$axios.$patch('/customers/getunblocked/' + item._id)

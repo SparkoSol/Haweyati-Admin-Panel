@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import BuildingMaterialMain from '../../../../../components/products/building-material/building-material'
+import BuildingMaterialMain from '../../../../../components/products/building-material/main'
 export default {
   name: 'Index',
   components: { BuildingMaterialMain },

@@ -18,22 +18,7 @@
     <v-container>
       <v-card style="padding: 20px;margin-bottom: 30px">
         <v-card-title>Driver Information</v-card-title>
-        <div
-          style="display: flex;justify-content: center;align-items: center;margin-bottom: 30px"
-        >
-          <v-avatar size="200" style="border: 1px solid #313F53">
-            <img
-              v-if="driver.profile.image"
-              :src="
-                $axios.defaults.baseURL + 'uploads/' + driver.profile.image.name
-              "
-            />
-            <img
-              v-else
-              src="../../assets/images/placeholders/placeholder_person.jpg"
-            />
-          </v-avatar>
-        </div>
+        <image-viewer :image="driver.profile.image" />
         <v-text-field
           style="align-items: center !important;"
           outlined
@@ -108,9 +93,11 @@
 
 <script>
 import { Driver } from '../../models/driver'
+import ImageViewer from '../misc/image-viewer'
 
 export default {
   name: 'DriverDetail',
+  components: { ImageViewer },
   props: {
     driver: {
       type: [Object, Driver],

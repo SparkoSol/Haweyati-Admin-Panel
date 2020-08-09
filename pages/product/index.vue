@@ -62,14 +62,7 @@
 </template>
 
 <script>
-export default {
-  data: () => ({}),
-  methods: {
-    reroute(route, params) {
-      this.$router.push({ name: route, params })
-    }
-  }
-}
+export default {}
 </script>
 
 <style>

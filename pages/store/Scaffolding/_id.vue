@@ -1,14 +1,15 @@
 <template>
-  <StoreProductPage
-    title="Scaffolding"
-    endpoint="/scaffolding/fromsupplier/$id"
-  />
+  <SupplierScaffolding />
+  <!--  <StoreProductPage-->
+  <!--    title="Scaffolding"-->
+  <!--    endpoint="/scaffolding/fromsupplier/$id"-->
+  <!--  />-->
 </template>
 
 <script>
-import StoreProductPage from '../../../components/store/product'
+import SupplierScaffolding from '../../../components/store/scaffolding'
 export default {
-  components: { StoreProductPage }
+  components: { SupplierScaffolding }
 }
 </script>
 

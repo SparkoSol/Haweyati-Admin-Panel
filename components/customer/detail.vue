@@ -33,24 +33,7 @@
                 <v-card-title>Customer Detail</v-card-title>
               </v-col>
             </v-row>
-            <div
-              style="display: flex;justify-content: center;align-items: center;margin-bottom: 30px"
-            >
-              <v-avatar size="200" style="border: 1px solid #313F53">
-                <img
-                  v-if="customer.profile.image"
-                  :src="
-                    $axios.defaults.baseURL +
-                      'uploads/' +
-                      customer.profile.image.name
-                  "
-                />
-                <img
-                  v-else
-                  src="../../assets/images/placeholders/placeholder_person.jpg"
-                />
-              </v-avatar>
-            </div>
+            <imageViewer :image="customer.profile.image" />
             <v-text-field
               style="align-items: center !important;"
               outlined
@@ -96,12 +79,14 @@
 <script>
 import DataViewer from '../../common/ui/widgets/DataViewer'
 import GoogleMap from '../../components/misc/GoogleMap'
+import imageViewer from '../../components/misc/image-viewer'
 
 export default {
   name: 'CustomerDetail',
   components: {
     DataViewer,
-    GoogleMap
+    GoogleMap,
+    imageViewer
   },
   props: {
     customer: {

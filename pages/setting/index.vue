@@ -10,13 +10,11 @@
           </li>
         </ul>
         <v-container style="display:flex;justify-content: center">
-          <v-avatar size="200" style="border: 1px solid #313F53">
-            <ImageSelector
-              v-model="imageFile"
-              :image="update"
-              @input="sendImage = $event"
-            />
-          </v-avatar>
+          <ImageSelector
+            v-model="imageFile"
+            :image="update"
+            @input="sendImage = $event"
+          />
         </v-container>
         <v-text-field
           v-model="update.name"

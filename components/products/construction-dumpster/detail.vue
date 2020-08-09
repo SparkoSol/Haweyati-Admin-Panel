@@ -20,19 +20,7 @@
     <v-container>
       <v-card style="padding: 20px">
         <v-card-title>Information</v-card-title>
-        <div
-          style="display: flex;justify-content: center;align-items: center;margin-bottom: 30px"
-        >
-          <v-avatar size="200" style="border: 1px solid #313F53">
-            <img
-              :src="
-                $axios.defaults.baseURL +
-                  'uploads/' +
-                  constructionDumpster.image.name
-              "
-            />
-          </v-avatar>
-        </div>
+        <ImageViewer :image="constructionDumpster.image" />
         <v-text-field
           v-model="constructionDumpster.size"
           color="#313F53"
@@ -97,7 +85,7 @@
 
 <script>
 import { ConstructionDumpster } from '../../../models/products/construction-dumpsters'
-
+import ImageViewer from '../../../components/misc/image-viewer'
 export default {
   name: 'DumpsterDetail',
   props: {
@@ -105,6 +93,9 @@ export default {
       type: [Object, ConstructionDumpster],
       default: () => new ConstructionDumpster()
     }
+  },
+  components: {
+    ImageViewer
   },
   data: () => ({
     columnsPrice: [
