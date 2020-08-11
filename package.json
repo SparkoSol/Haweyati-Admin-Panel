@@ -19,6 +19,7 @@
     "@vue/composition-api": "^0.6.3",
     "moment": "^2.27.0",
     "nuxt": "^2.0.0",
+    "nuxt-socket-io": "^1.1.8",
     "prettier-eslint": "^11.0.0",
     "v-mask": "^2.2.1",
     "vue": "^2.6.11",

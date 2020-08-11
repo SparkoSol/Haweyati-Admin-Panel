@@ -52,8 +52,17 @@ export default {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     '@nuxtjs/pwa',
-    '@nuxtjs/auth'
+    '@nuxtjs/auth',
+    'nuxt-socket-io'
   ],
+  io: {
+    // module options
+    sockets: [
+      {
+        url: 'http://192.168.100.100:4000'
+      }
+    ]
+  },
   /*
    ** Axios module configuration
    ** See https://axios.nuxtjs.org/options

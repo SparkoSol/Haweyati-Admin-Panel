@@ -1,76 +1,83 @@
 <template>
   <v-container>
     <v-card-title>Settings</v-card-title>
-    <v-form v-if="!loading" ref="form">
-      <v-card style="padding:20px;">
-        <v-card-title>Profile</v-card-title>
-        <ul v-if="errors.length" style="color: red;margin-bottom: 15px">
-          <li v-for="(error, i) of errors" :key="i">
-            {{ error }}
-          </li>
-        </ul>
-        <v-container style="display:flex;justify-content: center">
-          <ImageSelector
-            v-model="imageFile"
-            :image="update"
-            @input="sendImage = $event"
-          />
-        </v-container>
-        <v-text-field
-          v-model="update.name"
-          color="#313F53"
-          outlined
-          :rules="[required]"
-          style="color: #313F53"
-          label="Name"
-          dense
-        ></v-text-field>
-        <v-text-field
-          v-model="update.contact"
-          v-mask="['### - #######', '#### - ########']"
-          color="#313F53"
-          outlined
-          style="color: #313F53"
-          :rules="[required]"
-          label="Phone"
-          dense
-        ></v-text-field>
-        <v-text-field
-          v-model="update.old"
-          color="#313F53"
-          outlined
-          type="password"
-          style="color: #313F53"
-          label="Old Password"
-          dense
-        ></v-text-field>
-        <v-text-field
-          v-model="update.password"
-          color="#313F53"
-          outlined
-          type="password"
-          style="color: #313F53"
-          label="Password"
-          dense
-        ></v-text-field>
-        <v-text-field
-          v-model="update.confirmPassword"
-          color="#313F53"
-          outlined
-          type="password"
-          style="color: #313F53"
-          label="Confirm Password"
-          dense
-        ></v-text-field>
-      </v-card>
-      <v-container
-        style="margin-top:20px;display: flex;align-items: center;justify-content: center"
-      >
-        <v-btn color="#FF974D" style="color:#ffffff" x-large @click="formData">
-          Save
-        </v-btn>
-      </v-container>
-    </v-form>
+    <div style="display: flex;justify-content: center;align-items: center">
+      <v-form v-if="!loading" ref="form" class="form">
+        <v-card style="padding:20px;">
+          <v-card-title>Profile</v-card-title>
+          <ul v-if="errors.length" style="color: red;margin-bottom: 15px">
+            <li v-for="(error, i) of errors" :key="i">
+              {{ error }}
+            </li>
+          </ul>
+          <v-container style="display:flex;justify-content: center">
+            <ImageSelector
+              v-model="imageFile"
+              :image="update"
+              @input="sendImage = $event"
+            />
+          </v-container>
+          <v-text-field
+            v-model="update.name"
+            color="#313F53"
+            outlined
+            :rules="[required]"
+            style="color: #313F53"
+            label="Name"
+            dense
+          ></v-text-field>
+          <v-text-field
+            v-model="update.contact"
+            v-mask="['### - #######', '#### - ########']"
+            color="#313F53"
+            outlined
+            style="color: #313F53"
+            :rules="[required]"
+            label="Phone"
+            dense
+          ></v-text-field>
+          <v-text-field
+            v-model="update.old"
+            color="#313F53"
+            outlined
+            type="password"
+            style="color: #313F53"
+            label="Old Password"
+            dense
+          ></v-text-field>
+          <v-text-field
+            v-model="update.password"
+            color="#313F53"
+            outlined
+            type="password"
+            style="color: #313F53"
+            label="Password"
+            dense
+          ></v-text-field>
+          <v-text-field
+            v-model="update.confirmPassword"
+            color="#313F53"
+            outlined
+            type="password"
+            style="color: #313F53"
+            label="Confirm Password"
+            dense
+          ></v-text-field>
+          <v-container
+            style="margin-top:20px;display: flex;align-items: center;justify-content: center"
+          >
+            <v-btn
+              color="#FF974D"
+              style="color:#ffffff"
+              x-large
+              @click="formData"
+            >
+              Save
+            </v-btn>
+          </v-container>
+        </v-card>
+      </v-form>
+    </div>
   </v-container>
 </template>
 
@@ -152,3 +159,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.form {
+  width: 800px !important;
+}
+</style>

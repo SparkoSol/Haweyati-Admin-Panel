@@ -3,10 +3,10 @@
     <input
       v-if="search"
       id="pac-input"
-      style="width: 100%;padding: 10px;border: 1px solid black;margin-bottom: 10px;border-radius: 5px"
-      className="controls"
+      style="width: 100%"
+      class="controls"
       type="text"
-      placeholder="Search Your Location ... "
+      placeholder="Search Box"
     />
     <div id="map"></div>
   </div>
@@ -48,7 +48,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.search)
     const script = window.document.createElement('script')
     const saudiBounds = {
       north: 32.03,

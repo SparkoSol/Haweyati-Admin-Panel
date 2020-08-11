@@ -36,11 +36,12 @@ export default {
     columns: [
       {
         text: 'Title',
-        value: 'message.title'
+        value: 'message.title',
+        width: '150px'
       },
-      { text: 'Message', value: 'message.body' },
+      { text: 'Message', value: 'message.body', width: '180px' },
       { text: 'Recipient', value: 'person' },
-      { text: 'Date', value: 'createdAt' }
+      { text: 'Date', value: 'createdAt', width: '150px' }
     ]
   })
 }

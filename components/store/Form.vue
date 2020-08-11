@@ -63,10 +63,12 @@
           <v-card-title>Location</v-card-title>
           <GoogleMap
             v-if="!supplier.location.latitude"
+            :search="true"
             @input="location = $event"
           />
           <GoogleMap
             v-if="supplier.location.latitude"
+            :search="true"
             :old-marker="supplier.location"
             @input="location = $event"
           />

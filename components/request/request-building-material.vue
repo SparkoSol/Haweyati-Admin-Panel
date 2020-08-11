@@ -54,7 +54,7 @@
       <v-card style="padding: 20px">
         <v-card-title>Supplier</v-card-title>
         <v-text-field
-          v-model="request.suppliers.name"
+          v-model="request.suppliers.person.name"
           color="#313F53"
           outlined
           style="color: #313F53"
@@ -63,7 +63,7 @@
           dense
         ></v-text-field>
         <v-text-field
-          v-model="request.suppliers.email"
+          v-model="request.suppliers.person.email"
           color="#313F53"
           outlined
           style="color: #313F53"
@@ -72,7 +72,7 @@
           dense
         ></v-text-field>
         <v-text-field
-          v-model="request.suppliers.contact"
+          v-model="request.suppliers.person.contact"
           color="#313F53"
           outlined
           style="color: #313F53"
@@ -81,7 +81,7 @@
           dense
         ></v-text-field>
         <v-text-field
-          v-model="request.suppliers.address"
+          v-model="request.suppliers.location.address"
           color="#313F53"
           outlined
           style="color: #313F53"

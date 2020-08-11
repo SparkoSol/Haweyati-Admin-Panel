@@ -19,11 +19,8 @@
           :detail="item.detail"
           :detail-route="'/' + route + '/detail/$id'"
           :block="item.block"
-          :block-route="'/drivers/getblocked/$id'"
           :unblock="item.unblock"
-          :unblock-route="'/drivers/getunblocked/$id'"
           :change="item.change"
-          :change-route="'/' + route + '/edit/$id'"
           :on-block="onBlock"
           :on-unblock="onUnblocked"
           :on-accepted="onAccepted"
@@ -80,6 +77,10 @@ export default {
         title: 'Orders',
         columns: [
           {
+            text: '#',
+            value: 'orderNo'
+          },
+          {
             text: 'Name',
             value: 'customer.profile.name'
           },
@@ -101,6 +102,10 @@ export default {
         unblock: false,
         title: 'Pending Orders',
         columns: [
+          {
+            text: '#',
+            value: 'orderNo'
+          },
           {
             text: 'Name',
             value: 'customer.profile.name'
@@ -125,6 +130,10 @@ export default {
         title: 'Active Orders',
         columns: [
           {
+            text: '#',
+            value: 'orderNo'
+          },
+          {
             text: 'Name',
             value: 'customer.profile.name'
           },
@@ -147,6 +156,10 @@ export default {
         title: 'Closed Orders',
         columns: [
           {
+            text: '#',
+            value: 'orderNo'
+          },
+          {
             text: 'Name',
             value: 'customer.profile.name'
           },
@@ -168,6 +181,10 @@ export default {
         unblock: false,
         title: 'Rejected Orders',
         columns: [
+          {
+            text: '#',
+            value: 'orderNo'
+          },
           {
             text: 'Name',
             value: 'customer.profile.name'

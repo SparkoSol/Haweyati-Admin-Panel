@@ -138,10 +138,11 @@
           No Image
         </p>
       </template>
-      <template v-slot:item.suppliers.images="{ item }">
+      <template v-slot:item.suppliers.person.image="{ item }">
         <v-avatar
           v-if="
-            item.suppliers.images != null && item.suppliers.images.length != 0
+            item.suppliers.person.image != null &&
+              item.suppliers.person.image.length != 0
           "
           style="margin: 5px;padding: 0px"
         >
@@ -150,13 +151,14 @@
             :src="
               $axios.defaults.baseURL +
                 'uploads/' +
-                item.suppliers.images[0].name
+                item.suppliers.person.image.name
             "
           />
         </v-avatar>
         <p
           v-if="
-            item.suppliers.images == null || item.suppliers.images.length == 0
+            item.suppliers.person.image == null ||
+              item.suppliers.person.image.length == 0
           "
           style="margin: 0"
         >
@@ -169,9 +171,16 @@
       </template>
       <template v-slot:item.person="{ item }">
         <slot name="person" :item="item" />
-        <p v-for="(person, i) of item.person" :key="i">
-          {{ item.person[i] }}
-        </p>
+        <div v-if="item.person.length">
+          <span v-for="(person, i) of item.person" :key="i">
+            <span v-if="i === item.person.length - 1">
+              {{ person ? person.name : 'No Name' }}
+            </span>
+            <span v-else>
+              {{ person ? person.name + ' -' : 'No Name' + ' -' }}
+            </span>
+          </span>
+        </div>
       </template>
       <template v-slot:item.action="{ item }">
         <slot name="actions" :item="item" />

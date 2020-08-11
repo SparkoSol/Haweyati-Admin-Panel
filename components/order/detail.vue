@@ -62,6 +62,15 @@
       <v-card style="padding: 20px">
         <v-card-title>Order Detail</v-card-title>
         <v-text-field
+          v-model="order.orderNo"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Order #"
+          dense
+        ></v-text-field>
+        <v-text-field
           v-model="order.service"
           color="#313F53"
           outlined
@@ -198,7 +207,9 @@ export default {
                   value: 'product.' + product
                 })
               } else if (product === 'pricing') {
-                for (const detail of Object.keys(product)) {
+                for (const detail of Object.keys(
+                  this.order.details.items[0][key][product]
+                )) {
                   if (detail === 'rent') {
                     this.columns.push({
                       text: 'Rent',

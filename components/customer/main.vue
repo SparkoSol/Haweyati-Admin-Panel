@@ -8,23 +8,47 @@
 
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="item in tabs" :key="item.tab">
-        <v-row style="display: flex;justify-content: right;align-items: center">
+        <v-row
+          v-if="!item.blocked"
+          style="display: flex;justify-content: right;align-items: center"
+        >
           <v-col cols="12" md="8" sm="8"></v-col>
           <v-col cols="12" md="4" sm="4">
             <v-text-field
+              v-model="searchQueryActive"
               outlined
               color="#FF974D"
               hide-details
               dense
               label="Search..."
               append-icon="mdi-magnify"
+              @keyup="searchActive"
+            >
+            </v-text-field>
+          </v-col>
+        </v-row>
+        <v-row
+          v-if="item.blocked"
+          style="display: flex;justify-content: right;align-items: center"
+        >
+          <v-col cols="12" md="8" sm="8"></v-col>
+          <v-col cols="12" md="4" sm="4">
+            <v-text-field
+              v-model="searchQueryBlocked"
+              outlined
+              color="#FF974D"
+              hide-details
+              dense
+              label="Search..."
+              append-icon="mdi-magnify"
+              @keyup="searchBlocked"
             >
             </v-text-field>
           </v-col>
         </v-row>
         <div v-if="!item.blocked">
           <div
-            v-if="customers === null && customers.length <= 0 && !loading"
+            v-if="(customers === null || customers.length <= 0) && !loading"
             style="display: flex;justify-content: center;align-items: center;"
           >
             <h3>No Data Found</h3>
@@ -36,11 +60,9 @@
             <v-card
               v-for="(customer, i) in customers"
               :key="i"
-              style="padding: 10px;"
+              style="padding: 20px;"
             >
-              <v-row
-                style="display: grid;grid-template-columns: 20% 60% 20%; padding: 20px;"
-              >
+              <v-row style="display: grid;grid-template-columns: 20% 60% 20%;">
                 <div>
                   <v-avatar size="80" color="white">
                     <img
@@ -59,7 +81,7 @@
                 </div>
                 <div style="padding-left: 10px">
                   <h3>{{ customer.profile.name }}</h3>
-                  <p>{{ customer.profile.email }}</p>
+                  <p>{{ customer.location.address }}</p>
                   <h5 style="color: grey">{{ customer.profile.contact }}</h5>
                 </div>
                 <div>
@@ -127,7 +149,7 @@
                 </div>
                 <div>
                   <h3>{{ customer.profile.name }}</h3>
-                  <p>{{ customer.profile.email }}</p>
+                  <p>{{ customer.location.address }}</p>
                   <h5 style="color: grey">{{ customer.profile.contact }}</h5>
                 </div>
                 <div>
@@ -184,6 +206,8 @@
 export default {
   name: 'CustomerMain',
   data: () => ({
+    searchQueryActive: null,
+    searchQueryBlocked: null,
     snackbarText: 'Success!',
     snackbarColor: 'green',
     snackbar: false,
@@ -210,6 +234,30 @@ export default {
     this.loading = false
   },
   methods: {
+    async searchActive() {
+      if (this.searchQueryActive !== '') {
+        this.loading = true
+        this.customers = await this.$axios.$get(
+          '/customers/active-search?name=' + this.searchQueryActive
+        )
+      } else {
+        this.loading = true
+        this.getCustomers()
+      }
+      this.loading = false
+    },
+    async searchBlocked() {
+      if (this.searchQueryBlocked !== '') {
+        this.loading = true
+        this.blockedCustomers = await this.$axios.$get(
+          '/customers/blocked-search?name=' + this.searchQueryBlocked
+        )
+      } else {
+        this.loading = true
+        this.getBlockedCustomers()
+      }
+      this.loading = false
+    },
     async getCustomers() {
       this.customers = await this.$axios.$get('customers/getactive')
     },

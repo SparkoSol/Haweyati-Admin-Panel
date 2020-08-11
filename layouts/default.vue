@@ -45,10 +45,9 @@
         contain
       />
       <v-spacer />
-      <v-badge overlap offset-x="8" offset-y="5" color="orange" dot>
+      <v-badge overlap color="orange" dot v-model="message">
         <v-icon color="orange">mdi-bell-outline</v-icon>
       </v-badge>
-
       <v-menu offset-y bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-avatar
@@ -112,6 +111,7 @@ export default {
   data() {
     return {
       drawer: 'true',
+      message: false,
       dropdownMenuItems: [
         { title: this.$auth.user.name, subtitle: this.$auth.user.contact },
         { title: 'Settings' },
@@ -193,12 +193,24 @@ export default {
       ]
     }
   },
+  created() {
+    this.socket = this.$nuxtSocket({})
+    /* Listen for events: */
+    this.socket.on('msgToClient', (msg, cb) => {
+      console.log(msg)
+      console.log(cb)
+      this.message = cb
+    })
+  },
   methods: {
     async logout() {
       try {
         await this.$auth.logout()
         location.reload()
       } catch (err) {}
+    },
+    async getNotifications() {
+      await this.$axios.$get('notification')
     },
     toSetting() {}
   }
