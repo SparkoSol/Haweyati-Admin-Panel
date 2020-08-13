@@ -140,6 +140,7 @@
           dense
         ></v-text-field>
         <v-text-field
+          v-if="order.dropoff.dropoffDate"
           :value="date(order.dropoff.dropoffDate)"
           color="#313F53"
           outlined
@@ -149,6 +150,7 @@
           dense
         ></v-text-field>
         <v-text-field
+          v-if="order.dropoff.dropoffTime"
           v-model="order.dropoff.dropoffTime"
           color="#313F53"
           outlined
@@ -230,7 +232,9 @@ export default {
       }
     },
     date(date) {
-      return moment(date).format('MMM Do YYYY')
+      if (date) {
+        return moment(date).format('MMM Do YYYY')
+      }
     }
   }
 }

@@ -52,9 +52,9 @@ export default {
     snackbarColor: 'green',
     snackbar: false,
     columns: [
-      { text: 'Image', value: 'image', width: '90px' },
+      { text: 'Image', value: 'image', width: '90px', sortable: false },
       { text: 'Size', value: 'size' },
-      { text: 'Description', value: 'description' }
+      { text: 'Description', value: 'description', sortable: false }
     ]
   }),
   methods: {

@@ -120,12 +120,12 @@ export default {
       { text: 'Extra Days Rent', value: 'extraDayRent' }
     ],
     columnsStore: [
-      { text: 'Image', value: 'person.image' },
+      { text: 'Image', value: 'person.image', sortable: false },
       { text: 'Name', value: 'person.name' },
       { text: 'Email', value: 'person.email' },
       { text: 'Contact', value: 'person.contact' },
-      { text: 'Address', value: 'location.address' },
-      { text: 'Services', value: 'services' }
+      { text: 'Address', value: 'location.address', sortable: false },
+      { text: 'Services', value: 'services', sortable: false }
     ]
   }),
   methods: {

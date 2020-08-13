@@ -281,10 +281,12 @@ export default {
 
     removeOption(i) {
       this.options.splice(i, 1)
-      this.generateVariants()
       if (this.options.length <= 0) {
         this.allowVariants = false
         this.options.push({})
+      }
+      if (this.options.length > 0) {
+        this.generateVariants()
       }
     },
     addOption() {

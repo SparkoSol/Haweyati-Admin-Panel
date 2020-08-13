@@ -280,7 +280,7 @@ export default {
     toSetting() {},
     audio() {
       const data = {
-        sound: '~/assets/audio/notification.mp3',
+        sound: '@/assets/audio/notification.mp3',
         soundurl:
           'http://soundbible.com/mp3/analog-watch-alarm_daniel-simion.mp3'
       }
