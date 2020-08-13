@@ -66,6 +66,15 @@
               :value="customer.status"
               dense
             ></v-text-field>
+            <v-text-field
+              style="align-items: center !important;"
+              v-if="customer.status === 'Blocked'"
+              outlined
+              label="Reason"
+              readonly
+              :value="customer.message"
+              dense
+            ></v-text-field>
             <div>
               <GoogleMap :old-marker="customer.location" :click="false" />
             </div>
