@@ -55,7 +55,7 @@
           </div>
           <div
             v-if="customers !== null && customers.length > 0"
-            style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 20px"
+            style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 20px;grid-row-gap: 20px"
           >
             <v-card
               v-for="(customer, i) in customers"
@@ -121,7 +121,7 @@
           </div>
           <div
             v-if="blockedCustomers !== null && blockedCustomers.length > 0"
-            style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 20px"
+            style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 20px; grid-row-gap: 20px"
           >
             <v-card
               v-for="(customer, i) in blockedCustomers"

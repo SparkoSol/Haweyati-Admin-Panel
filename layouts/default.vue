@@ -45,9 +45,45 @@
         contain
       />
       <v-spacer />
-      <v-badge overlap color="orange" dot v-model="message">
-        <v-icon color="orange">mdi-bell-outline</v-icon>
-      </v-badge>
+      <v-menu offset-y bottom transition="slide-y-transition">
+        <template v-slot:activator="{ on, attrs }">
+          <v-badge :value="badge === 'true'" overlap color="orange" dot>
+            <v-icon v-bind="attrs" color="orange" v-on="on"
+              >mdi-bell-outline</v-icon
+            >
+          </v-badge>
+        </template>
+        <div style="max-height: 500px; overflow: auto" class="scrollbar">
+          <v-list>
+            <v-list-item
+              v-for="(notification, i) of notifications"
+              :key="i"
+              two-line
+              @click="openNotification(notification)"
+            >
+              <v-list-item-content>
+                <v-list-item-title>
+                  <v-badge
+                    :value="!notification.seen"
+                    offset-y="11"
+                    offset-x="-10"
+                    color="orange"
+                    dot
+                  >
+                    {{ notification.title }}
+                  </v-badge>
+                </v-list-item-title>
+                <v-list-item-subtitle>
+                  {{ notification.message }}
+                </v-list-item-subtitle>
+              </v-list-item-content>
+              <v-list-item-action-text>
+                {{ calcAgo(notification.createdAt) }}
+              </v-list-item-action-text>
+            </v-list-item>
+          </v-list>
+        </div>
+      </v-menu>
       <v-menu offset-y bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-avatar
@@ -107,11 +143,13 @@
 </template>
 
 <script>
+import moment from 'moment'
 export default {
   data() {
     return {
       drawer: 'true',
-      message: false,
+      notifications: null,
+      badge: null,
       dropdownMenuItems: [
         { title: this.$auth.user.name, subtitle: this.$auth.user.contact },
         { title: 'Settings' },
@@ -193,16 +231,30 @@ export default {
       ]
     }
   },
-  created() {
+  created() {},
+  mounted() {
     this.socket = this.$nuxtSocket({})
     /* Listen for events: */
     this.socket.on('msgToClient', (msg, cb) => {
       console.log(msg)
+      localStorage.setItem('badge', cb)
+      this.getNotificationBadge()
+      this.getNotifications()
       console.log(cb)
-      this.message = cb
+      // if (cb) {
+      this.audio()
+      // }
     })
+    this.getNotifications()
+    this.getNotificationBadge()
   },
   methods: {
+    getNotificationBadge() {
+      if (!localStorage.getItem('badge')) {
+        localStorage.setItem('badge', false)
+      }
+      this.badge = localStorage.getItem('badge')
+    },
     async logout() {
       try {
         await this.$auth.logout()
@@ -210,9 +262,49 @@ export default {
       } catch (err) {}
     },
     async getNotifications() {
-      await this.$axios.$get('notification')
+      this.notifications = await this.$axios.$get('admin-notifications')
     },
-    toSetting() {}
+    calcAgo(time) {
+      if (moment().diff(time, 'days') !== 0) {
+        return moment().diff(time, 'days') + ' Days Ago'
+      } else if (moment().diff(time, 'hour') !== 0) {
+        return moment().diff(time, 'hour') + ' Hrs Ago '
+      } else if (moment().diff(time, 'minute') !== 0) {
+        return moment().diff(time, 'minute') + ' Mins Ago'
+      } else if (moment().diff(time, 'second') !== 0) {
+        return moment().diff(time, 'second') + ' Secs Ago'
+      } else {
+        return 'Just Now'
+      }
+    },
+    toSetting() {},
+    audio() {
+      const data = {
+        sound: '~/assets/audio/notification.mp3',
+        soundurl:
+          'http://soundbible.com/mp3/analog-watch-alarm_daniel-simion.mp3'
+      }
+      const audio = new Audio(data.sound)
+      audio.play()
+    },
+    async openNotification(item) {
+      if (item.type === 'Order') {
+        this.$router.push('/order')
+      } else if (item.type === 'Service') {
+        this.$router.push('/request')
+      } else if (item.type === 'Customer') {
+        this.$router.push('/customer')
+      } else if (item.type === 'Driver') {
+        this.$router.push('/driver')
+      } else if (item.type === 'Supplier') {
+        this.$router.push('/store')
+      } else {
+      }
+      await this.$axios.$patch('admin-notifications')
+      localStorage.setItem('badge', false)
+      this.getNotificationBadge()
+      this.getNotifications()
+    }
   }
 }
 </script>

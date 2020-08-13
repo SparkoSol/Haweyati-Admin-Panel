@@ -24,28 +24,6 @@
         </v-row>
       </template>
       <div class="span-2">
-        <v-card style="padding:20px;margin-bottom: 20px">
-          <v-text-field
-            v-model="finishingMaterial.name"
-            outlined
-            label="Title"
-            dense
-          ></v-text-field>
-          <v-textarea
-            v-model="finishingMaterial.description"
-            outlined
-            label="Description"
-            dense
-          ></v-textarea>
-        </v-card>
-        <v-card style="padding:20px;margin-bottom: 20px">
-          <v-card-title>Media</v-card-title>
-          <ImageSelector
-            v-model="imageFile"
-            :image="finishingMaterial"
-            @input="sendImage = $event"
-          />
-        </v-card>
         <v-card style="padding:20px;margin-bottom:20px">
           <v-card-title>Pricing</v-card-title>
           <v-text-field
@@ -68,7 +46,7 @@
                 <v-card-title>Options</v-card-title>
               </v-col>
               <v-col
-                v-if="options.length < 3"
+                v-if="optionCount <= 1"
                 cols="12"
                 md="3"
                 sm="3"
@@ -85,7 +63,7 @@
             <v-row v-for="(option, i) of options" :key="i">
               <v-col cols="12" md="3" sm="3">
                 <v-text-field
-                  v-model="option.optionName"
+                  v-model="option.name"
                   :label="'Option ' + (i + 1)"
                   outlined
                   dense
@@ -93,7 +71,7 @@
               </v-col>
               <v-col cols="12" md="8" sm="8">
                 <v-text-field
-                  v-model="option.optionValues"
+                  v-model="option.values"
                   dense
                   outlined
                   label="Separate options with comma."
@@ -113,9 +91,9 @@
               disable-pagination
               hide-default-footer
             >
-              <template v-slot:item.varientPrice="{ item }">
+              <template v-slot:item.price="{ item }">
                 <v-text-field
-                  v-model="item.varientPrice"
+                  v-model="item.price"
                   style="align-items: center !important;"
                   outlined
                   label="Price"
@@ -126,39 +104,20 @@
             </v-data-table>
           </v-card>
         </v-card>
-
-        <v-card style="padding: 20px;margin-bottom: 20px">
-          <v-card-title style="color: #313F53">Stores</v-card-title>
-          <EntitySelector
-            endpoint="suppliers/getbyservice/Finishing Material"
-            :selection="suppliers"
-            multiple
-            :columns-selected="columnsSelected"
-            :columns-selector="columnsSelected"
-            title-selected="Selected Suppliers"
-            title-selector="Suppliers"
-            @selected="finishingMaterial.suppliers = $event"
-          />
-        </v-card>
       </div>
     </SimpleForm>
   </v-container>
 </template>
 
 <script>
-import { required } from '../../../common/utils/validators'
-import { FinishingMaterial } from '../../../models/products/finishing-material'
-import EntitySelector from '../../../common/ui/widgets/EntitySelector'
-import { FinishingMaterialOptions } from '../../../models/products/finishing-material-options'
-import SimpleForm from '../../../common/ui/widgets/SimpleForm'
-import ImageSelector from '../../misc/image-selector'
+import { required } from '../../common/utils/validators'
+import { FinishingMaterial } from '../../models/products/finishing-material'
+import SimpleForm from '../../common/ui/widgets/SimpleForm'
 
 export default {
-  name: 'ProductAddVariant',
+  name: 'TestFinishingMaterial',
   components: {
-    SimpleForm,
-    EntitySelector,
-    ImageSelector
+    SimpleForm
   },
   props: {
     title: {
@@ -174,16 +133,8 @@ export default {
       default: 'product-add'
     },
     finishingMaterial: {
-      type: FinishingMaterial,
+      type: Object,
       default: () => new FinishingMaterial()
-    },
-    finishingMaterialOptions: {
-      type: Array,
-      default: () => [new FinishingMaterialOptions()]
-    },
-    finishingMaterialVarients: {
-      type: Array,
-      default: () => []
     },
     suppliers: {
       type: Array,
@@ -194,6 +145,7 @@ export default {
     variants: [],
     options: [{}],
     allowVariants: false,
+
     columnsSelected: [{ text: 'Name', value: 'person.name' }],
     optionValues: [],
     suppliersList: [],
@@ -205,24 +157,27 @@ export default {
         text: 'Variant',
         align: 'start',
         sortable: false,
-        value: 'varientName'
+        value: 'name'
       },
-      { text: 'Price', value: 'varientPrice', sortable: false }
-    ],
-    variantCheck: false
+      { text: 'Price', value: 'price' }
+    ]
   }),
   mounted() {
-    this.getSuppliers()
-    if (this.finishingMaterial.name) {
+    if (this.finishingMaterial) {
+      console.log('update')
       if (
         this.finishingMaterial.varient.length > 0 ||
         this.finishingMaterial.options.length > 0
       ) {
         this.allowVariants = true
-        this.options = this._parseOptions(this.finishingMaterial.options)
-        this.variants = this._parseVariants(this.finishingMaterial.varient)
       }
+
+      this.options = this._parseOptions(this.finishingMaterial.options)
+      this.optionCount = this.options.length - 1
+      this.variants = this._parseVariants(this.finishingMaterial.varient)
     }
+
+    // this.getSuppliers()
   },
   methods: {
     required,
@@ -232,8 +187,8 @@ export default {
 
     _parseOptions(options) {
       return options.map((option) => ({
-        optionName: option.optionName,
-        optionValues: option.optionValues
+        name: option.optionName,
+        values: option.optionValues
       }))
     },
 
@@ -241,16 +196,16 @@ export default {
       const _variants = []
 
       for (const variant of variants) {
-        const obj = { varientName: [] }
+        const obj = { name: [] }
         for (const key of Object.keys(variant)) {
           if (key === 'price') {
-            obj.varientPrice = variant[key]
+            obj.price = variant[key]
           } else {
-            obj.varientName.push(variant[key])
+            obj.name.push(variant[key])
           }
         }
 
-        obj.varientName = obj.varientName.join('/')
+        obj.name = obj.name.join('/')
         _variants.push(obj)
       }
 
@@ -259,9 +214,8 @@ export default {
 
     _combine(index = 0, prevData = []) {
       const variant = []
-      if (!this.options[index].optionValues && !this.options[index].optionName)
-        return []
-      const values = this.options[index].optionValues.split(',')
+      if (!this.options[index].values) return []
+      const values = this.options[index].values.split(',')
       for (const value of values) {
         if (index === this.options.length - 1) {
           variant.push([...prevData, value.trim()].join('/'))
@@ -273,31 +227,30 @@ export default {
     },
 
     generateVariants() {
-      this.variants = this._combine().map((item) => ({
-        varientName: item,
-        varientPrice: 0
-      }))
+      this.variants = this._combine().map((item) => ({ name: item, price: 0 }))
     },
 
     removeOption(i) {
       this.options.splice(i, 1)
-      this.generateVariants()
-      if (this.options.length <= 0) {
-        this.allowVariants = false
+
+      if (--this.optionCount < 0) {
+        this.optionCount = 0
+        this.variantCheck = false
+
         this.options.push({})
       }
+
+      this.generateVariants()
     },
     addOption() {
-      if (this.options.length > 0) {
-        this.optionCount++
-        this.options.push({})
-      }
+      this.optionCount++
+      this.options.push({})
     },
+
     formData() {
       const formData = new FormData()
-      if (this.allowVariants) {
+      if (this.variantCheck) {
         for (const key of Object.keys(this.finishingMaterial)) {
-          console.log(key)
           if (key === 'options') {
             for (const item of this.options) {
               for (const key of Object.keys(item)) {
@@ -307,14 +260,12 @@ export default {
                 formData.append(key, item[key])
               }
             }
-          } else if (key === 'price') {
-            formData.append(key, 0)
           } else if (key === 'suppliers') {
             for (const item of this.finishingMaterial[key]) {
               formData.append(key, item._id)
             }
           } else if (key === 'varient') {
-            for (const item of this.variants) {
+            for (const item of this.finishingMaterialVarients) {
               for (const key of Object.keys(item)) {
                 formData.append(key, item[key])
               }
@@ -352,17 +303,6 @@ export default {
       }
       formData.forEach((item) => window.console.log(item))
       return formData
-    },
-    splitOptionValues(value) {
-      if (value === '') {
-        return
-      }
-      let getValues = []
-      getValues = value.split(',')
-      this.optionValues = []
-      for (value of getValues) {
-        this.optionValues.push({ name: value })
-      }
     },
     async getSuppliers() {
       this.suppliersList = await this.$axios.$get('suppliers/all')
