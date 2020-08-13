@@ -66,7 +66,7 @@
                 <div>
                   <v-avatar size="80" color="white">
                     <img
-                      v-if="customer.profile.image"
+                      v-if="customer.profile && customer.profile.image"
                       :src="
                         $axios.defaults.baseURL +
                           'uploads/' +
@@ -134,7 +134,7 @@
                 <div>
                   <v-avatar size="80" color="white">
                     <img
-                      v-if="customer.profile.image"
+                      v-if="customer.profile && customer.profile.image"
                       :src="
                         $axios.defaults.baseURL +
                           'uploads/' +

@@ -55,6 +55,7 @@
 
 <script>
 import SimpleForm from '../../common/ui/widgets/SimpleForm'
+import { required } from '../../common/utils/validators'
 
 export default {
   name: 'TimeSlotForm',
@@ -68,6 +69,7 @@ export default {
     this.getTimeSlots()
   },
   methods: {
+    required,
     returnBack() {
       this.$router.back()
     },

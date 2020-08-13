@@ -28,6 +28,7 @@
           <v-card style="padding: 20px">
             <v-card-title>Scaffolding Information</v-card-title>
             <v-text-field
+              :rules="[required]"
               v-model="scaffolding.type"
               color="#313F53"
               outlined
@@ -36,6 +37,7 @@
               dense
             ></v-text-field>
             <v-textarea
+              :rules="[required]"
               v-model="scaffolding.description"
               color="#313F53"
               outlined
@@ -81,6 +83,7 @@
                 <v-col>
                   <v-text-field
                     v-model="price.city"
+                    :rules="[required]"
                     color="#313F53"
                     outlined
                     :label="'City ' + (i + 1)"
@@ -89,6 +92,8 @@
                 </v-col>
                 <v-col>
                   <v-text-field
+                    :rules="[required, priceWZ]"
+                    type="number"
                     v-model="price.rent"
                     color="#313F53"
                     outlined
@@ -98,6 +103,8 @@
                 </v-col>
                 <v-col>
                   <v-text-field
+                    :rules="[required, priceWZ]"
+                    type="number"
                     v-model="price.days"
                     color="#313F53"
                     outlined
@@ -107,6 +114,8 @@
                 </v-col>
                 <v-col>
                   <v-text-field
+                    :rules="[required, priceWZ]"
+                    type="number"
                     v-model="price.extraDayRent"
                     color="#313F53"
                     outlined
@@ -130,6 +139,7 @@
               endpoint="suppliers/all"
               :selection="scaffolding.suppliers"
               multiple
+              required
               :columns-selected="columnsSelected"
               :columns-selector="columnsSelected"
               title-selected="Selected Suppliers"
@@ -147,6 +157,7 @@
 import { Scaffolding } from '../../../models/products/scaffolding'
 import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
+import { required, priceWZ } from '../../../common/lib/validator'
 
 export default {
   name: 'ScaffoldingEdit',
@@ -182,6 +193,8 @@ export default {
     columnsSelected: [{ text: 'Name', value: 'person.name' }]
   }),
   methods: {
+    required,
+    priceWZ,
     returnBack() {
       this.$router.back()
     },

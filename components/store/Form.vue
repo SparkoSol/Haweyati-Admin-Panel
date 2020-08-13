@@ -27,6 +27,7 @@
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-text-field
             v-model="supplier.person.name"
+            :rules="[required]"
             color="#313F53"
             outlined
             style="color: #313F53"
@@ -35,6 +36,7 @@
           />
           <v-text-field
             v-model="supplier.person.email"
+            :rules="[required, emailValidator]"
             color="#313F53"
             outlined
             style="color: #313F53"
@@ -44,6 +46,7 @@
           <v-text-field
             v-model="supplier.person.contact"
             v-mask="['### - #######', '#### - ########']"
+            :rules="[required]"
             color="#313F53"
             outlined
             style="color: #313F53"
@@ -77,6 +80,7 @@
           <v-card-title>Services</v-card-title>
           <v-select
             v-model="supplier.services"
+            :rules="[requiredSelect]"
             color="#313F53"
             outlined
             dense
@@ -99,6 +103,7 @@ import ImageSelector from '../misc/image-selector'
 import {
   emailValidator,
   required,
+  requiredSelect,
   phoneValidator
 } from '../../common/utils/validators'
 import GoogleMap from '../misc/GoogleMap'
@@ -145,6 +150,7 @@ export default {
     emailValidator,
     required,
     phoneValidator,
+    requiredSelect,
     returnBack() {
       this.$router.back()
     },

@@ -36,6 +36,7 @@
           </div>
           <v-text-field
             v-model="driver.profile.name"
+            :rules="[required]"
             style="align-items: center !important;"
             outlined
             label="Driver Name"
@@ -44,9 +45,11 @@
           ></v-text-field>
           <v-text-field
             v-model="driver.profile.contact"
+            v-mask="['### - #######', '#### - ########']"
             style="align-items: center !important;"
             outlined
             label="Driver Contact"
+            :rules="[required]"
             :value="driver.profile.contact"
             dense
           ></v-text-field>
@@ -55,6 +58,7 @@
             style="align-items: center !important;"
             outlined
             label="Driver License"
+            :rules="[required]"
             :value="driver.license"
             dense
           ></v-text-field>
@@ -64,6 +68,7 @@
             outlined
             label="Driver City"
             :value="driver.city"
+            :rules="[required]"
             dense
           ></v-text-field>
         </v-card>
@@ -74,6 +79,7 @@
             style="align-items: center !important;"
             outlined
             label="Vehicle Name"
+            :rules="[required]"
             :value="driver.vehicle.name"
             dense
           ></v-text-field>
@@ -82,6 +88,7 @@
             style="align-items: center !important;"
             outlined
             label="Vehicle Model"
+            :rules="[required]"
             :value="driver.vehicle.model"
             dense
           ></v-text-field>
@@ -90,6 +97,7 @@
             style="align-items: center !important;"
             outlined
             label="Vehicle ID"
+            :rules="[required]"
             :value="driver.vehicle.identificationNo"
             dense
           ></v-text-field>

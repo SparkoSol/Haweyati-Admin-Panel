@@ -88,14 +88,14 @@ import { ConstructionDumpster } from '../../../models/products/construction-dump
 import ImageViewer from '../../../components/misc/image-viewer'
 export default {
   name: 'DumpsterDetail',
+  components: {
+    ImageViewer
+  },
   props: {
     constructionDumpster: {
       type: [Object, ConstructionDumpster],
       default: () => new ConstructionDumpster()
     }
-  },
-  components: {
-    ImageViewer
   },
   data: () => ({
     columnsPrice: [

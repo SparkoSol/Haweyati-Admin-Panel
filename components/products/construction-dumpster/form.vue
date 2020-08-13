@@ -27,6 +27,7 @@
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-text-field
             v-model="constructionDumpster.size"
+            :rules="[required]"
             color="#313F53"
             outlined
             style="color: #313F53"
@@ -37,6 +38,7 @@
             v-model="constructionDumpster.description"
             color="#313F53"
             outlined
+            :rules="[required]"
             label="Description"
             dense
           ></v-textarea
@@ -87,6 +89,7 @@
               <v-text-field
                 v-model="price.city"
                 color="#313F53"
+                :rules="[required]"
                 outlined
                 :label="'City ' + (i + 1)"
                 dense
@@ -96,6 +99,8 @@
               <v-text-field
                 v-model="price.rent"
                 color="#313F53"
+                type="number"
+                :rules="[required, priceWZ]"
                 outlined
                 label="Rent"
                 dense
@@ -104,6 +109,8 @@
             <v-col>
               <v-text-field
                 v-model="price.days"
+                type="number"
+                :rules="[required, priceWZ]"
                 color="#313F53"
                 outlined
                 label="Days"
@@ -115,6 +122,8 @@
                 v-model="price.extraDayRent"
                 color="#313F53"
                 outlined
+                type="number"
+                :rules="[required, priceWZ]"
                 label="Extra Day Price"
                 dense
               ></v-text-field>
@@ -125,6 +134,8 @@
                 color="#313F53"
                 outlined
                 label="Helper Price"
+                :rules="[required, priceWZ]"
+                type="number"
                 dense
               ></v-text-field>
             </v-col>
@@ -141,6 +152,7 @@
             endpoint="suppliers/getbyservice/Construction Dumpster"
             :selection="suppliers"
             multiple
+            required
             :columns-selected="columnsSelected"
             :columns-selector="columnsSelected"
             title-selected="Selected Suppliers"
@@ -161,6 +173,7 @@
 import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import { ConstructionDumpster } from '../../../models/products/construction-dumpsters'
 import { ConstructionDumpsterPricing } from '../../../models/products/construction-dumpster-pricing'
+import { required, priceWZ } from '../../../common/lib/validator'
 // import { Supplier } from '../../../models/supplier'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
 import ImageSelector from '../../misc/image-selector'
@@ -210,6 +223,8 @@ export default {
     this.getSuppliers()
   },
   methods: {
+    priceWZ,
+    required,
     returnBack() {
       this.$router.back()
     },

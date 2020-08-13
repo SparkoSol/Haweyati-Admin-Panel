@@ -27,6 +27,7 @@
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-text-field
             v-model="buildingMaterial.name"
+            :rules="[required]"
             color="#313F53"
             outlined
             style="color: #313F53"
@@ -35,6 +36,7 @@
           ></v-text-field>
           <v-textarea
             v-model="buildingMaterial.description"
+            :rules="[required]"
             color="#313F53"
             outlined
             label="Description"
@@ -84,6 +86,7 @@
             <v-col>
               <v-text-field
                 v-model="price.city"
+                :rules="[required]"
                 color="#313F53"
                 outlined
                 :label="'City ' + (i + 1)"
@@ -93,8 +96,9 @@
             <v-col>
               <v-text-field
                 v-model="price.price12yard"
-                color="#313F53"
+                :rules="[required, priceWZ]"
                 type="number"
+                color="#313F53"
                 outlined
                 label="12 Yard Price"
                 dense
@@ -103,8 +107,9 @@
             <v-col>
               <v-text-field
                 v-model="price.price20yard"
-                color="#313F53"
+                :rules="[required, priceWZ]"
                 type="number"
+                color="#313F53"
                 outlined
                 label="20 Yard Price"
                 dense
@@ -123,6 +128,7 @@
             endpoint="suppliers/getbyservice/Building Material"
             :selection="suppliers"
             multiple
+            required
             :columns-selected="columnsSelected"
             :columns-selector="columnsSelected"
             title-selected="Selected Suppliers"
@@ -140,6 +146,7 @@
 </template>
 
 <script>
+import { required, priceWZ } from '../../../common/lib/validator'
 import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
 import { BuildingMaterial } from '../../../models/products/building-material'
@@ -191,6 +198,8 @@ export default {
     this.getSuppliers()
   },
   methods: {
+    required,
+    priceWZ,
     returnBack() {
       this.$router.back()
     },

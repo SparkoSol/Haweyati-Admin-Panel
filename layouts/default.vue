@@ -241,9 +241,6 @@ export default {
       this.getNotificationBadge()
       this.getNotifications()
       console.log(cb)
-      // if (cb) {
-      this.audio()
-      // }
     })
     this.getNotifications()
     this.getNotificationBadge()

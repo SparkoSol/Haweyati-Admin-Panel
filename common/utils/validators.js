@@ -1,6 +1,12 @@
 export function required(value) {
   return !!value || 'Enter a Value'
 }
+export const priceWZ = (value) =>
+  +value >= 0 || 'You have entered an invalid number'
+
+export function requiredSelect(value) {
+  return value.length !== 0 || 'Select an Option'
+}
 
 export function lengthValidator(value) {
   return value.length >= 8 || 'Enter at least 8 characters'

@@ -26,12 +26,14 @@
       <div class="span-2">
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-text-field
+            :rules="[required]"
             v-model="finishingMaterial.name"
             outlined
             label="Title"
             dense
           ></v-text-field>
           <v-textarea
+            :rules="[required]"
             v-model="finishingMaterial.description"
             outlined
             label="Description"
@@ -49,6 +51,8 @@
         <v-card style="padding:20px;margin-bottom:20px">
           <v-card-title>Pricing</v-card-title>
           <v-text-field
+            :rules="[required, priceWZ]"
+            type="number"
             v-if="!allowVariants"
             v-model="finishingMaterial.price"
             outlined
@@ -85,6 +89,7 @@
             <v-row v-for="(option, i) of options" :key="i">
               <v-col cols="12" md="3" sm="3">
                 <v-text-field
+                  :rules="[required]"
                   v-model="option.optionName"
                   :label="'Option ' + (i + 1)"
                   outlined
@@ -93,6 +98,7 @@
               </v-col>
               <v-col cols="12" md="8" sm="8">
                 <v-text-field
+                  :rules="[required]"
                   v-model="option.optionValues"
                   dense
                   outlined
@@ -115,6 +121,8 @@
             >
               <template v-slot:item.varientPrice="{ item }">
                 <v-text-field
+                  :rules="[required, priceWZ]"
+                  type="number"
                   v-model="item.varientPrice"
                   style="align-items: center !important;"
                   outlined
@@ -133,6 +141,7 @@
             endpoint="suppliers/getbyservice/Finishing Material"
             :selection="suppliers"
             multiple
+            required
             :columns-selected="columnsSelected"
             :columns-selector="columnsSelected"
             title-selected="Selected Suppliers"
@@ -146,7 +155,7 @@
 </template>
 
 <script>
-import { required } from '../../../common/utils/validators'
+import { required, priceWZ } from '../../../common/utils/validators'
 import { FinishingMaterial } from '../../../models/products/finishing-material'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
 import { FinishingMaterialOptions } from '../../../models/products/finishing-material-options'
@@ -225,6 +234,7 @@ export default {
     }
   },
   methods: {
+    priceWZ,
     required,
     returnBack() {
       this.$router.back()

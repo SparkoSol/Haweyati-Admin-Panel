@@ -123,6 +123,14 @@
             :items="order.details.items"
             fixed-header
           >
+            <template v-slot:item.variant="{ item }">
+              <span v-for="(detail, i) of Object.keys(item.variant)" :key="i">
+                <span v-if="i === Object.keys(item.variant).length - 1">{{
+                  item.variant[detail]
+                }}</span>
+                <span v-else>{{ item.variant[detail] }} / </span>
+              </span>
+            </template>
           </v-data-table>
         </v-card>
       </v-card>
