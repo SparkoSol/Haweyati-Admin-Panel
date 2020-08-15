@@ -33,9 +33,10 @@
     </v-navigation-drawer>
     <v-app-bar clipped-left elevation="0" color="#313F53" fixed app>
       <v-app-bar-nav-icon
-        style="color: white;margin-right: 30px;"
+        style="color: white;margin-right: 30px;text-align: center"
         @click.stop="drawer = !drawer"
       />
+      <v-spacer />
       <img
         style="margin: auto 0"
         class="mx-2"
@@ -88,7 +89,7 @@
         <template v-slot:activator="{ on, attrs }">
           <v-avatar
             size="45"
-            style="margin-left: 25px"
+            style="margin-left: 25px;"
             v-bind="attrs"
             v-on="on"
           >
@@ -117,11 +118,11 @@
             </v-list-item-content>
           </v-list-item>
           <v-divider></v-divider>
-          <v-list-item>
+          <v-list-item @click="toSetting">
             <v-list-item-icon>
               <v-icon>mdi-cog</v-icon>
             </v-list-item-icon>
-            <v-list-item-title @click="toSetting">
+            <v-list-item-title>
               {{ dropdownMenuItems[1].title }}
             </v-list-item-title>
           </v-list-item>
@@ -273,7 +274,9 @@ export default {
         return 'Just Now'
       }
     },
-    toSetting() {},
+    toSetting() {
+      this.$router.push('setting')
+    },
     audio() {
       const data = {
         sound: '@/assets/audio/notification.mp3',

@@ -1,28 +1,30 @@
 <template>
   <div style="display: flex;justify-content: center">
-    <div
-      class="base-image-input"
-      :style="{ 'background-image': `url(${imageData})` }"
-      @click="chooseImage"
-    >
-      <span v-if="!imageData && !image.image" class="placeholder">
-        Choose an Image
-      </span>
-      <input
-        ref="fileInput"
-        class="file-input"
-        type="file"
-        @input="onSelectFile"
-      />
-      <img
-        v-if="!imageData && image.image"
-        width="100%"
-        height="100%"
-        style="object-fit: contain"
-        :src="$axios.defaults.baseURL + 'uploads/' + this.image.image.name"
-        @input="onSelectFile"
-      />
-    </div>
+    <v-badge bottom overlap icon="mdi-camera-plus">
+      <div
+        class="base-image-input"
+        :style="{ 'background-image': `url(${imageData})` }"
+        @click="chooseImage"
+      >
+        <span v-if="!imageData && !image.image" class="placeholder">
+          Choose an Image
+        </span>
+        <input
+          ref="fileInput"
+          class="file-input"
+          type="file"
+          @input="onSelectFile"
+        />
+        <img
+          v-if="!imageData && image.image"
+          width="100%"
+          height="100%"
+          style="object-fit: contain"
+          :src="$axios.defaults.baseURL + 'uploads/' + this.image.image.name"
+          @input="onSelectFile"
+        />
+      </div>
+    </v-badge>
   </div>
 </template>
 

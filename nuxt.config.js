@@ -6,7 +6,7 @@ export default {
    ** Headers of the page
    */
   head: {
-    titleTemplate: '%s - ' + process.env.npm_package_name,
+    titleTemplate: '%s - Admin',
     title: process.env.npm_package_name || '',
     meta: [
       { charset: 'utf-8' },
@@ -59,7 +59,7 @@ export default {
     // module options
     sockets: [
       {
-        url: 'http://206.189.142.47:4000'
+        url: 'http://192.168.100.100:4000'
       }
     ]
   },
@@ -68,23 +68,23 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://206.189.142.47:4000'
+    baseURL: 'http://192.168.100.100:4000/'
   },
   auth: {
     strategies: {
       local: {
         endpoints: {
           login: {
-            url: 'http://206.189.142.47:4000/auth/sign-in',
+            url: 'http://192.168.100.100:4000/auth/sign-in',
             method: 'post',
             propertyName: 'access_token'
           },
           logout: {
-            url: 'http://206.189.142.47:4000/auth/sign-out',
+            url: 'http://192.168.100.100:4000/auth/sign-out',
             method: 'post'
           },
           user: {
-            url: 'http://206.189.142.47:4000/auth/profile',
+            url: 'http://192.168.100.100:4000/auth/profile',
             method: 'get',
             propertyName: 'profile'
           }

@@ -155,6 +155,7 @@ export default {
       this.$router.back()
     },
     async createUser() {
+      console.log(this.signup.contact.replace('\\s{2,}', ''))
       if (this.$refs.form.validate()) {
         try {
           this.loading = true

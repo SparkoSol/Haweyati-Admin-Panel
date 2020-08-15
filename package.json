@@ -1,8 +1,8 @@
 {
-  "name": "haweyati",
+  "name": "Haweyati",
   "version": "1.0.0",
   "description": "My exceptional Nuxt.js project",
-  "author": "Nabeel Ahmed",
+  "author": "Nabeel Ahmed Khan",
   "private": true,
   "scripts": {
     "dev": "nuxt",
