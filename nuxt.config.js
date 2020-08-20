@@ -59,7 +59,7 @@ export default {
     // module options
     sockets: [
       {
-        url: 'http://206.189.142.47/:4000'
+        url: 'http://128.199.20.220:4000'
       }
     ]
   },
@@ -68,23 +68,23 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://206.189.142.47/:4000/'
+    baseURL: 'http://128.199.20.220:4000/'
   },
   auth: {
     strategies: {
       local: {
         endpoints: {
           login: {
-            url: 'http://206.189.142.47/auth/sign-in',
+            url: 'http://128.199.20.220:4000/auth/sign-in',
             method: 'post',
             propertyName: 'access_token'
           },
           logout: {
-            url: 'http://206.189.142.47/auth/sign-out',
+            url: 'http://128.199.20.220:4000/auth/sign-out',
             method: 'post'
           },
           user: {
-            url: 'http://206.189.142.47/auth/profile',
+            url: 'http://128.199.20.220:4000/auth/profile',
             method: 'get',
             propertyName: 'profile'
           }
