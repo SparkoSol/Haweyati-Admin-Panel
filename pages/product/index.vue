@@ -80,18 +80,18 @@ export default {}
   border-radius: 20px !important;
 }
 .dumpster {
-  background-image: url('../../assets/images/products-main/dumpster-bg.png');
+  background-image: url('../../assets/images/products-main/dumpster-bg.webp');
 }
 .scaffolding {
-  background-image: url('../../assets/images/products-main/scaffolding-bg.png');
+  background-image: url('../../assets/images/products-main/scaffolding-bg.webp');
 }
 .building {
-  background-image: url('../../assets/images/products-main/building-materials-bg.png');
+  background-image: url('../../assets/images/products-main/building-materials-bg.webp');
 }
 .finishing {
-  background-image: url('../../assets/images/products-main/finishing-materials-bg.png');
+  background-image: url('../../assets/images/products-main/finishing-materials-bg.webp');
 }
 .vehicle {
-  background-image: url('../../assets/images/products-main/delivery-vehaicles-bg.png');
+  background-image: url('../../assets/images/products-main/delivery-vehaicles-bg.webp');
 }
 </style>
