@@ -20,9 +20,7 @@
           exact
         >
           <v-list-item-action>
-            <v-icon color="white" class="drawer-menu-item-icon">{{
-              item.icon
-            }}</v-icon>
+            <v-icon class="drawer-menu-item-icon">{{ item.icon }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title
@@ -321,7 +319,7 @@ export default {
   color: white;
   border: none;
 }
-.drawer-menu-item-icon {
+.drawer-menu-item .v-icon {
   color: white;
 }
 .drawer-menu-item-title {
@@ -330,7 +328,8 @@ export default {
 .drawer-menu-item:hover {
   background-color: white;
 }
-.drawer-menu-item:hover .drawer-menu-item-icon {
+
+.drawer-menu-item:hover .v-icon {
   color: #313f53;
 }
 .drawer-menu-item:hover .drawer-menu-item-title {
@@ -339,7 +338,7 @@ export default {
 .drawer-menu-item-active {
   background-color: white;
 }
-.drawer-menu-item-active .drawer-menu-item-icon {
+.drawer-menu-item-active .v-icon {
   color: #313f53;
 }
 .drawer-menu-item-active .drawer-menu-item-title {
