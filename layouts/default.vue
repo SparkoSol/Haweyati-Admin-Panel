@@ -20,7 +20,9 @@
           exact
         >
           <v-list-item-action>
-            <v-icon class="drawer-menu-item-icon">{{ item.icon }}</v-icon>
+            <v-icon color="#FF974D" class="drawer-menu-item-icon">{{
+              item.icon
+            }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title
@@ -313,7 +315,7 @@ export default {
 
 <style>
 .v-icon {
-  color: white;
+  color: aliceblue;
 }
 .drawer {
   border: none;
