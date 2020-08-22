@@ -312,6 +312,9 @@ export default {
 </script>
 
 <style>
+.v-icon {
+  color: white;
+}
 .drawer {
   border: none;
 }
