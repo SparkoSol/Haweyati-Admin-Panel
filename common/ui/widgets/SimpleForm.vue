@@ -26,7 +26,17 @@
         </footer>
       </slot>
       <error-dialog :error="error" />
-      <loading-dialog v-model="loading" />
+      <v-dialog v-model="loading" width="400" persistent>
+        <v-card width="400" style="padding: 20px" class="loading-dialog">
+          <v-progress-circular
+            style="margin-right: 20px"
+            indeterminate
+            color="primary"
+          />
+          <span class="loading-dialog__message">Loading...</span>
+        </v-card>
+      </v-dialog>
+      <!--      <loading-dialog v-model="loading" />-->
     </v-form>
   </div>
 </template>
@@ -141,6 +151,7 @@ export default defineComponent({
         let res = null
         switch (props.method.toLowerCase()) {
           case 'post':
+            this.valid = false
             if (data instanceof FormData) {
               res = await context.root.$axios.post(props.endpoint, data, {
                 headers: {
@@ -152,6 +163,7 @@ export default defineComponent({
             }
             break
           case 'patch':
+            this.valid = false
             if (data instanceof FormData) {
               res = await context.root.$axios.patch(props.endpoint, data, {
                 headers: {

@@ -205,37 +205,33 @@ export default {
       this.$router.back()
     },
     itemHeader() {
-      for (let i = 0; i < 1; i++) {
-        for (const key of Object.keys(this.order.details.items[0])) {
-          if (key === 'product') {
-            for (const product of Object.keys(
-              this.order.details.items[0][key]
-            )) {
-              if (product === 'size' || product === 'name') {
-                this.columns.push({
-                  text: product.toUpperCase(),
-                  value: 'product.' + product
-                })
-              } else if (product === 'pricing') {
-                for (const detail of Object.keys(
-                  this.order.details.items[0][key][product]
-                )) {
-                  if (detail === 'rent') {
-                    this.columns.push({
-                      text: 'Rent',
-                      value: 'product.' + product + '.rent'
-                    })
-                  } else {
-                    continue
-                  }
+      for (const key of Object.keys(this.order.details.items[0])) {
+        if (key === 'product') {
+          for (const product of Object.keys(this.order.details.items[0][key])) {
+            if (product === 'size' || product === 'name') {
+              this.columns.push({
+                text: product.toUpperCase(),
+                value: 'product.' + product
+              })
+            } else if (product === 'pricing') {
+              for (const detail of Object.keys(
+                this.order.details.items[0][key][product]
+              )) {
+                if (detail === 'rent') {
+                  this.columns.push({
+                    text: 'Rent',
+                    value: 'product.' + product + '.rent'
+                  })
+                } else {
+                  continue
                 }
-              } else {
-                continue
               }
+            } else {
+              continue
             }
-          } else {
-            this.columns.push({ text: key.toUpperCase(), value: key })
           }
+        } else {
+          this.columns.push({ text: key.toUpperCase(), value: key })
         }
       }
     },

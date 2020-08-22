@@ -42,8 +42,9 @@
               dense
               outlined
               label="Search Orders"
-              prepend-inner-icon="mdi-magnify"
-              @keyup="searchOrder"
+              append-icon="mdi-magnify"
+              @click:append="searchOrder"
+              @keypress.enter="searchOrder"
             >
             </v-text-field>
             <div
@@ -182,8 +183,9 @@
               dense
               outlined
               label="Search Requests"
-              prepend-inner-icon="mdi-magnify"
-              @keyup="searchRequest"
+              append-icon="mdi-magnify"
+              @click:append="searchRequest"
+              @keypress.enter="searchRequest"
             >
             </v-text-field>
             <div
@@ -266,7 +268,7 @@ export default {
       this.stats = await this.$axios.$get('dashboard')
     },
     async searchOrder() {
-      if (this.searchQueryOrder !== '') {
+      if (this.searchQueryOrder !== '' && this.searchQueryOrder !== null) {
         this.loading = true
         this.pendingOrders = await this.$axios.$get(
           '/orders/search?name=' + this.searchQueryOrder
@@ -278,7 +280,10 @@ export default {
       this.loading = false
     },
     async searchRequest() {
-      if (this.searchQueryRequests !== '') {
+      if (
+        this.searchQueryRequests !== '' &&
+        this.searchQueryRequests !== null
+      ) {
         this.loading = true
         this.requests = await this.$axios.$get(
           '/service-requests/search?name=' + this.searchQueryRequests

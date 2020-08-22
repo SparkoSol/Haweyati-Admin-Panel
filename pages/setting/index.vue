@@ -2,7 +2,7 @@
   <v-container>
     <v-card-title>Settings</v-card-title>
     <div style="display: flex;justify-content: center;align-items: center">
-      <v-form v-if="!loading" ref="form" class="form">
+      <v-form ref="form" class="form">
         <v-card style="padding:20px;">
           <v-card-title>Profile</v-card-title>
           <ul v-if="errors.length" style="color: red;margin-bottom: 15px">
@@ -78,6 +78,16 @@
         </v-card>
       </v-form>
     </div>
+    <v-dialog v-model="loading" width="400" persistent>
+      <v-card width="400" style="padding: 20px" class="loading-dialog">
+        <v-progress-circular
+          style="margin-right: 20px"
+          indeterminate
+          color="primary"
+        />
+        <span class="loading-dialog__message">Loading...</span>
+      </v-card>
+    </v-dialog>
   </v-container>
 </template>
 
@@ -123,6 +133,7 @@ export default {
     },
     async formData() {
       this.errors = []
+      this.loading = true
       if (this.$refs.form.validate()) {
         const formData = new FormData()
         if (this.update.password) {
@@ -155,6 +166,7 @@ export default {
           }
         }
       }
+      this.loading = false
     }
   }
 }

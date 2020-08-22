@@ -22,7 +22,8 @@
               dense
               label="Search..."
               append-icon="mdi-magnify"
-              @keyup="searchActive"
+              @click:append="searchActive"
+              @keypress.enter="searchActive"
             >
             </v-text-field>
           </v-col>
@@ -41,7 +42,8 @@
               dense
               label="Search..."
               append-icon="mdi-magnify"
-              @keyup="searchBlocked"
+              @click:append="searchBlocked"
+              @keypress.enter="searchBlocked"
             >
             </v-text-field>
           </v-col>
@@ -235,7 +237,7 @@ export default {
   },
   methods: {
     async searchActive() {
-      if (this.searchQueryActive !== '') {
+      if (this.searchQueryActive !== null && this.searchQueryActive !== '') {
         this.loading = true
         this.customers = await this.$axios.$get(
           '/customers/active-search?name=' + this.searchQueryActive
@@ -247,7 +249,7 @@ export default {
       this.loading = false
     },
     async searchBlocked() {
-      if (this.searchQueryBlocked !== '') {
+      if (this.searchQueryBlocked !== null && this.searchQueryBlocked !== '') {
         this.loading = true
         this.blockedCustomers = await this.$axios.$get(
           '/customers/blocked-search?name=' + this.searchQueryBlocked

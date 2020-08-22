@@ -20,7 +20,9 @@
           exact
         >
           <v-list-item-action>
-            <v-icon class="drawer-menu-item-icon">{{ item.icon }}</v-icon>
+            <v-icon color="white" class="drawer-menu-item-icon">{{
+              item.icon
+            }}</v-icon>
           </v-list-item-action>
           <v-list-item-content>
             <v-list-item-title
@@ -81,6 +83,9 @@
               <v-list-item-action-text>
                 {{ calcAgo(notification.createdAt) }}
               </v-list-item-action-text>
+            </v-list-item>
+            <v-list-item v-if="!notifications || notifications.length <= 0">
+              <p>No Notifications Yet!!</p>
             </v-list-item>
           </v-list>
         </div>
@@ -308,7 +313,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .drawer {
   border: none;
 }

@@ -3,7 +3,7 @@
     <input
       v-if="search"
       id="pac-input"
-      style="width: 100%;padding: 10px;border: 1px solid black;margin-bottom: 10px;border-radius: 5px"
+      style="width: 100%;padding: 10px;border: 1px solid black;margin-bottom: 10px;border-radius: 5px;height: 36px"
       className="controls"
       type="text"
       placeholder="Search Your Location ... "
@@ -33,6 +33,7 @@ export default {
     return {
       service: null,
       message: null,
+      bounds: null,
       map: null,
       mapMarker: null,
       marker: {
@@ -48,7 +49,6 @@ export default {
     }
   },
   mounted() {
-    console.log(this.search)
     const script = window.document.createElement('script')
     const saudiBounds = {
       north: 32.03,
@@ -56,16 +56,16 @@ export default {
       west: 34.76,
       east: 55.24
     }
-    const city = { lat: 24.44, lng: 39.62 }
+    // const city = { lat: 24.44, lng: 39.62 }
     script.onload = () => {
       // eslint-disable-next-line no-undef
       const map = new google.maps.Map(document.getElementById('map'), {
-        zoom: 3,
-        center: city,
+        center: this.marker,
         restriction: {
           latLngBounds: saudiBounds,
           strictBounds: false
-        }
+        },
+        zoom: 9
       })
       this.map = map
       const saudiaCoordinates = [
@@ -131,34 +131,42 @@ export default {
         fillOpacity: 0.1
       })
       saudiaPolygon.setMap(map)
+
       if (this.click) {
         saudiaPolygon.addListener('click', (event) => {
           this.updateMarker(event.latLng.lat(), event.latLng.lng())
         })
       }
-
       if (this.search) {
         const input = document.getElementById('pac-input')
         // eslint-disable-next-line no-undef
-        const searchBox = new google.maps.places.SearchBox(input)
-
-        // eslint-disable-next-line no-undef
         const autocomplete = new google.maps.places.Autocomplete(input)
-
+        autocomplete.bindTo('bounds', map)
+        autocomplete.setFields([
+          'address_components',
+          'geometry',
+          'icon',
+          'name'
+        ])
         autocomplete.setComponentRestrictions({ country: ['sau'] })
-
-        searchBox.addListener('places_changed', () => {
-          const places = searchBox.getPlaces()
-          console.log(places)
-          if (places.length === 0) {
-          } else {
-            this.updateMarker(
-              places[0].geometry.location.lat(),
-              places[0].geometry.location.lng()
-            )
-            console.log('Place Lat: ' + places[0].geometry.location.lat())
-            console.log('Place Lng: ' + places[0].geometry.location.lng())
+        // eslint-disable-next-line no-undef
+        autocomplete.addListener('place_changed', () => {
+          marker.setVisible(false)
+          const place = autocomplete.getPlace()
+          if (!place.geometry) {
+            console.log('no place')
+            return
           }
+          if (place.geometry.viewport) {
+            map.fitBounds(place.geometry.viewport)
+          } else {
+            map.setCenter(place.geometry.location)
+            map.setZoom(17) // Why 17? Because it looks good.
+          }
+          this.updateMarker(
+            place.geometry.location.lat(),
+            place.geometry.location.lng()
+          )
         })
       }
       // eslint-disable-next-line no-undef

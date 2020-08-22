@@ -46,6 +46,14 @@
         <v-text-field
           style="align-items: center !important;"
           outlined
+          label="Supplier Address"
+          readonly
+          :value="supplier.location.address"
+          dense
+        ></v-text-field>
+        <v-text-field
+          style="align-items: center !important;"
+          outlined
           label="Supplier City"
           readonly
           :value="supplier.city"
