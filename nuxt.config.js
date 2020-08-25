@@ -59,7 +59,7 @@ export default {
     // module options
     sockets: [
       {
-        url: 'http://192.168.100.100:4000/'
+        url: 'http://128.199.20.220:4000/'
       }
     ]
   },
