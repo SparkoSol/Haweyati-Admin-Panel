@@ -167,7 +167,7 @@
       </template>
       <template v-slot:item.createdAt="{ item }">
         <slot name="createdAt" :item="item" />
-        <p>{{ date(item.createdAt) }}</p>
+        {{ date(item.createdAt) }}
       </template>
       <template v-slot:item.person="{ item }">
         <slot name="person" :item="item" />

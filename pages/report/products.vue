@@ -46,9 +46,6 @@
 import DataViewer from '../../common/ui/widgets/DataViewer'
 
 export default {
-  layout(context) {
-    return 'report'
-  },
   name: 'DriverMain',
   components: {
     DataViewer

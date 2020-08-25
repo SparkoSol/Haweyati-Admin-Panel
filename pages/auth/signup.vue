@@ -99,6 +99,7 @@
           type="password"
           style="color: #313F53"
           label="Confirm Password"
+          @keypress.enter="createUser"
           dense
         ></v-text-field>
         <v-btn
@@ -155,7 +156,6 @@ export default {
       this.$router.back()
     },
     async createUser() {
-      console.log(this.signup.contact.replace('\\s{2,}', ''))
       if (this.$refs.form.validate()) {
         try {
           this.loading = true
@@ -170,7 +170,7 @@ export default {
           formData.append('name', this.signup.name)
           formData.append('email', this.signup.email)
           formData.append('password', this.signup.password)
-          formData.append('contact', this.signup.contact)
+          formData.append('contact', this.signup.contact.replace(/[^0-9]/g, ''))
           formData.append('scope', this.signup.scope)
           if (this.sendImage) {
             formData.append('image', this.sendImage)

@@ -37,6 +37,16 @@
             dense
           ></v-text-field>
           <v-text-field
+            v-model="update.email"
+            color="#313F53"
+            outlined
+            style="color: #313F53"
+            :rules="[required, emailValidator]"
+            label="Email"
+            dense
+          ></v-text-field>
+
+          <v-text-field
             v-model="update.old"
             color="#313F53"
             outlined
@@ -111,6 +121,7 @@ export default {
       contact: '',
       password: '',
       confirmPassword: '',
+      email: '',
       _id: '',
       image: '',
       old: ''
@@ -130,29 +141,41 @@ export default {
       this.update.contact = this.$auth.user.contact
       this.update._id = this.$auth.user._id
       this.update.image = this.$auth.user.image
+      this.update.email = this.$auth.user.email
     },
     async formData() {
       this.errors = []
       this.loading = true
       if (this.$refs.form.validate()) {
         const formData = new FormData()
-        if (this.update.password) {
+        if (
+          this.update.password ||
+          this.update.old ||
+          this.update.confirmPassword
+        ) {
+          console.log('in first if')
           if (
             this.update.password === this.update.confirmPassword &&
-            this.update.old !== ''
+            this.update.old !== '' &&
+            this.update.password !== ''
           ) {
+            console.log('in second if')
             formData.append('password', this.update.password)
             formData.append('old', this.update.old)
           } else {
+            console.log('in else')
+            this.loading = false
             this.errors.push('Could not confirm Password!!')
             return
           }
         }
+        console.log('after password if')
         if (this.sendImage) {
           formData.append('image', this.sendImage)
         }
         formData.append('name', this.update.name)
-        formData.append('contact', this.update.contact)
+        formData.append('contact', this.update.contact.replace(/[^0-9]/g, ''))
+        formData.append('email', this.update.email)
         formData.append('_id', this.update._id)
         formData.forEach((item) => window.console.log(item))
         try {

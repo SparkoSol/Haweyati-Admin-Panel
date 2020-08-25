@@ -48,6 +48,7 @@
             v-mask="['### - #######', '#### - ########']"
             style="align-items: center !important;"
             outlined
+            hint="0307 - 7355699"
             label="Driver Contact"
             :rules="[required]"
             :value="driver.profile.contact"
@@ -163,6 +164,11 @@ export default {
               } else {
                 continue
               }
+            } else if (profile === 'contact') {
+              formData.append(
+                profile,
+                this.driver[key][profile].replace(/[^0-9]/g, '')
+              )
             } else {
               formData.append(profile, this.driver[key][profile])
             }

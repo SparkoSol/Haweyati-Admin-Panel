@@ -10,27 +10,52 @@
     >
       <v-divider />
       <v-list>
-        <v-list-item
-          v-for="(item, i) in items"
-          :key="i"
-          active-class="drawer-menu-item-active"
-          class="drawer-menu-item"
-          :to="item.to"
-          router
-          exact
-        >
-          <v-list-item-action>
-            <v-icon color="#FF974D" class="drawer-menu-item-icon">{{
-              item.icon
-            }}</v-icon>
-          </v-list-item-action>
-          <v-list-item-content>
-            <v-list-item-title
-              class="drawer-menu-item-title"
-              v-text="item.title"
-            />
-          </v-list-item-content>
-        </v-list-item>
+        <div v-for="item in items" :key="item.title">
+          <v-list-item
+            v-if="!item.items"
+            ripple
+            :to="item.to"
+            active-class="drawer-menu-item-active"
+            class="drawer-menu-item"
+          >
+            <v-list-item-action>
+              <v-icon color="#FF974D">{{ item.action }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title class="drawer-menu-item-title">{{
+                item.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-group
+            v-else
+            v-model="item.active"
+            class="drawer-menu-item"
+            no-action
+          >
+            <v-list-item slot="activator">
+              <v-list-item-action>
+                <v-icon color="#FF974D">{{ item.action }}</v-icon>
+              </v-list-item-action>
+              <v-list-item-content>
+                <v-list-item-title class="drawer-menu-item-title">{{
+                  item.title
+                }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+            <v-list-item
+              v-for="subItem in item.items"
+              :key="subItem.title"
+              :to="subItem.to"
+            >
+              <v-list-item-content>
+                <v-list-item-title class="drawer-menu-item-title">{{
+                  subItem.title
+                }}</v-list-item-title>
+              </v-list-item-content>
+            </v-list-item>
+          </v-list-group>
+        </div>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar clipped-left elevation="0" color="#313F53" fixed app>
@@ -163,75 +188,81 @@ export default {
       ],
       items: [
         {
-          icon: 'mdi-home',
+          action: 'mdi-home',
           title: 'Dashboard',
           to: '/',
-          show: true
+          active: false
         },
         {
-          icon: 'mdi-account-multiple',
+          action: 'mdi-account-multiple',
           title: 'Customers',
           to: '/customer',
-          show: true
+          active: true
         },
         {
-          icon: 'mdi-account',
+          action: 'mdi-account',
           title: 'Drivers',
           to: '/driver',
-          show: true
+          active: false
         },
         {
-          icon: 'mdi-store',
+          action: 'mdi-store',
           title: 'Suppliers',
           to: '/store',
-          show: true
+          active: false
         },
         {
-          icon: 'mdi-gavel',
+          action: 'mdi-gavel',
           title: 'Products',
           to: '/product',
-          show: true
+          active: false
         },
         {
-          icon: 'mdi-gavel',
+          action: 'mdi-gavel',
           title: 'Requests',
           to: '/request',
-          show: true
+          active: false
         },
         {
-          icon: 'mdi-clipboard-multiple',
+          action: 'mdi-clipboard-multiple',
           title: 'Orders',
           to: '/order',
-          show: true
+          active: false
         },
         {
-          icon: 'mdi-clock-time-four',
+          action: 'mdi-clock-time-four',
           title: 'Manage Time Slots',
           to: '/time-slot',
-          show: true
+          active: false
         },
         {
-          icon: 'mdi-bell',
+          action: 'mdi-bell',
           title: 'Manage Notifications',
           to: '/notification',
-          show: true
+          active: false
         },
         {
-          icon: 'mdi-cog',
+          action: 'mdi-cog',
           title: 'Settings',
           to: '/setting',
-          show: false
+          active: false
         },
         {
-          icon: 'mdi-file-chart',
+          action: 'mdi-file-chart',
           title: 'Reports',
-          show: true
+          active: false,
+          items: [
+            // { title: 'Sales', to: '/report/sales' },
+            // { title: 'Suppliers', to: '/report/suppliers' },
+            // { title: 'Products', to: '/report/products' },
+            { title: 'Orders', to: '/report/orders' }
+          ]
         },
         {
-          icon: 'mdi-account-plus',
+          action: 'mdi-account-plus',
           title: 'Register Admin',
           to: '/auth/signup',
-          show: true
+          active: false
         }
       ]
     }
@@ -281,6 +312,9 @@ export default {
     },
     toSetting() {
       this.$router.push('setting')
+    },
+    toHome() {
+      this.$router.push('/')
     },
     audio() {
       const data = {

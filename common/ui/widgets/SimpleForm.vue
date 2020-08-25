@@ -145,6 +145,7 @@ export default defineComponent({
 
         if (data === null) {
           state.error = "Provide valid data 'null' was provided"
+          this.valid = true
           return
         }
 
@@ -176,6 +177,7 @@ export default defineComponent({
             break
           default:
             state.error = 'Unknown METHOD was specified.'
+            this.valid = false
             return
         }
 
@@ -188,8 +190,10 @@ export default defineComponent({
           myForm.value.reset()
         }
       } catch (error) {
+        this.valid = true
         state.error = error
       } finally {
+        this.valid = true
         state.loading = false
       }
     }

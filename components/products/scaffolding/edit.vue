@@ -136,7 +136,7 @@
           <v-card style="padding: 20px">
             <v-card-title>Stores</v-card-title>
             <EntitySelector
-              endpoint="suppliers/all"
+              endpoint="suppliers/getbyservice/Scaffolding"
               :selection="scaffolding.suppliers"
               multiple
               required

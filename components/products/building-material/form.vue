@@ -217,7 +217,11 @@ export default {
       for (const key of Object.keys(this.buildingMaterial)) {
         window.console.log(key)
         if (key === 'pricing') continue
-        else if (key === 'suppliers') {
+        else if (key === 'price12yard') {
+          continue
+        } else if (key === 'price20yard') {
+          continue
+        } else if (key === 'suppliers') {
           for (const item of this.buildingMaterial[key]) {
             formData.append(key, item._id)
           }
@@ -231,13 +235,14 @@ export default {
       }
       for (const price of this.pricing) {
         for (const key of Object.keys(price)) {
+          // console.log(key + ': ' + price[key])
           if (key === '_id') {
             continue
           }
           formData.append(key, price[key])
         }
       }
-      formData.forEach((item) => window.console.log(item))
+      // formData.forEach((item) => window.console.log(item))
       return formData
     },
     async getSuppliers() {

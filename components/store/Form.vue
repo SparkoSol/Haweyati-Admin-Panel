@@ -51,6 +51,7 @@
             outlined
             style="color: #313F53"
             dense
+            hint="0307 - 7355699"
             label="Contact"
           />
         </v-card>
@@ -167,7 +168,10 @@ export default {
       }
       formData.append('name', this.supplier.person.name)
       formData.append('email', this.supplier.person.email)
-      formData.append('contact', this.supplier.person.contact)
+      formData.append(
+        'contact',
+        this.supplier.person.contact.replace(/[^0-9]/g, '')
+      )
       if (this.sendImage !== null) {
         formData.append('image', this.sendImage)
       }

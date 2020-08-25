@@ -13,6 +13,7 @@
           :endpoint="item.endpoint"
           :columns="item.columns"
           back
+          :all="item.all"
           :date="item.date"
           :date-to="item.dateTo"
           :week="item.week"
@@ -25,12 +26,9 @@
 </template>
 
 <script>
-import DataViewerReport from '../../common/ui/widgets/DataViewerReport'
+import DataViewerReport from '../../common/ui/widgets/DataViewerReportOrder'
 
 export default {
-  layout(context) {
-    return 'report'
-  },
   name: 'OrderReport',
   components: {
     DataViewerReport
@@ -39,8 +37,36 @@ export default {
     endpoint: '',
     tabs: [
       {
+        tab: 'All',
+        endpoint: '/drivers',
+        all: true,
+        date: false,
+        dateTo: false,
+        week: false,
+        month: false,
+        year: false,
+        title: 'All Orders Report',
+        columns: [
+          {
+            text: '#',
+            value: 'orderNo'
+          },
+          {
+            text: 'Name',
+            value: 'customer.profile.name'
+          },
+          { text: 'Contact', value: 'customer.profile.contact' },
+          { text: 'Service', value: 'service' },
+          { text: 'Payment Type', value: 'paymentType' },
+          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Date', value: 'createdAt' },
+          { text: 'Status', value: 'status' }
+        ]
+      },
+      {
         tab: 'Daily',
         endpoint: '/drivers',
+        all: false,
         date: true,
         dateTo: false,
         week: false,
@@ -49,21 +75,25 @@ export default {
         title: 'Daily Order Report',
         columns: [
           {
-            text: 'Name',
-            value: 'profile.name'
+            text: '#',
+            value: 'orderNo'
           },
-          { text: 'Contact', value: 'profile.contact' },
-          { text: 'License', value: 'license' },
-          { text: 'City', value: 'city' },
-          { text: 'Vehicle Name', value: 'vehicle.name' },
-          { text: 'Vehicle Model', value: 'vehicle.model' },
-          { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+          {
+            text: 'Name',
+            value: 'customer.profile.name'
+          },
+          { text: 'Contact', value: 'customer.profile.contact' },
+          { text: 'Service', value: 'service' },
+          { text: 'Payment Type', value: 'paymentType' },
+          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
       },
       {
         tab: 'Weekly',
         endpoint: '/drivers',
+        all: false,
         date: false,
         dateTo: false,
         week: true,
@@ -71,19 +101,26 @@ export default {
         year: false,
         title: 'Weekly Order Report',
         columns: [
-          { text: 'Name', value: 'driver.profile.name' },
-          { text: 'Contact', value: 'driver.profile.contact' },
-          { text: 'License', value: 'driver.license' },
-          { text: 'City', value: 'driver.city' },
-          { text: 'Vehicle Name', value: 'driver.vehicle.name' },
-          { text: 'Vehicle Model', value: 'driver.vehicle.model' },
-          { text: 'Vehicle ID', value: 'driver.vehicle.identificationNo' },
+          {
+            text: '#',
+            value: 'orderNo'
+          },
+          {
+            text: 'Name',
+            value: 'customer.profile.name'
+          },
+          { text: 'Contact', value: 'customer.profile.contact' },
+          { text: 'Service', value: 'service' },
+          { text: 'Payment Type', value: 'paymentType' },
+          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
       },
       {
         tab: 'Monthly',
         endpoint: '/drivers',
+        all: false,
         date: false,
         dateTo: false,
         week: false,
@@ -91,19 +128,26 @@ export default {
         year: false,
         title: 'Monthly Order Report',
         columns: [
-          { text: 'Name', value: 'profile.name' },
-          { text: 'Contact', value: 'profile.contact' },
-          { text: 'License', value: 'license' },
-          { text: 'City', value: 'city' },
-          { text: 'Vehicle Name', value: 'vehicle.name' },
-          { text: 'Vehicle Model', value: 'vehicle.model' },
-          { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+          {
+            text: '#',
+            value: 'orderNo'
+          },
+          {
+            text: 'Name',
+            value: 'customer.profile.name'
+          },
+          { text: 'Contact', value: 'customer.profile.contact' },
+          { text: 'Service', value: 'service' },
+          { text: 'Payment Type', value: 'paymentType' },
+          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
       },
       {
         tab: 'Yearly',
         endpoint: '/drivers',
+        all: false,
         date: false,
         dateTo: false,
         week: false,
@@ -111,19 +155,26 @@ export default {
         year: true,
         title: 'Yearly Order Report',
         columns: [
-          { text: 'Name', value: 'profile.name' },
-          { text: 'Contact', value: 'profile.contact' },
-          { text: 'License', value: 'license' },
-          { text: 'City', value: 'city' },
-          { text: 'Vehicle Name', value: 'vehicle.name' },
-          { text: 'Vehicle Model', value: 'vehicle.model' },
-          { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+          {
+            text: '#',
+            value: 'orderNo'
+          },
+          {
+            text: 'Name',
+            value: 'customer.profile.name'
+          },
+          { text: 'Contact', value: 'customer.profile.contact' },
+          { text: 'Service', value: 'service' },
+          { text: 'Payment Type', value: 'paymentType' },
+          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
       },
       {
         tab: 'Custom',
         endpoint: '/drivers',
+        all: false,
         date: true,
         dateTo: true,
         week: false,
@@ -131,13 +182,19 @@ export default {
         year: false,
         title: 'Custom Order Reports',
         columns: [
-          { text: 'Name', value: 'profile.name' },
-          { text: 'Contact', value: 'profile.contact' },
-          { text: 'License', value: 'license' },
-          { text: 'City', value: 'city' },
-          { text: 'Vehicle Name', value: 'vehicle.name' },
-          { text: 'Vehicle Model', value: 'vehicle.model' },
-          { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+          {
+            text: '#',
+            value: 'orderNo'
+          },
+          {
+            text: 'Name',
+            value: 'customer.profile.name'
+          },
+          { text: 'Contact', value: 'customer.profile.contact' },
+          { text: 'Service', value: 'service' },
+          { text: 'Payment Type', value: 'paymentType' },
+          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
       }
@@ -150,34 +207,6 @@ export default {
     },
     reroute(route) {
       this.$router.push(route)
-    },
-    onBlock() {
-      window.console.log(this.snackbarText)
-      window.console.log(this.snackbar)
-      this.snackbarColor = 'red'
-      this.snackbarText = 'Successfully Blocked Driver!'
-      this.snackbar = true
-    },
-    onUnblocked() {
-      window.console.log(this.snackbarText)
-      window.console.log(this.snackbar)
-      this.snackbarColor = 'green'
-      this.snackbarText = 'Successfully Unblocked Driver!'
-      this.snackbar = true
-    },
-    onRejected() {
-      window.console.log(this.snackbarText)
-      window.console.log(this.snackbar)
-      this.snackbarColor = 'red'
-      this.snackbarText = 'Successfully Rejected Driver!'
-      this.snackbar = true
-    },
-    onAccepted() {
-      window.console.log(this.snackbarText)
-      window.console.log(this.snackbar)
-      this.snackbarColor = 'green'
-      this.snackbarText = 'Successfully Approved Driver!'
-      this.snackbar = true
     }
   }
 }

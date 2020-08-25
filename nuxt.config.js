@@ -68,23 +68,23 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://192.168.100.100:4000/'
+    baseURL: 'http://128.199.20.220:4000/'
   },
   auth: {
     strategies: {
       local: {
         endpoints: {
           login: {
-            url: 'http://192.168.100.100:4000/auth/sign-in',
+            url: 'http://128.199.20.220:4000/auth/sign-in',
             method: 'post',
             propertyName: 'access_token'
           },
           logout: {
-            url: 'http://192.168.100.100:4000/auth/sign-out',
+            url: 'http://128.199.20.220:4000/auth/sign-out',
             method: 'post'
           },
           user: {
-            url: 'http://192.168.100.100:4000/auth/profile',
+            url: 'http://128.199.20.220:4000/auth/profile',
             method: 'get',
             propertyName: 'profile'
           }

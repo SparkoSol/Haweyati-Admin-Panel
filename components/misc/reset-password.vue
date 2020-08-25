@@ -44,6 +44,7 @@
           outlined
           style="color: #313F53"
           :rules="[required, lengthValidator]"
+          @keypress.enter="reset"
           label="Confirm Password"
           dense
         ></v-text-field>

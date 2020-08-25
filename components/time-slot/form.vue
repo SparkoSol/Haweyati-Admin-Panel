@@ -49,6 +49,20 @@
           dense
         ></v-text-field>
       </div>
+      <div
+        v-if="!timeSlots && !loading"
+        class="span-2"
+        style="display: flex;justify-content: center"
+      >
+        <p>No Time Slots Have Been Added.</p>
+      </div>
+      <div
+        v-if="loading"
+        class="span-2"
+        style="display: flex;justify-content: center"
+      >
+        <v-progress-circular color="#FF974D" :value="loading" rotate />
+      </div>
     </SimpleForm>
   </v-container>
 </template>
@@ -63,7 +77,8 @@ export default {
     SimpleForm
   },
   data: () => ({
-    timeSlots: []
+    timeSlots: [],
+    loading: true
   }),
   created() {
     this.getTimeSlots()
@@ -74,7 +89,9 @@ export default {
       this.$router.back()
     },
     async getTimeSlots() {
+      this.loading = true
       this.timeSlots = await this.$axios.$get('time-slots')
+      this.loading = false
     },
     formData() {
       // const formData = new FormData()

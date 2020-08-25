@@ -10,11 +10,8 @@
 </template>
 
 <script>
-import DataViewerReport from '../../common/ui/widgets/DataViewerReport'
+import DataViewerReport from '../../common/ui/widgets/DataViewerReportOrder'
 export default {
-  layout(context) {
-    return 'report'
-  },
   components: {
     DataViewerReport
   },

@@ -49,6 +49,7 @@
           :rules="[required]"
           type="password"
           style="color: #313F53"
+          @keypress.enter="userLogin"
           label="Password"
           dense
         ></v-text-field>
@@ -105,6 +106,7 @@ export default {
           this.errors = []
           this.messageCheck = false
           window.localStorage.removeItem('messageCheck')
+          this.login.username = this.login.username.replace(/[^0-9]/g, '')
           await this.$auth.loginWith('local', {
             data: this.login
           })
