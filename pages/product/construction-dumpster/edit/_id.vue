@@ -1,12 +1,16 @@
 <template>
-  <DumpsterForm
-    :construction-dumpster="constructionDumpster"
-    :pricing="constructionDumpster.pricing"
-    :suppliers="constructionDumpster.suppliers"
-    :is-update="true"
-    title="Update Construction Dumpster"
-    endpoint="dumpsters"
-  />
+  <div
+    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 10px"
+  >
+    <DumpsterForm
+      :construction-dumpster="constructionDumpster"
+      :pricing="constructionDumpster.pricing"
+      :suppliers="constructionDumpster.suppliers"
+      :is-update="true"
+      title="Update Construction Dumpster"
+      endpoint="dumpsters"
+    />
+  </div>
 </template>
 
 <script>

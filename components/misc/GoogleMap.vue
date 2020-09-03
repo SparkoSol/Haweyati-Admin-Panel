@@ -3,7 +3,7 @@
     <input
       v-if="search"
       id="pac-input"
-      style="width: 100%;padding: 10px;border: 1px solid black;margin-bottom: 10px;border-radius: 5px;height: 36px"
+      style="width: 100%;padding: 10px;border: 1px solid #313f53;margin-bottom: 10px;border-radius: 5px;height: 36px"
       className="controls"
       type="text"
       placeholder="Search Your Location ... "

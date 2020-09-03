@@ -1,11 +1,16 @@
 <template>
-  <building-material-main
-    :endpoint="'building-materials/getbyparent/' + this.$route.params.id"
-    :route="
-      'product/building-material-sub/building-material/' + this.$route.params.id
-    "
-    title="Building Materials"
-  />
+  <div
+    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 10px"
+  >
+    <building-material-main
+      :endpoint="'building-materials/getbyparent/' + this.$route.params.id"
+      :route="
+        'product/building-material-sub/building-material/' +
+          this.$route.params.id
+      "
+      title="Building Materials"
+    />
+  </div>
 </template>
 
 <script>

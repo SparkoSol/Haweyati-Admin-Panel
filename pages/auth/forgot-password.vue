@@ -38,7 +38,7 @@
           dense
         ></v-text-field>
         <nuxt-link to="/auth/login" style="text-decoration: none">
-          <p style="font-size: 12px;text-align: right;color:black;">
+          <p style="font-size: 12px;text-align: right;color:#313f53;">
             Have an Account? Login
           </p></nuxt-link
         >

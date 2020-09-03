@@ -1,13 +1,17 @@
 <template>
-  <StoreProductPage
-    title="Finishing Material"
-    :endpoint="'/finishing-materials/fromsupplier/' + supplier._id"
-    :route="
-      'product/finishing-material-sub/finishing-material/' +
-        this.$route.params.id
-    "
-    :columns="columns"
-  />
+  <div
+    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 10px"
+  >
+    <StoreProductPage
+      title="Finishing Material"
+      :endpoint="'/finishing-materials/fromsupplier/' + supplier._id"
+      :route="
+        'product/finishing-material-sub/finishing-material/' +
+          this.$route.params.id
+      "
+      :columns="columns"
+    />
+  </div>
 </template>
 
 <script>

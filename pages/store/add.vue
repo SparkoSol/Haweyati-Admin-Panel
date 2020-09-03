@@ -1,5 +1,9 @@
 <template>
-  <StoreForm title="Add Supplier" />
+  <div
+    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 10px"
+  >
+    <StoreForm title="Add Supplier" />
+  </div>
 </template>
 
 <script>

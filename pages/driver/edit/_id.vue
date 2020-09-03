@@ -1,5 +1,9 @@
 <template>
-  <DriverForm :driver="driver" :title="driver.profile.name" is-update />
+  <div
+    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 10px"
+  >
+    <DriverForm :driver="driver" :title="driver.profile.name" is-update />
+  </div>
 </template>
 
 <script>

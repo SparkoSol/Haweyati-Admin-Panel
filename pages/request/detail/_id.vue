@@ -1,5 +1,9 @@
 <template>
-  <RequestDetail :request="request" />
+  <div
+    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 10px"
+  >
+    <RequestDetail :request="request" />
+  </div>
 </template>
 
 <script>

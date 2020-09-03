@@ -45,7 +45,7 @@
           />
           <v-text-field
             v-model="supplier.person.contact"
-            v-mask="['### - #######', '#### - ########']"
+            v-mask="['+### - #######', '+#### - ########']"
             :rules="[required]"
             color="#313F53"
             outlined
@@ -170,7 +170,7 @@ export default {
       formData.append('email', this.supplier.person.email)
       formData.append(
         'contact',
-        this.supplier.person.contact.replace(/[^0-9]/g, '')
+        this.supplier.person.contact.replace(/[^+0-9]/g, '')
       )
       if (this.sendImage !== null) {
         formData.append('image', this.sendImage)

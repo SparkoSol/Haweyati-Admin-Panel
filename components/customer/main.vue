@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <v-tabs v-model="tab" background-color="#313F53" color="white" dark>
+    <v-tabs v-model="tab" background-color="#313F53" color="#ff974d" dark>
       <v-tab v-for="item in tabs" :key="item.tab">
         {{ item.tab }}
       </v-tab>
@@ -8,7 +8,7 @@
 
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="item in tabs" :key="item.tab">
-        <v-row
+        <div
           v-if="!item.blocked"
           style="display: flex;justify-content: right;align-items: center"
         >
@@ -27,8 +27,8 @@
             >
             </v-text-field>
           </v-col>
-        </v-row>
-        <v-row
+        </div>
+        <div
           v-if="item.blocked"
           style="display: flex;justify-content: right;align-items: center"
         >
@@ -47,7 +47,7 @@
             >
             </v-text-field>
           </v-col>
-        </v-row>
+        </div>
         <div v-if="!item.blocked">
           <div
             v-if="(customers === null || customers.length <= 0) && !loading"
@@ -57,14 +57,14 @@
           </div>
           <div
             v-if="customers !== null && customers.length > 0"
-            style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 20px;grid-row-gap: 20px"
+            style="display: grid; grid-template-columns: calc(50% - 10px) calc(50% - 10px); grid-column-gap: 20px;grid-row-gap: 20px"
           >
             <v-card
               v-for="(customer, i) in customers"
               :key="i"
               style="padding: 20px;"
             >
-              <v-row style="display: grid;grid-template-columns: 20% 60% 20%;">
+              <div style="display: grid;grid-template-columns: 20% 60% 20%;">
                 <div>
                   <v-avatar size="80" color="white">
                     <img
@@ -107,7 +107,7 @@
                     >Block
                   </v-btn>
                 </div>
-              </v-row>
+              </div>
             </v-card>
           </div>
         </div>
@@ -123,14 +123,14 @@
           </div>
           <div
             v-if="blockedCustomers !== null && blockedCustomers.length > 0"
-            style="display: grid; grid-template-columns: 50% 50%; grid-column-gap: 20px; grid-row-gap: 20px"
+            style="display: grid; grid-template-columns: calc(50% - 10px) calc(50% - 10px); grid-column-gap: 20px; grid-row-gap: 20px"
           >
             <v-card
               v-for="(customer, i) in blockedCustomers"
               :key="i"
               style="padding: 10px;"
             >
-              <v-row
+              <div
                 style="display: grid;grid-template-columns: 20% 60% 20%; padding: 20px;"
               >
                 <div>
@@ -175,7 +175,7 @@
                     >Unblock
                   </v-btn>
                 </div>
-              </v-row>
+              </div>
             </v-card>
           </div>
         </div>

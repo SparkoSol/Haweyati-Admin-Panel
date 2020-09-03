@@ -34,3 +34,20 @@ body {
   min-height: 100vh;
 }
 
+.v-tabs-slider-wrapper {
+  height: 3px !important;
+}
+
+
+
+.nav-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.nav-scrollbar::-webkit-scrollbar-button {
+  display: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

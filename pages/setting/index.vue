@@ -1,104 +1,108 @@
 <template>
-  <v-container>
-    <v-card-title>Settings</v-card-title>
-    <div style="display: flex;justify-content: center;align-items: center">
-      <v-form ref="form" class="form">
-        <v-card style="padding:20px;">
-          <v-card-title>Profile</v-card-title>
-          <ul v-if="errors.length" style="color: red;margin-bottom: 15px">
-            <li v-for="(error, i) of errors" :key="i">
-              {{ error }}
-            </li>
-          </ul>
-          <v-container style="display:flex;justify-content: center">
-            <ImageSelector
-              v-model="imageFile"
-              :image="update"
-              @input="sendImage = $event"
-            />
-          </v-container>
-          <v-text-field
-            v-model="update.name"
-            color="#313F53"
-            outlined
-            :rules="[required]"
-            style="color: #313F53"
-            label="Name"
-            dense
-          ></v-text-field>
-          <v-text-field
-            v-model="update.contact"
-            v-mask="['### - #######', '#### - ########']"
-            color="#313F53"
-            outlined
-            style="color: #313F53"
-            :rules="[required]"
-            label="Phone"
-            dense
-          ></v-text-field>
-          <v-text-field
-            v-model="update.email"
-            color="#313F53"
-            outlined
-            style="color: #313F53"
-            :rules="[required, emailValidator]"
-            label="Email"
-            dense
-          ></v-text-field>
+  <div
+    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 10px"
+  >
+    <v-container>
+      <v-card-title>Settings</v-card-title>
+      <div style="display: flex;justify-content: center;align-items: center">
+        <v-form ref="form" class="form">
+          <v-card style="padding:20px;">
+            <v-card-title>Profile</v-card-title>
+            <ul v-if="errors.length" style="color: red;margin-bottom: 15px">
+              <li v-for="(error, i) of errors" :key="i">
+                {{ error }}
+              </li>
+            </ul>
+            <v-container style="display:flex;justify-content: center">
+              <ImageSelector
+                v-model="imageFile"
+                :image="update"
+                @input="sendImage = $event"
+              />
+            </v-container>
+            <v-text-field
+              v-model="update.name"
+              color="#313F53"
+              outlined
+              :rules="[required]"
+              style="color: #313F53"
+              label="Name"
+              dense
+            ></v-text-field>
+            <v-text-field
+              v-model="update.contact"
+              v-mask="['+### - #######', '+#### - ########']"
+              color="#313F53"
+              outlined
+              style="color: #313F53"
+              :rules="[required]"
+              label="Phone"
+              dense
+            ></v-text-field>
+            <v-text-field
+              v-model="update.email"
+              color="#313F53"
+              outlined
+              style="color: #313F53"
+              :rules="[required, emailValidator]"
+              label="Email"
+              dense
+            ></v-text-field>
 
-          <v-text-field
-            v-model="update.old"
-            color="#313F53"
-            outlined
-            type="password"
-            style="color: #313F53"
-            label="Old Password"
-            dense
-          ></v-text-field>
-          <v-text-field
-            v-model="update.password"
-            color="#313F53"
-            outlined
-            type="password"
-            style="color: #313F53"
-            label="Password"
-            dense
-          ></v-text-field>
-          <v-text-field
-            v-model="update.confirmPassword"
-            color="#313F53"
-            outlined
-            type="password"
-            style="color: #313F53"
-            label="Confirm Password"
-            dense
-          ></v-text-field>
-          <v-container
-            style="margin-top:20px;display: flex;align-items: center;justify-content: center"
-          >
-            <v-btn
-              color="#FF974D"
-              style="color:#ffffff"
-              x-large
-              @click="formData"
+            <v-text-field
+              v-model="update.old"
+              color="#313F53"
+              outlined
+              type="password"
+              style="color: #313F53"
+              label="Old Password"
+              dense
+            ></v-text-field>
+            <v-text-field
+              v-model="update.password"
+              color="#313F53"
+              outlined
+              type="password"
+              style="color: #313F53"
+              label="Password"
+              dense
+            ></v-text-field>
+            <v-text-field
+              v-model="update.confirmPassword"
+              color="#313F53"
+              outlined
+              type="password"
+              style="color: #313F53"
+              label="Confirm Password"
+              dense
+            ></v-text-field>
+            <v-container
+              style="margin-top:20px;display: flex;align-items: center;justify-content: center"
             >
-              Save
-            </v-btn>
-          </v-container>
+              <v-btn
+                color="#FF974D"
+                style="color:#ffffff"
+                x-large
+                @click="formData"
+              >
+                Save
+              </v-btn>
+            </v-container>
+          </v-card>
+        </v-form>
+      </div>
+      <v-dialog v-model="loading" width="400" persistent>
+        <v-card width="400" style="padding: 20px" class="loading-dialog">
+          <v-progress-circular
+            style="margin-right: 20px"
+            indeterminate
+            color="primary"
+          />
+          <span class="loading-dialog__message">Loading...</span>
         </v-card>
-      </v-form>
-    </div>
-    <v-dialog v-model="loading" width="400" persistent>
-      <v-card width="400" style="padding: 20px" class="loading-dialog">
-        <v-progress-circular
-          style="margin-right: 20px"
-          indeterminate
-          color="primary"
-        />
-        <span class="loading-dialog__message">Loading...</span>
-      </v-card>
-    </v-dialog>
-  </v-container>
+      </v-dialog>
+    </v-container>
+  </div>
 </template>
 
 <script>
@@ -174,7 +178,7 @@ export default {
           formData.append('image', this.sendImage)
         }
         formData.append('name', this.update.name)
-        formData.append('contact', this.update.contact.replace(/[^0-9]/g, ''))
+        formData.append('contact', this.update.contact.replace(/[^+0-9]/g, ''))
         formData.append('email', this.update.email)
         formData.append('_id', this.update._id)
         formData.forEach((item) => window.console.log(item))

@@ -1,10 +1,14 @@
 <template>
-  <BuildingMaterialSubAdd
-    :building-material-sub="buildingMaterialSub"
-    :is-update="true"
-    title="Update Building Material Type"
-    endpoint="building-material-category"
-  />
+  <div
+    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 10px"
+  >
+    <BuildingMaterialSubAdd
+      :building-material-sub="buildingMaterialSub"
+      :is-update="true"
+      title="Update Building Material Type"
+      endpoint="building-material-category"
+    />
+  </div>
 </template>
 
 <script>

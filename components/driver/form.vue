@@ -45,7 +45,7 @@
           ></v-text-field>
           <v-text-field
             v-model="driver.profile.contact"
-            v-mask="['### - #######', '#### - ########']"
+            v-mask="['+### - #######', '+#### - ########']"
             style="align-items: center !important;"
             outlined
             hint="0307 - 7355699"
@@ -167,7 +167,7 @@ export default {
             } else if (profile === 'contact') {
               formData.append(
                 profile,
-                this.driver[key][profile].replace(/[^0-9]/g, '')
+                this.driver[key][profile].replace(/[^+0-9]/g, '')
               )
             } else {
               formData.append(profile, this.driver[key][profile])

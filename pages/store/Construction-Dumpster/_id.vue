@@ -1,10 +1,14 @@
 <template>
-  <StoreProductPage
-    title="Construction Dumpster"
-    :endpoint="'/dumpsters/fromsuppliers/' + supplier._id"
-    route="product/construction-dumpster"
-    :columns="columns"
-  />
+  <div
+    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 10px"
+  >
+    <StoreProductPage
+      title="Construction Dumpster"
+      :endpoint="'/dumpsters/fromsuppliers/' + supplier._id"
+      route="product/construction-dumpster"
+      :columns="columns"
+    />
+  </div>
 </template>
 
 <script>

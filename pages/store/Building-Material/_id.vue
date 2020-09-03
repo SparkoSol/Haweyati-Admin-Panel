@@ -1,12 +1,17 @@
 <template>
-  <StoreProductPage
-    title="Building Material"
-    :endpoint="'/building-materials/fromsupplier/' + supplier._id"
-    :route="
-      'product/building-material-sub/building-material/' + this.$route.params.id
-    "
-    :columns="columns"
-  />
+  <div
+    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 10px"
+  >
+    <StoreProductPage
+      title="Building Material"
+      :endpoint="'/building-materials/fromsupplier/' + supplier._id"
+      :route="
+        'product/building-material-sub/building-material/' +
+          this.$route.params.id
+      "
+      :columns="columns"
+    />
+  </div>
 </template>
 
 <script>

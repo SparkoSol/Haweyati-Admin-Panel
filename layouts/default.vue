@@ -1,5 +1,5 @@
 <template>
-  <v-app>
+  <v-app class="window-scrollbar">
     <v-navigation-drawer
       v-model="drawer"
       class="drawer"
@@ -15,11 +15,12 @@
             v-if="!item.items"
             ripple
             :to="item.to"
+            dense
             active-class="drawer-menu-item-active"
             class="drawer-menu-item"
           >
             <v-list-item-action>
-              <v-icon color="#FF974D">{{ item.action }}</v-icon>
+              <v-icon color="#FF974D" dense>{{ item.action }}</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title class="drawer-menu-item-title">{{
@@ -33,9 +34,9 @@
             class="drawer-menu-item"
             no-action
           >
-            <v-list-item slot="activator">
+            <v-list-item slot="activator" style="padding: 0" dense>
               <v-list-item-action>
-                <v-icon color="#FF974D">{{ item.action }}</v-icon>
+                <v-icon dense color="#FF974D">{{ item.action }}</v-icon>
               </v-list-item-action>
               <v-list-item-content>
                 <v-list-item-title class="drawer-menu-item-title">{{
@@ -46,6 +47,7 @@
             <v-list-item
               v-for="subItem in item.items"
               :key="subItem.title"
+              dense
               :to="subItem.to"
             >
               <v-list-item-content>
@@ -58,7 +60,7 @@
         </div>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar clipped-left elevation="0" color="#313F53" fixed app>
+    <v-app-bar clipped-left elevation="0" dense color="#313F53" fixed app>
       <v-app-bar-nav-icon
         style="color: white;margin-right: 30px;text-align: center"
         @click.stop="drawer = !drawer"
@@ -75,10 +77,8 @@
       <v-spacer />
       <v-menu offset-y bottom transition="slide-y-transition">
         <template v-slot:activator="{ on, attrs }">
-          <v-badge :value="badge === 'true'" overlap color="orange" dot>
-            <v-icon v-bind="attrs" color="orange" v-on="on"
-              >mdi-bell-outline</v-icon
-            >
+          <v-badge :value="badge === 'true'" overlap color="#ff974d" dot>
+            <v-icon v-bind="attrs" color="#ff974d" v-on="on">mdi-bell</v-icon>
           </v-badge>
         </template>
         <div style="max-height: 500px; overflow: auto" class="scrollbar">
@@ -95,7 +95,7 @@
                     :value="!notification.seen"
                     offset-y="11"
                     offset-x="-10"
-                    color="orange"
+                    color="#ff974d"
                     dot
                   >
                     {{ notification.title }}
@@ -118,7 +118,7 @@
       <v-menu offset-y bottom>
         <template v-slot:activator="{ on, attrs }">
           <v-avatar
-            size="45"
+            size="35"
             style="margin-left: 25px;"
             v-bind="attrs"
             v-on="on"
@@ -167,7 +167,7 @@
         </v-list>
       </v-menu>
     </v-app-bar>
-    <v-content>
+    <v-content style="background-color: #313F53;">
       <nuxt />
     </v-content>
   </v-app>
@@ -277,6 +277,7 @@ export default {
       this.getNotificationBadge()
       this.getNotifications()
       console.log(cb)
+      if (cb) this.audio()
     })
     this.getNotifications()
     this.getNotificationBadge()
@@ -317,13 +318,16 @@ export default {
       this.$router.push('/')
     },
     audio() {
-      const data = {
-        sound: '@/assets/audio/notification.mp3',
-        soundurl:
-          'http://soundbible.com/mp3/analog-watch-alarm_daniel-simion.mp3'
+      try {
+        const data = {
+          soundurl: 'http://192.168.100.100:4000/uploads/notificationTone.mpeg'
+        }
+        const audio = new Audio(data.soundurl)
+        audio.play()
+      } catch (e) {
+        setTimeout(1000)
+        this.audio()
       }
-      const audio = new Audio(data.sound)
-      audio.play()
     },
     async openNotification(item) {
       if (item.type === 'Order') {
@@ -348,8 +352,15 @@ export default {
 </script>
 
 <style>
-.v-icon {
-  color: aliceblue;
+.v-divider {
+  margin: 15px 0;
+}
+.theme--light.v-navigation-drawer .v-divider {
+  border-color: #313f53;
+}
+.theme--light.v-navigation-drawer:not(.v-navigation-drawer--floating)
+  .v-navigation-drawer__border {
+  display: none;
 }
 .drawer {
   border: none;
@@ -358,29 +369,49 @@ export default {
   color: white;
   border: none;
 }
-.drawer-menu-item .v-icon {
+.drawer-menu-item {
   color: white;
 }
 .drawer-menu-item-title {
   color: white;
 }
 .drawer-menu-item:hover {
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
   background-color: white;
+  text-decoration: none;
+  opacity: 1 !important;
 }
-
-.drawer-menu-item:hover .v-icon {
+.drawer-menu-item:hover {
   color: #313f53;
+  text-decoration: none !important;
 }
 .drawer-menu-item:hover .drawer-menu-item-title {
   color: #313f53;
-}
-.drawer-menu-item-active {
-  background-color: white;
-}
-.drawer-menu-item-active .v-icon {
-  color: #313f53;
+  text-decoration: none !important;
 }
 .drawer-menu-item-active .drawer-menu-item-title {
   color: #313f53;
+  text-decoration: none !important;
+}
+.drawer-menu-item-active {
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
+  background-color: white !important;
+  opacity: 1 !important;
+}
+.drawer-menu-item:hover::before {
+  opacity: 1;
+}
+.drawer-menu-item-title:hover {
+  text-decoration: none !important;
+}
+.v-list-item {
+  text-decoration: none !important;
+}
+.v-list-item--link:before {
+  background-color: rgba(255, 255, 255, 1);
+  border-bottom-left-radius: 20px;
+  border-top-left-radius: 20px;
 }
 </style>

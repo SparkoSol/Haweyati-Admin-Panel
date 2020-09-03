@@ -1,12 +1,12 @@
 <template>
   <v-card>
     <v-card-title>
-      <v-icon color="black">{{ icon }}</v-icon>
+      <v-icon color="#ff974d">{{ icon }}</v-icon>
     </v-card-title>
-    <v-card-text style="font-size: 30px;color: black">
+    <v-card-text style="font-size: 30px;color: #313F53">
       {{ stat ? stat : 0 }}
     </v-card-text>
-    <v-card-subtitle style="color: orange">{{ title }}</v-card-subtitle>
+    <v-card-subtitle style="color:#ff974d">{{ title }}</v-card-subtitle>
   </v-card>
 </template>
 

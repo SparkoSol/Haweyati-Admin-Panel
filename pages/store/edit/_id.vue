@@ -1,5 +1,13 @@
 <template>
-  <store-form :supplier="supplier" :is-update="true" title="Update Supplier" />
+  <div
+    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 10px"
+  >
+    <store-form
+      :supplier="supplier"
+      :is-update="true"
+      title="Update Supplier"
+    />
+  </div>
 </template>
 
 <script>
