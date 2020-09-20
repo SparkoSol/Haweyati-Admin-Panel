@@ -11,6 +11,7 @@ export function setupDataLoader(axios, endpoint, addAction = false) {
     state.loading = true
 
     try {
+      console.log(endpoint)
       const items = await axios.$get(endpoint)
 
       if (addAction) {

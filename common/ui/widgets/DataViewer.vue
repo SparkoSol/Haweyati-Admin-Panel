@@ -182,6 +182,14 @@
           </span>
         </div>
       </template>
+      <template v-slot:item.status="{ item }">
+        <slot name="status" :item="item" />
+        <p style="margin: 0">
+          {{
+            getStatus(item.status) !== '' ? getStatus(item.status) : item.status
+          }}
+        </p>
+      </template>
       <template v-slot:item.action="{ item }">
         <slot name="actions" :item="item" />
         <v-icon
@@ -548,11 +556,26 @@ export default defineComponent({
         )
       }
     }
+    function getStatus(i) {
+      switch (i) {
+        case 0:
+          return 'Pending'
+        case 1:
+          return 'Active'
+        case 2:
+          return 'Closed'
+        case 3:
+          return 'Rejected'
+        default:
+          return ''
+      }
+    }
 
     return {
       search,
       filter,
       ...loader,
+      getStatus,
       removeItem,
       unblockItem,
       returnBack,

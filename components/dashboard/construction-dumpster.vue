@@ -74,7 +74,7 @@
         <v-icon style="align-items: start;margin-top: 4px" small color="grey"
           >mdi-clipboard-list</v-icon
         >
-        <p>{{ request.data.description.substring(0, 100) }}</p>
+        <p>{{ request.description.substring(0, 100) }}</p>
       </div>
     </div>
     <div

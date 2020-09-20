@@ -305,7 +305,6 @@ export default {
       this.loadingRequests = false
     },
     async getAccepted(item) {
-      window.console.log(item)
       if (confirm('Are you sure?')) {
         await this.$axios.$patch('orders/getactive/' + item._id)
         this.snackbar = true
@@ -315,7 +314,6 @@ export default {
       }
     },
     async getRejected(item) {
-      window.console.log(item)
       if (confirm('Are you sure?')) {
         await this.$axios.$patch('orders/getrejected/' + item._id)
         this.snackbar = true
@@ -328,7 +326,6 @@ export default {
       this.$router.push('/order/detail/' + item._id)
     },
     async getAcceptedRequests(item) {
-      window.console.log(item)
       if (confirm('Are you sure?')) {
         await this.$axios.$patch('/service-requests/completed/' + item._id)
         this.snackbar = true
@@ -338,7 +335,6 @@ export default {
       }
     },
     async getRejectedRequests(item) {
-      window.console.log(item)
       if (confirm('Are you sure?')) {
         await this.$axios.$patch('service-requests/rejected/' + item._id)
         this.snackbar = true

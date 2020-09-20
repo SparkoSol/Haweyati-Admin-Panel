@@ -18,8 +18,9 @@
     <v-container>
       <v-card style="padding: 20px">
         <v-card-title>Product Information</v-card-title>
+        <image-viewer :image="request.image" />
         <v-text-field
-          v-model="request.data.name"
+          v-model="request.data.title"
           color="#313F53"
           outlined
           style="color: #313F53"
@@ -27,13 +28,31 @@
           label="Name"
           dense
         ></v-text-field>
+        <v-text-field
+          v-model="request.data.parentName"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Category Name"
+          dense
+        ></v-text-field>
         <v-textarea
-          v-model="request.data.description"
+          v-model="request.description"
           color="#313F53"
           outlined
           style="color: #313F53"
           readonly
           label="Description"
+          dense
+        ></v-textarea>
+        <v-textarea
+          v-model="request.note"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Note"
           dense
         ></v-textarea>
       </v-card>
@@ -44,7 +63,7 @@
         <v-data-table
           hide-default-footer
           :headers="columnsPrice"
-          :items="request.data.pricing"
+          :items="[request.data]"
           fixed-header
         >
         </v-data-table>
@@ -104,8 +123,12 @@
 </template>
 
 <script>
+import ImageViewer from '../misc/image-viewer'
 export default {
   name: 'RequestDetailBuildingMaterial',
+  components: {
+    ImageViewer
+  },
   props: {
     request: {
       type: Object,
@@ -115,7 +138,8 @@ export default {
   data: () => ({
     columnsPrice: [
       { text: 'City', value: 'city' },
-      { text: 'Price', value: 'price' }
+      { text: '12 Yard Price', value: 'price12Yard' },
+      { text: '24 Yard Price', value: 'price24Yard' }
     ]
   }),
   methods: {

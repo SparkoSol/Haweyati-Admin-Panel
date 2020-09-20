@@ -83,7 +83,7 @@
                 </div>
                 <div style="padding-left: 10px">
                   <h3>{{ customer.profile.name }}</h3>
-                  <p>{{ customer.location.address }}</p>
+                  <!--                  <p>{{ customer.location.address }}</p>-->
                   <h5 style="color: grey">{{ customer.profile.contact }}</h5>
                 </div>
                 <div>

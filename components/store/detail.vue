@@ -8,7 +8,7 @@
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="item in tabs" :key="item.tab">
         <data-viewer
-          v-if="item.title == 'Sub Suppliers'"
+          v-if="item.title == 'Sub Suppliers' || item.title == 'Drivers'"
           :title="item.title"
           :columns="item.columns"
           :endpoint="item.endpoint"
@@ -141,6 +141,33 @@ export default {
               sortable: false,
               width: '300px'
             }
+          ]
+        },
+        {
+          tab: 'Drivers',
+          title: 'Drivers',
+          endpoint: 'drivers/supplier/' + this.supplier._id,
+          create: false,
+          change: true,
+          changeRoute: '/driver/edit/$id',
+          detail: true,
+          detailRoute: '/driver/detail/$id',
+          columns: [
+            {
+              text: 'Image',
+              value: 'profile.image'
+            },
+            {
+              text: 'Name',
+              value: 'profile.name'
+            },
+            { text: 'Contact', value: 'profile.contact' },
+            { text: 'License', value: 'license' },
+            { text: 'City', value: 'city' },
+            { text: 'Vehicle Name', value: 'vehicle.name' },
+            { text: 'Vehicle Model', value: 'vehicle.model' },
+            { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+            { text: 'Status', value: 'status' }
           ]
         }
       ],

@@ -105,6 +105,7 @@ export default {
           approve: true,
           approveRoute: '/suppliers/approve/$id',
           reject: true,
+          rejectRoute: '/suppliers/getrejected/$id',
           columns: [
             {
               text: 'Image',
