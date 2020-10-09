@@ -34,7 +34,8 @@
             (value) => {
               if (value && time.from) {
                 return (
-                  (value.split(':')[0] - time.from.split(':')[0]) % 3 === 0 ||
+                  ((value.split(':')[0] - time.from.split(':')[0]) % 3 === 0 &&
+                    value.split(':')[0] > time.from.split(':')[0]) ||
                   'Enter Valid Time SLot'
                 )
               } else {
@@ -94,15 +95,6 @@ export default {
       this.loading = false
     },
     formData() {
-      // const formData = new FormData()
-      // for (const time of this.timeSlots) {
-      //   for (const key of Object.keys(time)) {
-      //     console.log(key + ': ' + time[key])
-      //     formData.append(key, time[key])
-      //   }
-      // }
-      // formData.forEach((item) => window.console.log(item))
-      // return formData
       return this.timeSlots
     }
   }
