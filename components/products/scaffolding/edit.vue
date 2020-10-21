@@ -28,8 +28,8 @@
           <v-card style="padding: 20px">
             <v-card-title>Scaffolding Information</v-card-title>
             <v-text-field
-              :rules="[required]"
               v-model="scaffolding.type"
+              :rules="[required]"
               color="#313F53"
               outlined
               style="color: #313F53"
@@ -37,8 +37,8 @@
               dense
             ></v-text-field>
             <v-textarea
-              :rules="[required]"
               v-model="scaffolding.description"
+              :rules="[required]"
               color="#313F53"
               outlined
               style="color: #313F53"
@@ -92,9 +92,9 @@
                 </v-col>
                 <v-col>
                   <v-text-field
+                    v-model="price.rent"
                     :rules="[required, priceWZ]"
                     type="number"
-                    v-model="price.rent"
                     color="#313F53"
                     outlined
                     label="Rent"
@@ -103,9 +103,9 @@
                 </v-col>
                 <v-col>
                   <v-text-field
+                    v-model="price.days"
                     :rules="[required, priceWZ]"
                     type="number"
-                    v-model="price.days"
                     color="#313F53"
                     outlined
                     label="Days"
@@ -114,9 +114,9 @@
                 </v-col>
                 <v-col>
                   <v-text-field
+                    v-model="price.extraDayRent"
                     :rules="[required, priceWZ]"
                     type="number"
-                    v-model="price.extraDayRent"
                     color="#313F53"
                     outlined
                     label="Extra Day Price"
@@ -154,10 +154,10 @@
 </template>
 
 <script>
-import { Scaffolding } from '../../../models/products/scaffolding'
 import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
-import { required, priceWZ } from '../../../common/lib/validator'
+import { required, priceWZ } from '@/common/lib/validator'
+import { Scaffolding } from '@/models/products/scaffolding'
 
 export default {
   name: 'ScaffoldingEdit',

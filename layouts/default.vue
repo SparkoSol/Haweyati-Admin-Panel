@@ -67,12 +67,12 @@
       />
       <v-spacer />
       <img
+        alt="logo"
         style="margin: auto 0"
         class="mx-2"
         src="~/assets/Haweyati_Logo_white.png"
         width="50px"
         height="50px"
-        contain
       />
       <v-spacer />
       <v-menu offset-y bottom transition="slide-y-transition">
@@ -130,6 +130,7 @@
             />
             <img
               v-else
+              alt="profile"
               :src="
                 $axios.defaults.baseURL + 'uploads/' + $auth.user.image.name
               "
@@ -230,6 +231,12 @@ export default {
           active: false
         },
         {
+          action: 'mdi-star',
+          title: 'Rewards',
+          to: '/reward',
+          active: false
+        },
+        {
           action: 'mdi-clock-time-four',
           title: 'Manage Time Slots',
           to: '/time-slot',
@@ -272,11 +279,11 @@ export default {
     this.socket = this.$nuxtSocket({})
     /* Listen for events: */
     this.socket.on('msgToClient', (msg, cb) => {
-      console.log(msg)
+      console.log('cb')
+      console.log(cb)
       localStorage.setItem('badge', cb)
       this.getNotificationBadge()
       this.getNotifications()
-      console.log(cb)
       if (cb) this.audio()
     })
     this.getNotifications()
@@ -331,21 +338,21 @@ export default {
     },
     async openNotification(item) {
       if (item.type === 'Order') {
-        this.$router.push('/order')
+        await this.$router.push('/order')
       } else if (item.type === 'Service') {
-        this.$router.push('/request')
+        await this.$router.push('/request')
       } else if (item.type === 'Customer') {
-        this.$router.push('/customer')
+        await this.$router.push('/customer')
       } else if (item.type === 'Driver') {
-        this.$router.push('/driver')
+        await this.$router.push('/driver')
       } else if (item.type === 'Supplier') {
-        this.$router.push('/store')
+        await this.$router.push('/store')
       } else {
       }
       await this.$axios.$patch('admin-notifications')
       localStorage.setItem('badge', false)
       this.getNotificationBadge()
-      this.getNotifications()
+      await this.getNotifications()
     }
   }
 }

@@ -125,11 +125,11 @@
           >
             <template v-slot:item.item.variant="{ item }">
               <span
-                v-for="(detail, i) of Object.keys(item.item.variant)"
+                v-for="(detail, i) of Object.keys(item.item.product.varient)"
                 :key="i"
               >
                 <p style="margin: 0">
-                  {{ detail }}: {{ item.item.variant[detail] }}
+                  {{ detail }}: {{ item.item.product.varient[detail] }}
                 </p>
               </span>
             </template>

@@ -153,6 +153,7 @@ export default {
       const formData = new FormData()
       let image = false
       for (const key of Object.keys(this.driver)) {
+        console.log(key)
         if (key === '_id') {
           continue
         } else if (key === 'profile') {
@@ -179,13 +180,14 @@ export default {
           continue
         } else if (key === 'city') {
           continue
+        } else if (key === 'location') {
+          continue
         } else if (key === '__v') {
           continue
         } else {
           formData.append(key, this.driver[key])
         }
       }
-      console.log(image)
       if (!image) {
         if (this.sendImage) {
           formData.append('image', this.sendImage)

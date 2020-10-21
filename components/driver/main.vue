@@ -110,15 +110,15 @@ export default {
         columns: [
           {
             text: 'Image',
-            value: 'driver.profile.image'
+            value: 'profile.image'
           },
-          { text: 'Name', value: 'driver.profile.name' },
-          { text: 'Contact', value: 'driver.profile.contact' },
-          { text: 'License', value: 'driver.license' },
-          { text: 'City', value: 'driver.city' },
-          { text: 'Vehicle Name', value: 'driver.vehicle.name' },
-          { text: 'Vehicle Model', value: 'driver.vehicle.model' },
-          { text: 'Vehicle ID', value: 'driver.vehicle.identificationNo' },
+          { text: 'Name', value: 'profile.name' },
+          { text: 'Contact', value: 'profile.contact' },
+          { text: 'License', value: 'license' },
+          { text: 'City', value: 'city' },
+          { text: 'Vehicle Name', value: 'vehicle.name' },
+          { text: 'Vehicle Model', value: 'vehicle.model' },
+          { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
           { text: 'Status', value: 'status' }
         ]
       },

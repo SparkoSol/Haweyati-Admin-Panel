@@ -44,9 +44,9 @@
           outlined
           style="color: #313F53"
           :rules="[required, lengthValidator]"
-          @keypress.enter="reset"
           label="Confirm Password"
           dense
+          @keypress.enter="reset"
         ></v-text-field>
         <nuxt-link to="/auth/login" style="text-decoration: none">
           <p style="font-size: 12px;text-align: right;color:#313f53;">

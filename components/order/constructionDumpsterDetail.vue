@@ -24,6 +24,7 @@
           <v-avatar size="80" color="white">
             <img
               v-if="order.customer.profile.image"
+              alt="profile"
               style="object-fit: cover"
               :src="
                 $axios.defaults.baseURL +
@@ -33,6 +34,7 @@
             />
             <img
               v-else
+              alt="placeholder"
               style="object-fit: cover"
               src="../../assets/images/placeholders/placeholder_person.jpg"
             />
@@ -181,9 +183,9 @@
 
 <script>
 import moment from 'moment'
-import { Order } from '../../models/order'
 import GoogleMap from '../misc/GoogleMap'
 import ImageViewerWide from '../misc/image-viewer-wide'
+import { Order } from '@/models/order'
 
 export default {
   name: 'ConstructionDumpsterDetail',
@@ -199,7 +201,7 @@ export default {
       { text: 'Size', value: 'item.product.size' },
       { text: 'Rent', value: 'item.product.pricing.rent' },
       { text: 'Extra Days', value: 'item.extraDays' },
-      { text: 'Extra Days Rent', value: 'item.extraDayPrice' },
+      { text: 'Extra Days Rent', value: 'item.extraDaysPrice' },
       { text: 'Total', value: 'subtotal' }
     ]
   }),

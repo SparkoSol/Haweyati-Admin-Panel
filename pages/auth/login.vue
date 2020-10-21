@@ -49,9 +49,9 @@
           :rules="[required]"
           type="password"
           style="color: #313F53"
-          @keypress.enter="userLogin"
           label="Password"
           dense
+          @keypress.enter="userLogin"
         ></v-text-field>
         <nuxt-link to="/auth/forgot-password" style="text-decoration: none">
           <p style="font-size: 12px;text-align: right;color:#313f53;">
@@ -96,7 +96,6 @@ export default {
     required,
     emailValidator,
     async gotoReset() {
-      console.log('pressed')
       await this.$router.push('/auth/reset-password')
     },
     async userLogin() {
@@ -107,7 +106,6 @@ export default {
           this.messageCheck = false
           window.localStorage.removeItem('messageCheck')
           this.login.username = this.login.username.replace(/[^+0-9]/g, '')
-          console.log(this.login.username)
           await this.$auth.loginWith('local', {
             data: this.login
           })

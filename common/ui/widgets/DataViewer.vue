@@ -65,10 +65,11 @@
       <template v-slot:item.person.image="{ item }">
         <v-avatar
           v-if="item.person.image != null"
-          style="margin: 5px;padding: 0px"
+          style="margin: 5px;padding: 0"
         >
           <img
             style="object-fit: cover"
+            alt="person"
             :src="$axios.defaults.baseURL + 'uploads/' + item.person.image.name"
           />
         </v-avatar>
@@ -79,10 +80,11 @@
       <template v-slot:item.profile.image="{ item }">
         <v-avatar
           v-if="item.profile.image != null"
-          style="margin: 5px;padding: 0px"
+          style="margin: 5px;padding: 0"
         >
           <img
             style="object-fit: cover"
+            alt="profile"
             :src="
               $axios.defaults.baseURL + 'uploads/' + item.profile.image.name
             "
@@ -95,10 +97,11 @@
       <template v-slot:item.driver.profile.image="{ item }">
         <v-avatar
           v-if="item.driver.profile.image != null"
-          style="margin: 5px;padding: 0px"
+          style="margin: 5px;padding: 0"
         >
           <img
             style="object-fit: cover"
+            alt="driver"
             :src="
               $axios.defaults.baseURL +
                 'uploads/' +
@@ -111,9 +114,10 @@
         </p>
       </template>
       <template v-slot:item.image="{ item }">
-        <v-avatar v-if="item.image != null" style="margin: 5px;padding: 0px">
+        <v-avatar v-if="item.image != null" style="margin: 5px;padding: 0">
           <img
             style="object-fit: cover"
+            alt="viewImage"
             :src="$axios.defaults.baseURL + 'uploads/' + item.image.name"
           />
         </v-avatar>
@@ -123,16 +127,17 @@
       </template>
       <template v-slot:item.images="{ item }">
         <v-avatar
-          v-if="item.images != null && item.images.length != 0"
-          style="margin: 5px;padding: 0px"
+          v-if="item.images != null && item.images.length !== 0"
+          style="margin: 5px;padding: 0"
         >
           <img
             style="object-fit: cover"
+            alt="multiImage"
             :src="$axios.defaults.baseURL + 'uploads/' + item.images[0].name"
           />
         </v-avatar>
         <p
-          v-if="item.images == null || item.images.length == 0"
+          v-if="item.images == null || item.images.length === 0"
           style="margin: 0"
         >
           No Image
@@ -142,12 +147,13 @@
         <v-avatar
           v-if="
             item.suppliers.person.image != null &&
-              item.suppliers.person.image.length != 0
+              item.suppliers.person.image.length !== 0
           "
-          style="margin: 5px;padding: 0px"
+          style="margin: 5px;padding: 0"
         >
           <img
             style="object-fit: cover"
+            alt="supplier"
             :src="
               $axios.defaults.baseURL +
                 'uploads/' +
@@ -158,7 +164,7 @@
         <p
           v-if="
             item.suppliers.person.image == null ||
-              item.suppliers.person.image.length == 0
+              item.suppliers.person.image.length === 0
           "
           style="margin: 0"
         >
@@ -248,6 +254,54 @@
           @click="unblockItem(item)"
           >mdi-check</v-icon
         >
+      </template>
+      <template v-slot:item.custom-edit="{ item }">
+        <slot name="custom-edit" :item="item" />
+        <v-btn
+          color="primary"
+          small
+          elevation="0"
+          style="padding: 0 13px 0 7px !important; border-radius: 4px; margin-right: 10px"
+          @click="handleCustomEditEvent(item)"
+        >
+          <v-icon x-small>mdi-pencil</v-icon>
+
+          <span>Edit</span>
+        </v-btn>
+        <v-dialog v-model="dialog" max-width="500px">
+          <v-card v-if="editItem">
+            <v-card-title>
+              <span class="headline">Edit Reward Points</span>
+            </v-card-title>
+            <v-card-text>
+              <v-container>
+                <v-text-field
+                  v-model="editItem.points"
+                  label="Points"
+                  outlined
+                  dense
+                ></v-text-field>
+              </v-container>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="close">
+                Cancel
+              </v-btn>
+              <v-btn color="blue darken-1" text @click="save">
+                Save
+              </v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+      </template>
+      <template v-slot:item.points="{ item }">
+        <slot name="points" :item="item" />
+        <p style="margin: 0">{{ item.points }}</p>
+      </template>
+      <template v-slot:item.description="{ item }">
+        <slot name="points" :item="item" />
+        <p style="margin: 0">{{ item.description.substr(0, 75) }}</p>
       </template>
     </v-data-table>
   </v-card>
@@ -390,6 +444,10 @@ export default defineComponent({
       type: String,
       required: true
     },
+    type: {
+      type: String,
+      required: false
+    },
 
     pagination: {
       type: Boolean,
@@ -438,6 +496,11 @@ export default defineComponent({
       type: String,
       default: null,
       required: false
+    },
+    customEdit: {
+      type: Boolean,
+      default: false,
+      required: false
     }
   },
 
@@ -448,7 +511,6 @@ export default defineComponent({
 
     const search = ref('')
     const filter = ref(false)
-
     if (
       props.columns[props.columns.length - 1].text !== 'Action' &&
       props.action
@@ -570,11 +632,28 @@ export default defineComponent({
           return ''
       }
     }
+    function handleCustomEditEvent(item) {
+      this.editItem = item
+      this.dialog = true
+    }
+    function close() {
+      this.dialog = false
+    }
+    async function save() {
+      this.editItem.type = props.type
+      console.log(this.editItem)
+      await this.$axios.$patch('reward-points', this.editItem)
+      this.editItem = null
+      this.dialog = false
+      this.load()
+    }
 
     return {
       search,
       filter,
       ...loader,
+      close,
+      save,
       getStatus,
       removeItem,
       unblockItem,
@@ -585,7 +664,10 @@ export default defineComponent({
       approveItem,
       rejectItem,
       date: (date) => moment(date).format('MMMM Do YYYY'),
-      handleCreateEvent
+      handleCreateEvent,
+      handleCustomEditEvent,
+      dialog: false,
+      editItem: null
     }
   }
 })

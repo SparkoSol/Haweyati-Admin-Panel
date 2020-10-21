@@ -84,7 +84,8 @@ export default {
       default: () => new Supplier()
     },
     title: {
-      type: String
+      type: String,
+      default: 'Title'
     }
   },
   data: () => ({}),

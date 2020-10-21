@@ -7,7 +7,7 @@
       <span>{{ title }}</span>
       <v-spacer />
       <v-btn
-        v-if="this.data !== null && this.data.length !== 0"
+        v-if="data !== null && data.length !== 0"
         color="#FF974D"
         elevation="0"
         style="padding: 0 13px 0 7px !important; border-radius: 4px; margin-right: 10px"
@@ -197,7 +197,6 @@ export default {
         date: '08-23-2020',
         dateTo: '08-27-2020'
       })
-      console.log(this.data)
     },
     async getDailyOrdersReport(dateSend) {
       if (dateSend) {
@@ -264,7 +263,7 @@ export default {
       let win
       if (this.all) {
         win = window.open(
-          'http://192.168.100.100:4000/reports/orders-report?type=all',
+          'http://178.128.16.246:4000/reports/orders-report?type=all',
           '_blank'
         )
       } else if (this.date && !this.dateTo) {
@@ -272,7 +271,7 @@ export default {
           ? moment(this.dateSend).format('MM-DD-YYYY')
           : moment().format('MM-DD-YYYY')
         win = window.open(
-          'http://192.168.100.100:4000/reports/orders-report?type=daily&date=' +
+          'http://178.128.16.246:4000/reports/orders-report?type=daily&date=' +
             date,
           '_blank'
         )
@@ -280,9 +279,8 @@ export default {
         const week = this.weekSend
           ? moment(this.weekSend).week()
           : moment().week()
-        console.log(week)
         win = window.open(
-          'http://192.168.100.100:4000/reports/orders-report?type=weekly&date=' +
+          'http://178.128.16.246:4000/reports/orders-report?type=weekly&date=' +
             week,
           '_blank'
         )
@@ -291,15 +289,14 @@ export default {
           ? moment(this.monthSend).month() + 1
           : moment().month() + 1
         win = window.open(
-          'http://192.168.100.100:4000/reports/orders-report?type=monthly&date=' +
+          'http://178.128.16.246:4000/reports/orders-report?type=monthly&date=' +
             month,
           '_blank'
         )
       } else if (this.year) {
         const year = this.yearSend ? this.yearSend : moment().year()
-        console.log(this.yearSend)
         win = window.open(
-          'http://192.168.100.100:4000/reports/orders-report?type=yearly&date=' +
+          'http://178.128.16.246:4000/reports/orders-report?type=yearly&date=' +
             year,
           '_blank'
         )
@@ -311,7 +308,7 @@ export default {
           ? moment(this.dateToSend).format('MM-DD-YYYY')
           : moment().format('MM-DD-YYYY')
         win = window.open(
-          'http://192.168.100.100:4000/reports/orders-report?type=custom&date=' +
+          'http://178.128.16.246:4000/reports/orders-report?type=custom&date=' +
             date +
             '&dateTo=' +
             dateTo,

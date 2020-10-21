@@ -26,15 +26,15 @@
       <div class="span-2">
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-text-field
-            :rules="[required]"
             v-model="finishingMaterial.name"
+            :rules="[required]"
             outlined
             label="Title"
             dense
           ></v-text-field>
           <v-textarea
-            :rules="[required]"
             v-model="finishingMaterial.description"
+            :rules="[required]"
             outlined
             label="Description"
             dense
@@ -51,10 +51,10 @@
         <v-card style="padding:20px;margin-bottom:20px">
           <v-card-title>Pricing</v-card-title>
           <v-text-field
-            :rules="[required, priceWZ]"
-            type="number"
             v-if="!allowVariants"
             v-model="finishingMaterial.price"
+            :rules="[required, priceWZ]"
+            type="number"
             outlined
             label="Price"
             dense
@@ -89,8 +89,8 @@
             <v-row v-for="(option, i) of options" :key="i">
               <v-col cols="12" md="3" sm="3">
                 <v-text-field
-                  :rules="[required]"
                   v-model="option.optionName"
+                  :rules="[required]"
                   :label="'Option ' + (i + 1)"
                   outlined
                   dense
@@ -98,8 +98,8 @@
               </v-col>
               <v-col cols="12" md="8" sm="8">
                 <v-text-field
-                  :rules="[required]"
                   v-model="option.optionValues"
+                  :rules="[required]"
                   dense
                   outlined
                   label="Separate options with comma."
@@ -121,9 +121,9 @@
             >
               <template v-slot:item.varientPrice="{ item }">
                 <v-text-field
+                  v-model="item.varientPrice"
                   :rules="[required, priceWZ]"
                   type="number"
-                  v-model="item.varientPrice"
                   style="align-items: center !important;"
                   outlined
                   label="Price"
@@ -309,7 +309,6 @@ export default {
       const formData = new FormData()
       if (this.allowVariants) {
         for (const key of Object.keys(this.finishingMaterial)) {
-          console.log(key)
           if (key === 'options') {
             for (const item of this.options) {
               for (const key of Object.keys(item)) {

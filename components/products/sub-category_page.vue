@@ -70,7 +70,10 @@
 export default {
   name: 'SubCategoryPage',
   props: {
-    title: String
+    title: {
+      type: String,
+      default: 'title'
+    }
   },
   data: () => ({
     name: 'Main Category Name',

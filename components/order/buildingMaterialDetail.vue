@@ -24,6 +24,7 @@
           <v-avatar size="80" color="white">
             <img
               v-if="order.customer.profile.image"
+              alt="customer"
               style="object-fit: cover"
               :src="
                 $axios.defaults.baseURL +
@@ -33,6 +34,7 @@
             />
             <img
               v-else
+              alt="placeholder"
               style="object-fit: cover"
               src="../../assets/images/placeholders/placeholder_person.jpg"
             />

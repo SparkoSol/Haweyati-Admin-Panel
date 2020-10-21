@@ -24,7 +24,7 @@ export const price = (value) =>
  * @returns {boolean|string}
  */
 export const priceWZ = (value) =>
-  +value >= 0 || 'You have entered an invalid number'
+  +value > 0 || 'You have entered an invalid number'
 
 /**
  * @param {string} value

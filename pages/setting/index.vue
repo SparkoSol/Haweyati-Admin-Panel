@@ -157,23 +157,19 @@ export default {
           this.update.old ||
           this.update.confirmPassword
         ) {
-          console.log('in first if')
           if (
             this.update.password === this.update.confirmPassword &&
             this.update.old !== '' &&
             this.update.password !== ''
           ) {
-            console.log('in second if')
             formData.append('password', this.update.password)
             formData.append('old', this.update.old)
           } else {
-            console.log('in else')
             this.loading = false
             this.errors.push('Could not confirm Password!!')
             return
           }
         }
-        console.log('after password if')
         if (this.sendImage) {
           formData.append('image', this.sendImage)
         }

@@ -51,10 +51,10 @@ export default {
   mounted() {
     const script = window.document.createElement('script')
     const saudiBounds = {
-      north: 32.03,
-      south: 16.72,
-      west: 34.76,
-      east: 55.24
+      north: 34,
+      south: 15,
+      west: 33,
+      east: 60
     }
     // const city = { lat: 24.44, lng: 39.62 }
     script.onload = () => {
@@ -70,15 +70,25 @@ export default {
       this.map = map
       const saudiaCoordinates = [
         { lat: 28.1573, lng: 34.63 },
-        { lat: 29.313309, lng: 35.07 },
-        { lat: 29.1215, lng: 36.1686 },
-        { lat: 30.55, lng: 38.102 },
-        { lat: 31.4549, lng: 37.223 },
-        { lat: 32.0901, lng: 39.2448 },
-        { lat: 29.1791, lng: 44.606 },
-        { lat: 28.98, lng: 47.28 },
-        { lat: 28.48, lng: 47.63 },
-        { lat: 28.4861, lng: 48.3634 },
+        { lat: 29.3618, lng: 34.9542 },
+        { lat: 29.1889, lng: 36.0691 },
+        { lat: 29.5, lng: 36.5044 },
+        { lat: 29.8685, lng: 36.7535 },
+        { lat: 30.01, lng: 37.4999 },
+        { lat: 30.3326, lng: 37.6655 },
+        { lat: 30.5007, lng: 37.9969 },
+        { lat: 31.50004, lng: 37.0003 },
+        { lat: 31.9983, lng: 38.9957 },
+        { lat: 32.1563, lng: 39.1976 },
+        { lat: 31.9481, lng: 40.4134 },
+        { lat: 31.3732, lng: 41.4409 },
+        { lat: 31.1117, lng: 42.0856 },
+        { lat: 29.1985, lng: 44.7219 },
+        { lat: 29.0612, lng: 46.426 },
+        { lat: 29.1011, lng: 46.553 },
+        { lat: 29.0005, lng: 47.4662 },
+        { lat: 28.5612, lng: 47.7513 },
+        { lat: 28.5784, lng: 48.5699 },
         { lat: 27.5745, lng: 48.8029 },
         { lat: 27.2332, lng: 49.2313 },
         { lat: 26.8418, lng: 49.81 },
@@ -102,7 +112,7 @@ export default {
         { lat: 22.629, lng: 55.131 },
         { lat: 22.7, lng: 55.204 },
         { lat: 22.002, lng: 55.649 },
-        { lat: 22.01, lng: 54.97 },
+        { lat: 19.9999, lng: 55 },
         { lat: 19.02, lng: 51.97 },
         { lat: 18.82, lng: 50.77 },
         { lat: 18.66, lng: 49.11 },
@@ -117,7 +127,8 @@ export default {
         { lat: 17.457, lng: 45.22 },
         { lat: 17.381, lng: 43.684 },
         { lat: 17.5642, lng: 43.3379 },
-        { lat: 16.448, lng: 42.79 },
+        { lat: 15.8648, lng: 43.102 },
+        { lat: 21.2466, lng: 38.9883 },
         { lat: 28.1573, lng: 34.63 }
       ]
 
@@ -154,7 +165,6 @@ export default {
           marker.setVisible(false)
           const place = autocomplete.getPlace()
           if (!place.geometry) {
-            console.log('no place')
             return
           }
           if (place.geometry.viewport) {

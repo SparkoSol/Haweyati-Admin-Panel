@@ -104,7 +104,8 @@ export default {
       default: () => new Driver()
     },
     title: {
-      type: String
+      type: String,
+      default: 'Title'
     }
   },
   data: () => ({}),

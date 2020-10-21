@@ -52,7 +52,6 @@ export default {
   methods: {
     viewImage() {
       this.imageView = true
-      console.log(this.imageView)
     }
   }
 }
