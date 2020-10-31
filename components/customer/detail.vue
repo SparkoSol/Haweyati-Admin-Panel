@@ -29,8 +29,25 @@
                   <v-icon>mdi-keyboard-backspace</v-icon>
                 </v-btn>
               </v-col>
-              <v-col cols="12" md="11" sm="11">
+              <v-col cols="12" md="7" sm="7">
                 <v-card-title>Customer Detail</v-card-title>
+              </v-col>
+              <v-col
+                cols="12"
+                md="4"
+                sm="4"
+                style="display: flex ; align-items: center; justify-content: flex-end;"
+              >
+                <v-btn
+                  color="primary"
+                  elevation="0"
+                  style="border-radius: 4px;"
+                  @click="handleEditEvent"
+                >
+                  <v-icon small>mdi-pencil</v-icon>
+
+                  <span>Edit</span>
+                </v-btn>
               </v-col>
             </v-row>
             <imageViewer :image="customer.profile.image" />
@@ -40,6 +57,15 @@
               label="Customer Name"
               readonly
               :value="customer.profile.name"
+              dense
+            ></v-text-field>
+            <v-text-field
+              v-if="customer.profile.email"
+              style="align-items: center !important;"
+              outlined
+              label="Customer Email"
+              readonly
+              :value="customer.profile.email"
               dense
             ></v-text-field>
             <v-text-field
@@ -136,6 +162,9 @@ export default {
   methods: {
     returnBack() {
       this.$router.back()
+    },
+    handleEditEvent() {
+      this.$router.push('/customer/edit/' + this.customer._id)
     }
   }
 }

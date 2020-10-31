@@ -6,7 +6,7 @@
         :style="{ 'background-image': `url(${imageData})` }"
         @click="chooseImage"
       >
-        <span v-if="!imageData && !image.image" class="placeholder">
+        <span v-if="!imageData && !image_.image" class="placeholder">
           Choose an Image
         </span>
         <input
@@ -16,11 +16,11 @@
           @input="onSelectFile"
         />
         <img
-          v-if="!imageData && image.image"
+          v-if="!imageData && image_.image"
           width="100%"
           height="100%"
           style="object-fit: contain"
-          :src="$axios.defaults.baseURL + 'uploads/' + image.image.name"
+          :src="$axios.defaults.baseURL + 'uploads/' + image_.image.name"
           @input="onSelectFile"
         />
       </div>
@@ -39,9 +39,18 @@ export default {
   },
   data() {
     return {
+      image_: null,
       imageData: null,
       sendImage: null
     }
+  },
+  watch: {
+    image() {
+      this.image_ = this.image
+    }
+  },
+  beforeMount() {
+    this.image_ = this.image
   },
   methods: {
     chooseImage() {

@@ -14,18 +14,31 @@
         >
           <v-col cols="12" md="8" sm="8"></v-col>
           <v-col cols="12" md="4" sm="4">
-            <v-text-field
-              v-model="searchQueryActive"
-              outlined
-              color="#FF974D"
-              hide-details
-              dense
-              label="Search..."
-              append-icon="mdi-magnify"
-              @click:append="searchActive"
-              @keypress.enter="searchActive"
-            >
-            </v-text-field>
+            <div style="display: flex">
+              <v-text-field
+                v-model="searchQueryActive"
+                outlined
+                color="#FF974D"
+                hide-details
+                dense
+                label="Search..."
+                append-icon="mdi-magnify"
+                @click:append="searchActive"
+                @keypress.enter="searchActive"
+              >
+              </v-text-field>
+              <v-spacer />
+              <v-btn
+                color="primary"
+                elevation="0"
+                style="border-radius: 4px;"
+                @click="handleCreateEvent"
+              >
+                <v-icon small>mdi-plus</v-icon>
+
+                <span>Add New</span>
+              </v-btn>
+            </div>
           </v-col>
         </div>
         <div
@@ -315,6 +328,9 @@ export default {
     },
     detail(item) {
       this.$router.push('customer/detail/' + item._id)
+    },
+    handleCreateEvent() {
+      this.$router.push('customer/add')
     }
   }
 }

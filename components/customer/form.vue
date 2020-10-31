@@ -4,7 +4,7 @@
       :method="isUpdate ? 'patch' : 'post'"
       :data="formData"
       return
-      endpoint="/suppliers"
+      endpoint="/customers"
     >
       <template v-slot:header>
         <v-row>
@@ -24,9 +24,14 @@
         </v-row>
       </template>
       <div class="span-2">
+        <ul v-if="errors.length" style="color: red;margin-bottom: 15px">
+          <li v-for="(error, i) of errors" :key="i">
+            {{ error }}
+          </li>
+        </ul>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-text-field
-            v-model="supplier.person.name"
+            v-model="customer.profile.name"
             :rules="[required]"
             color="#313F53"
             outlined
@@ -35,7 +40,8 @@
             label="Name"
           />
           <v-text-field
-            v-model="supplier.person.email"
+            v-model="customer.profile.email"
+            :rules="[customer.profile.email ? emailValidator : true]"
             color="#313F53"
             outlined
             style="color: #313F53"
@@ -43,10 +49,10 @@
             label="Email"
           />
           <v-text-field
-            v-model="supplier.person.contact"
+            v-model="customer.profile.contact"
             v-mask="['+### - #######', '+#### - ########']"
             :rules="[required]"
-            readonly
+            :readonly="isUpdate"
             color="#313F53"
             outlined
             style="color: #313F53"
@@ -54,50 +60,86 @@
             hint="0307 - 7355699"
             label="Contact"
           />
+          <div v-if="!isUpdate">
+            <v-text-field
+              v-model="password"
+              :rules="[required]"
+              type="password"
+              color="#313F53"
+              outlined
+              style="color: #313F53"
+              dense
+              label="Password"
+            />
+            <v-text-field
+              v-model="confirmPassword"
+              :rules="[
+                required,
+                (v) => v === password || 'Could Not Confirm Password'
+              ]"
+              type="password"
+              color="#313F53"
+              outlined
+              style="color: #313F53"
+              dense
+              label="Confirm Password"
+            />
+          </div>
+          <div v-else>
+            <v-text-field
+              v-model="password"
+              type="password"
+              color="#313F53"
+              outlined
+              style="color: #313F53"
+              dense
+              label="Password"
+            />
+            <v-text-field
+              v-model="confirmPassword"
+              type="password"
+              :rules="[
+                password ? required : true,
+                password
+                  ? (v) => v === password || 'Could Not Confirm Password'
+                  : true
+              ]"
+              color="#313F53"
+              outlined
+              style="color: #313F53"
+              dense
+              label="Confirm Password"
+            />
+          </div>
         </v-card>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Media</v-card-title>
           <ImageSelector
             v-model="imageFile"
-            :image="supplier.person"
+            :image="customer.profile"
             @input="sendImage = $event"
           />
         </v-card>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Location</v-card-title>
           <GoogleMap
-            v-if="!supplier.location.latitude"
+            v-if="!customer.location.latitude"
             :search="true"
             @input="location = $event"
           />
           <GoogleMap
-            v-if="supplier.location.latitude"
+            v-if="customer.location.latitude"
             :search="true"
-            :old-marker="supplier.location"
+            :old-marker="customer.location"
             @input="location = $event"
           />
-        </v-card>
-        <v-card style="padding:20px;margin-bottom: 20px">
-          <v-card-title>Services</v-card-title>
-          <v-select
-            v-model="supplier.services"
-            :rules="[requiredSelect]"
-            color="#313F53"
-            outlined
-            dense
-            multiple
-            :items="services"
-            label="Services"
-            item-text="name"
-          >
-          </v-select>
         </v-card>
       </div>
     </SimpleForm>
     <v-dialog v-model="contactCheck" width="800px" persistent>
       <div style="height: 100%">
         <v-card style="padding: 20px">
-          <v-card-title> Supplier Contact </v-card-title>
+          <v-card-title> Customer Contact </v-card-title>
           <v-text-field
             v-model="contact"
             v-mask="['+### - #######', '+#### - ########']"
@@ -161,7 +203,7 @@
 import SimpleForm from '../../common/ui/widgets/SimpleForm'
 import ImageSelector from '../misc/image-selector'
 import GoogleMap from '../misc/GoogleMap'
-import { Supplier } from '@/models/supplier'
+import { Customer } from '@/models/customer'
 import {
   emailValidator,
   required,
@@ -170,19 +212,16 @@ import {
 } from '@/common/utils/validators'
 
 export default {
+  name: 'CustomerForm',
   components: {
     GoogleMap,
     ImageSelector,
     SimpleForm
   },
   props: {
-    mainSupplier: {
-      type: Supplier,
-      default: null
-    },
-    supplier: {
-      type: Supplier,
-      default: () => new Supplier()
+    customer: {
+      type: Customer,
+      default: () => new Customer()
     },
     isUpdate: {
       type: Boolean,
@@ -194,18 +233,12 @@ export default {
     }
   },
   data: () => ({
-    columnsSelected: [{ text: 'Name', value: 'person.name' }],
-    suppliers: [],
-    services: [
-      { name: 'Construction Dumpster' },
-      { name: 'Building Material' },
-      { name: 'Finishing Material' },
-      { name: 'Scaffolding' },
-      { name: 'Delivery Vehicle' }
-    ],
     imageFile: null,
     sendImage: null,
     location: null,
+    password: null,
+    confirmPassword: null,
+    errors: [],
     contactCheck: true,
     contact: null,
     mergeCheck: false,
@@ -226,43 +259,37 @@ export default {
     returnBack() {
       this.$router.back()
     },
-    async getSuppliers() {
-      if (this.subBranchCheck === true) {
-        this.suppliers = await this.$axios.$get('suppliers')
-      }
-    },
     formData() {
       const formData = new FormData()
-      if (this.supplier._id) {
-        formData.append('_id', this.supplier._id)
-        formData.append('personId', this.supplier.person._id)
+      if (this.customer._id) {
+        formData.append('_id', this.customer._id)
+        formData.append('personId', this.customer.profile._id)
       }
-      formData.append('name', this.supplier.person.name)
-      if (this.supplier.person.email) {
-        formData.append('email', this.supplier.person.email)
+      formData.append('name', this.customer.profile.name)
+      if (this.customer.profile.email) {
+        console.log(this.customer.profile.email)
+        formData.append('email', this.customer.profile.email)
       } else {
-        formData.append('email', '')
+        formData.append('email', null)
       }
       formData.append(
         'contact',
-        this.supplier.person.contact.replace(/[^+0-9]/g, '')
+        this.customer.profile.contact.replace(/[^+0-9]/g, '')
       )
       if (this.response) {
-        formData.append('person', this.response._id)
+        formData.append('profile', this.response._id)
       }
       if (this.sendImage !== null) {
         formData.append('image', this.sendImage)
       }
-      formData.append('status', this.supplier.status)
-      this.supplier.services.forEach((item) => {
-        formData.append('services', item)
-      })
       formData.append('latitude', this.location.lat)
       formData.append('longitude', this.location.lng)
-      if (this.mainSupplier) {
-        formData.append('parent', this.mainSupplier._id)
+      if (this.password) {
+        formData.append('password', this.password)
+      } else {
+        formData.append('password', this.customer.profile.password)
       }
-      formData.forEach((item) => window.console.log(item))
+      formData.forEach((item) => console.log(item))
       return formData
     },
     async trigger() {
@@ -273,26 +300,26 @@ export default {
       if (response) {
         this.response = response
         console.log('found')
-        this.supplier.person = {
+        this.customer.profile = {
           name: response.name,
           email: response.email,
           contact: response.contact,
           image: response.image
         }
         // eslint-disable-next-line no-self-assign
-        this.supplier = this.supplier
-        if (response.scope.includes('supplier')) {
+        this.customer = this.customer
+        if (response.scope.includes('customer')) {
           this.contactCheck = false
           this.errorCheck = true
-          this.error = 'Supplier Already Exists'
+          this.error = 'Customer Already Exists'
         } else {
           this.contactCheck = false
           this.mergeCheck = true
         }
       } else {
         console.log('not found')
-        this.supplier = new Supplier()
-        this.supplier.person.contact = this.contact
+        this.customer = new Customer()
+        this.customer.profile.contact = this.contact
         this.contactCheck = false
       }
     },
@@ -301,10 +328,10 @@ export default {
     },
     merge() {
       this.mergeCheck = false
-      console.log(this.supplier)
+      console.log(this.customer)
     },
     notMerge() {
-      this.supplier = new Supplier()
+      this.customer = new Customer()
       this.contact = null
       this.mergeCheck = false
       this.errorCheck = false
@@ -317,8 +344,5 @@ export default {
 <style>
 .form {
   width: 800px !important;
-}
-.v-dialog {
-  box-shadow: none;
 }
 </style>

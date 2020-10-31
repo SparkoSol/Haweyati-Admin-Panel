@@ -84,14 +84,17 @@
             style="display: grid;grid-template-columns: auto auto auto  50px"
           >
             <v-col>
-              <v-text-field
+              <v-select
                 v-model="price.city"
-                :rules="[required]"
                 color="#313F53"
                 outlined
-                :label="'City ' + (i + 1)"
                 dense
-              ></v-text-field>
+                :rules="[city(price.city, pricing)]"
+                :items="citiesData"
+                :label="'City ' + (i + 1)"
+                item-text="name"
+              >
+              </v-select>
             </v-col>
             <v-col>
               <v-text-field
@@ -146,12 +149,12 @@
 </template>
 
 <script>
-import { required, priceWZ } from '../../../common/lib/validator'
 import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
-import { BuildingMaterial } from '../../../models/products/building-material'
-import { BuildingMaterialPricing } from '../../../models/products/building-material-pricing'
 import ImageSelector from '../../misc/image-selector'
+import { required, priceWZ, city } from '@/common/lib/validator'
+import { BuildingMaterial } from '@/models/products/building-material'
+import { BuildingMaterialPricing } from '@/models/products/building-material-pricing'
 
 export default {
   name: 'BuildingMaterialForm',
@@ -192,14 +195,17 @@ export default {
     cities: [{ name: '', value: '' }],
     suppliersList: [],
     imageFile: null,
-    sendImage: null
+    sendImage: null,
+    citiesData: []
   }),
   mounted() {
     this.getSuppliers()
+    this.getCities()
   },
   methods: {
     required,
     priceWZ,
+    city,
     returnBack() {
       this.$router.back()
     },
@@ -247,6 +253,9 @@ export default {
     },
     async getSuppliers() {
       this.suppliersList = await this.$axios.$get('suppliers/all')
+    },
+    async getCities() {
+      this.citiesData = await this.$axios.$get('suppliers/cities')
     }
   }
 }

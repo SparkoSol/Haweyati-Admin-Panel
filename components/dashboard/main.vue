@@ -3,31 +3,41 @@
     <div
       style="margin-bottom:20px;display: grid;grid-template-columns: calc(20% - 20px) calc(20% - 20px) calc(20% - 20px) calc(20% - 20px) calc(20% - 20px);grid-column-gap: 20px"
     >
-      <StatsCard
-        title="Products Sold"
-        :stat="stats ? stats.productSold + '' : '-'"
-        icon="mdi-cart"
-      />
-      <StatsCard
-        title="Customers"
-        :stat="stats ? stats.customers + '' : '-'"
-        icon="mdi-account-multiple"
-      />
-      <StatsCard
-        title="Suppliers"
-        :stat="stats ? stats.suppliers + '' : '-'"
-        icon="mdi-store"
-      />
-      <StatsCard
-        title="Drivers"
-        :stat="stats ? stats.drivers + '' : '-'"
-        icon="mdi-account"
-      />
-      <StatsCard
-        title="Orders"
-        :stat="stats ? stats.orders + '' : '-'"
-        icon="mdi-clipboard-multiple"
-      />
+      <nuxt-link to="/product" style="text-decoration: none">
+        <StatsCard
+          title="Products Sold"
+          :stat="stats ? stats.productSold + '' : '-'"
+          icon="mdi-cart"
+        />
+      </nuxt-link>
+      <nuxt-link to="/customer" style="text-decoration: none">
+        <StatsCard
+          title="Customers"
+          :stat="stats ? stats.customers + '' : '-'"
+          icon="mdi-account-multiple"
+        />
+      </nuxt-link>
+      <nuxt-link to="/store" style="text-decoration: none">
+        <StatsCard
+          title="Suppliers"
+          :stat="stats ? stats.suppliers + '' : '-'"
+          icon="mdi-store"
+        />
+      </nuxt-link>
+      <nuxt-link to="/driver" style="text-decoration: none">
+        <StatsCard
+          title="Drivers"
+          :stat="stats ? stats.drivers + '' : '-'"
+          icon="mdi-account"
+        />
+      </nuxt-link>
+      <nuxt-link to="/order" style="text-decoration: none">
+        <StatsCard
+          title="Orders"
+          :stat="stats ? stats.orders + '' : '-'"
+          icon="mdi-clipboard-multiple"
+        />
+      </nuxt-link>
     </div>
     <div
       style="display: grid;grid-template-columns: calc(50% - 20px) calc(50% - 20px); grid-column-gap: 20px"
@@ -91,16 +101,16 @@
                       color="grey"
                       >mdi-clock-time-four-outline</v-icon
                     >
-                    <p v-if="calcAgoDay(order.createdAt) != 0">
+                    <p v-if="calcAgoDay(order.createdAt) !== 0">
                       {{ calcAgoDay(order.createdAt) + ' Days Ago' }}
                     </p>
-                    <p v-else-if="calcAgoHour(order.createdAt) != 0">
+                    <p v-else-if="calcAgoHour(order.createdAt) !== 0">
                       {{ calcAgoHour(order.createdAt) + ' Hours Ago' }}
                     </p>
-                    <p v-else-if="calcAgoMin(order.createdAt) != 0">
+                    <p v-else-if="calcAgoMin(order.createdAt) !== 0">
                       {{ calcAgoMin(order.createdAt) + ' Mins Ago' }}
                     </p>
-                    <p v-else-if="calcAgoSec(order.createdAt) != 0">
+                    <p v-else-if="calcAgoSec(order.createdAt) !== 0">
                       {{ calcAgoSec(order.createdAt) + ' Secs Ago' }}
                     </p>
                     <p v-else>
@@ -275,7 +285,7 @@ export default {
         )
       } else {
         this.loading = true
-        this.getPendingOrders()
+        await this.getPendingOrders()
       }
       this.loading = false
     },
@@ -290,7 +300,7 @@ export default {
         )
       } else {
         this.loading = true
-        this.getRequests()
+        await this.getRequests()
       }
       this.loading = false
     },
@@ -310,7 +320,7 @@ export default {
         this.snackbar = true
         this.snackbarColor = 'green'
         this.snackbarText = 'Successfully Accepted Order'
-        this.getPendingOrders()
+        await this.getPendingOrders()
       }
     },
     async getRejected(item) {
@@ -319,7 +329,7 @@ export default {
         this.snackbar = true
         this.snackbarColor = 'red'
         this.snackbarText = 'Successfully Cancelled Order'
-        this.getPendingOrders()
+        await this.getPendingOrders()
       }
     },
     getDetail(item) {
@@ -331,7 +341,7 @@ export default {
         this.snackbar = true
         this.snackbarColor = 'green'
         this.snackbarText = 'Successfully Completed Request'
-        this.getRequests()
+        await this.getRequests()
       }
     },
     async getRejectedRequests(item) {
@@ -340,7 +350,7 @@ export default {
         this.snackbar = true
         this.snackbarColor = 'red'
         this.snackbarText = 'Successfully Rejected Request'
-        this.getRequests()
+        await this.getRequests()
       }
     },
     getDetailRequests(item) {

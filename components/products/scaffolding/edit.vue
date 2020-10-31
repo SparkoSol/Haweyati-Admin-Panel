@@ -74,21 +74,24 @@
                 </v-btn></v-col
               >
             </v-row>
-            <v-card style="padding: 20px">
+            <v-card style="padding: 5px;box-shadow: none">
               <v-row
                 v-for="(price, i) of scaffolding.pricing"
                 :key="i"
-                style="display: grid;grid-template-columns: auto auto auto auto auto 50px"
+                style="display: grid;grid-template-columns: calc(25% - 10px) calc(25% - 10px) calc(25% - 10px) calc(25% - 10px) 50px"
               >
                 <v-col>
-                  <v-text-field
+                  <v-select
                     v-model="price.city"
-                    :rules="[required]"
                     color="#313F53"
                     outlined
-                    :label="'City ' + (i + 1)"
                     dense
-                  ></v-text-field>
+                    :rules="[city(price.city, scaffolding.pricing)]"
+                    :items="citiesData"
+                    :label="'City ' + (i + 1)"
+                    item-text="name"
+                  >
+                  </v-select>
                 </v-col>
                 <v-col>
                   <v-text-field
@@ -156,7 +159,7 @@
 <script>
 import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
-import { required, priceWZ } from '@/common/lib/validator'
+import { required, priceWZ, city } from '@/common/lib/validator'
 import { Scaffolding } from '@/models/products/scaffolding'
 
 export default {
@@ -190,11 +193,16 @@ export default {
       { text: 'Address', value: 'address' },
       { text: 'Services', value: 'services' }
     ],
-    columnsSelected: [{ text: 'Name', value: 'person.name' }]
+    columnsSelected: [{ text: 'Name', value: 'person.name' }],
+    citiesData: []
   }),
+  mounted() {
+    this.getCities()
+  },
   methods: {
     required,
     priceWZ,
+    city,
     returnBack() {
       this.$router.back()
     },
@@ -232,6 +240,21 @@ export default {
       }
       formData.forEach((item) => window.console.log(item))
       return formData
+    },
+    async getCities() {
+      this.citiesData = await this.$axios.$get('suppliers/cities')
+    },
+    cityValidator(v) {
+      this.scaffolding.pricing.forEach((item) => {
+        console.log(item)
+        if (item.city === v) {
+          console.log('not')
+          return 'City is already selected.'
+        } else {
+          console.log('yes')
+          return true
+        }
+      })
     }
   }
 }

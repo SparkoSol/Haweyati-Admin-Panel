@@ -83,67 +83,58 @@
           <v-row
             v-for="(price, i) of pricing"
             :key="i"
-            style="display: grid;grid-template-columns: auto auto auto auto auto 50px"
+            style="display: grid;grid-template-columns: calc(20% - 15px) calc(20% - 15px) calc(20% - 15px) calc(20% - 15px) calc(20% - 15px) 50px;grid-column-gap: 5px"
           >
-            <v-col>
-              <v-text-field
-                v-model="price.city"
-                color="#313F53"
-                :rules="[required]"
-                outlined
-                :label="'City ' + (i + 1)"
-                dense
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model="price.rent"
-                color="#313F53"
-                type="number"
-                :rules="[required, priceWZ]"
-                outlined
-                label="Rent"
-                dense
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model="price.days"
-                type="number"
-                :rules="[required, priceWZ]"
-                color="#313F53"
-                outlined
-                label="Days"
-                dense
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model="price.extraDayRent"
-                color="#313F53"
-                outlined
-                type="number"
-                :rules="[required, priceWZ]"
-                label="Extra Day Price"
-                dense
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model="price.helperPrice"
-                color="#313F53"
-                outlined
-                label="Helper Price"
-                :rules="[required, priceWZ]"
-                type="number"
-                dense
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="1" sm="1">
-              <v-btn icon @click="removeCity(i)">
-                <v-icon color="red">mdi-delete</v-icon>
-              </v-btn>
-            </v-col>
+            <v-select
+              v-model="price.city"
+              color="#313F53"
+              outlined
+              :rules="[city(price.city, pricing)]"
+              dense
+              :items="citiesData"
+              :label="'City ' + (i + 1)"
+              item-text="name"
+            >
+            </v-select>
+            <v-text-field
+              v-model="price.rent"
+              color="#313F53"
+              type="number"
+              :rules="[required, priceWZ]"
+              outlined
+              label="Rent"
+              dense
+            ></v-text-field>
+            <v-text-field
+              v-model="price.days"
+              type="number"
+              :rules="[required, priceWZ]"
+              color="#313F53"
+              outlined
+              label="Days"
+              dense
+            ></v-text-field>
+            <v-text-field
+              v-model="price.extraDayRent"
+              color="#313F53"
+              outlined
+              type="number"
+              :rules="[required, priceWZ]"
+              label="Extra Day Price"
+              dense
+            ></v-text-field>
+            <v-text-field
+              v-model="price.helperPrice"
+              color="#313F53"
+              outlined
+              label="Helper Price"
+              :rules="[rentHelper]"
+              type="number"
+              dense
+            ></v-text-field>
+            <v-btn icon @click="removeCity(i)">
+              <v-icon color="red">mdi-delete</v-icon>
+            </v-btn>
           </v-row>
         </v-card>
         <v-card style="padding: 20px">
@@ -173,10 +164,11 @@
 import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import { ConstructionDumpster } from '../../../models/products/construction-dumpsters'
 import { ConstructionDumpsterPricing } from '../../../models/products/construction-dumpster-pricing'
-import { required, priceWZ } from '../../../common/lib/validator'
+import { required, priceWZ, rentHelper } from '../../../common/lib/validator'
 // import { Supplier } from '../../../models/supplier'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
 import ImageSelector from '../../misc/image-selector'
+import { city } from '@/common/lib/validator'
 
 export default {
   name: 'DumpsterForm',
@@ -217,14 +209,18 @@ export default {
     cities: [{ name: '', value: '' }],
     suppliersList: [],
     imageFile: null,
-    sendImage: null
+    sendImage: null,
+    citiesData: []
   }),
   mounted() {
     this.getSuppliers()
+    this.getCities()
   },
   methods: {
     priceWZ,
+    rentHelper,
     required,
+    city,
     returnBack() {
       this.$router.back()
     },
@@ -269,7 +265,12 @@ export default {
       return formData
     },
     async getSuppliers() {
+      console.log(this.suppliersList)
       this.suppliersList = await this.$axios.$get('suppliers/all')
+      console.log(this.suppliersList)
+    },
+    async getCities() {
+      this.citiesData = await this.$axios.$get('suppliers/cities')
     }
   }
 }

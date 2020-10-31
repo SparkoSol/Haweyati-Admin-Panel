@@ -24,6 +24,10 @@
           :approve-route="item.approveRoute"
           :reject="item.reject"
           :reject-route="item.rejectRoute"
+          :block="item.block"
+          :block-route="item.blockRoute"
+          :unblock="item.unblock"
+          :unblock-route="item.unblockRoute"
           :on-delete="onDelete"
           :on-accepted="onAccepted"
           :on-rejected="onRejected"
@@ -69,6 +73,8 @@ export default {
           detailRoute: '/store/detail/$id',
           approve: false,
           reject: false,
+          block: true,
+          blockRoute: 'suppliers/block/$id',
           columns: [
             {
               text: 'Image',
@@ -137,6 +143,39 @@ export default {
           detailRoute: '/store/detail/$id',
           approve: false,
           reject: false,
+          columns: [
+            {
+              text: 'Image',
+              value: 'person.image',
+              filterable: false,
+              sortable: false
+            },
+            { text: 'Name', value: 'person.name' },
+            { text: 'Email', value: 'person.email' },
+            { text: 'Contact', value: 'person.contact' },
+            { text: 'Address', value: 'location.address', sortable: false },
+            {
+              text: 'Services',
+              value: 'services',
+              sortable: false,
+              width: '300px'
+            }
+          ]
+        },
+        {
+          tab: 'Blocked',
+          title: 'Blocked Suppliers',
+          endpoint: '/suppliers/block',
+          create: false,
+          change: true,
+          changeRoute: '/store/edit/$id',
+          remove: false,
+          detail: true,
+          detailRoute: '/store/detail/$id',
+          approve: false,
+          reject: false,
+          unblock: true,
+          unblockRoute: '/suppliers/approve/$id',
           columns: [
             {
               text: 'Image',

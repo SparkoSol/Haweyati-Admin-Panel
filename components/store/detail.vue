@@ -134,6 +134,7 @@ export default {
             { text: 'Name', value: 'person.name' },
             { text: 'Email', value: 'person.email' },
             { text: 'Contact', value: 'person.contact' },
+            { text: 'Status', value: 'status' },
             { text: 'Address', value: 'location.address', sortable: false },
             {
               text: 'Services',
