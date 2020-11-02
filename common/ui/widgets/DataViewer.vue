@@ -628,6 +628,10 @@ export default defineComponent({
           return 'Closed'
         case 3:
           return 'Rejected'
+        case 4:
+          return 'Dispatched'
+        case 5:
+          return 'Approved'
         default:
           return ''
       }
