@@ -73,6 +73,13 @@ export default {
               filterable: false,
               sortable: false
             },
+            {
+              text: 'Ref#',
+              value: 'requestNo',
+              width: '120px',
+              filterable: false,
+              sortable: false
+            },
             { text: 'Supplier Name', value: 'suppliers.person.name' },
             { text: 'Request Type', value: 'type' },
             {

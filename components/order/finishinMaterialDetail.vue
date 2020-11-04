@@ -25,6 +25,7 @@
             <img
               v-if="order.customer.profile.image"
               style="object-fit: cover"
+              alt="profile"
               :src="
                 $axios.defaults.baseURL +
                   'uploads/' +
@@ -35,6 +36,7 @@
               v-else
               style="object-fit: cover"
               src="../../assets/images/placeholders/placeholder_person.jpg"
+              alt="placeholder"
             />
           </v-avatar>
         </div>
@@ -107,6 +109,15 @@
           dense
         ></v-text-field>
         <v-text-field
+          v-model="order.deliveryFee"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Delivery Fee"
+          dense
+        ></v-text-field>
+        <v-text-field
           v-model="order.note"
           color="#313F53"
           outlined
@@ -123,14 +134,19 @@
             :items="order.items"
             fixed-header
           >
-            <template v-slot:item.item.variant="{ item }">
-              <span
-                v-for="(detail, i) of Object.keys(item.item.product.varient)"
-                :key="i"
-              >
-                <p style="margin: 0">
-                  {{ detail }}: {{ item.item.product.varient[detail] }}
-                </p>
+            <template v-slot:item.item.variants="{ item }">
+              <span v-if="item.item.variants">
+                <span
+                  v-for="(variant, i) of Object.keys(item.item.variants)"
+                  :key="i"
+                >
+                  <p style="margin: 0">
+                    {{ variant }} : {{ item.item.variants[variant] }}
+                  </p>
+                </span>
+              </span>
+              <span v-else>
+                <p style="margin: 0">None</p>
               </span>
             </template>
           </v-data-table>
@@ -199,7 +215,7 @@ export default {
   data: () => ({
     columns: [
       { text: 'Name', value: 'item.product.name' },
-      { text: 'Variant', value: 'item.variant' },
+      { text: 'Variant', value: 'item.variants' },
       { text: 'Price', value: 'item.price' },
       { text: 'Quantity', value: 'item.qty' },
       { text: 'Total', value: 'subtotal' }

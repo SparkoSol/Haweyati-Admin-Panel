@@ -35,8 +35,8 @@
       <!--        </v-sheet>-->
       <!--      </v-bottom-sheet>-->
 
-      <v-btn icon @click="load">
-        <v-icon>mdi-reload</v-icon>
+      <v-btn aria-hidden="true" icon @click="load">
+        <v-icon aria-hidden="true">mdi-reload</v-icon>
       </v-btn>
     </v-card-title>
 
@@ -45,6 +45,7 @@
       <v-text-field
         v-model="search"
         placeholder="Search"
+        aria-hidden="true"
         dense
         filled
         outlined
@@ -203,6 +204,7 @@
           style="margin: 5px"
           size="20"
           color="green"
+          aria-hidden="true"
           @click="detailItem(item)"
           >mdi-clipboard</v-icon
         >
@@ -211,6 +213,7 @@
           size="20"
           style="margin: 5px"
           color="green"
+          aria-hidden="true"
           @click="approveItem(item)"
           >mdi-check-circle</v-icon
         >
@@ -219,6 +222,7 @@
           style="margin: 5px"
           size="20"
           color="red"
+          aria-hidden="true"
           @click="rejectItem(item)"
           >mdi-close-circle</v-icon
         >
@@ -227,6 +231,7 @@
           style="margin: 5px"
           size="20"
           color="green"
+          aria-hidden="true"
           @click="changeItem(item)"
           >mdi-pencil</v-icon
         >
@@ -235,6 +240,7 @@
           style="margin: 5px"
           size="20"
           color="red"
+          aria-hidden="true"
           @click="removeItem(item)"
           >mdi-delete</v-icon
         >
@@ -243,6 +249,7 @@
           style="margin: 5px"
           size="20"
           color="red"
+          aria-hidden="true"
           @click="blockItem(item)"
           >mdi-block-helper</v-icon
         >
@@ -251,6 +258,7 @@
           style="margin: 5px"
           small
           color="green"
+          aria-hidden="true"
           @click="unblockItem(item)"
           >mdi-check</v-icon
         >
@@ -623,15 +631,19 @@ export default defineComponent({
         case 0:
           return 'Pending'
         case 1:
-          return 'Active'
+          return 'Approved'
         case 2:
-          return 'Closed'
+          return 'Accepted'
         case 3:
-          return 'Rejected'
+          return 'Preparing'
         case 4:
           return 'Dispatched'
         case 5:
-          return 'Approved'
+          return 'Delivered'
+        case 6:
+          return 'Rejected'
+        case 7:
+          return 'Cancelled'
         default:
           return ''
       }

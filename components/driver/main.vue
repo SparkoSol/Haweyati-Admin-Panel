@@ -123,7 +123,7 @@ export default {
         ]
       },
       {
-        tab: 'Approved',
+        tab: 'Active',
         endpoint: '/getverified',
         approve: false,
         reject: false,
@@ -131,7 +131,7 @@ export default {
         change: true,
         detail: true,
         unblock: false,
-        title: 'Approved Drivers',
+        title: 'Active Drivers',
         columns: [
           {
             text: 'Image',
@@ -150,7 +150,7 @@ export default {
       {
         tab: 'Rejected',
         endpoint: '/getrejected',
-        approve: false,
+        approve: true,
         reject: false,
         block: false,
         change: true,

@@ -10,6 +10,7 @@
         height: 200px;
         cursor: pointer;"
           :src="$axios.defaults.baseURL + 'uploads/' + item.name"
+          alt="view"
           @click="viewImage(item.name, item.sort)"
         />
         <p>{{ item.sort.toUpperCase() }}</p>
@@ -24,6 +25,7 @@
           <img
             style="object-fit: cover;width: 700px"
             :src="$axios.defaults.baseURL + 'uploads/' + name"
+            alt="zoom"
           />
         </div>
       </div>

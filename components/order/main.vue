@@ -146,7 +146,7 @@ export default {
         ]
       },
       {
-        tab: 'Active',
+        tab: 'Accepted',
         endpoint: '/getactive',
         approve: false,
         reject: false,
@@ -154,7 +154,7 @@ export default {
         change: false,
         detail: true,
         unblock: false,
-        title: 'Active Orders',
+        title: 'Accepted Orders',
         columns: [
           {
             text: '#',
@@ -173,14 +173,69 @@ export default {
         ]
       },
       {
-        tab: 'Closed',
-        endpoint: '/getclosed',
+        tab: 'Preparing',
+        endpoint: '/preparing',
         approve: false,
         reject: false,
         block: false,
+        change: false,
         detail: true,
         unblock: false,
-        title: 'Closed Orders',
+        title: 'Preparing Orders',
+        columns: [
+          {
+            text: '#',
+            value: 'orderNo'
+          },
+          {
+            text: 'Name',
+            value: 'customer.profile.name'
+          },
+          { text: 'Contact', value: 'customer.profile.contact' },
+          { text: 'Service', value: 'service' },
+          { text: 'Payment Type', value: 'paymentType' },
+          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Date', value: 'createdAt' },
+          { text: 'Status', value: 'status' }
+        ]
+      },
+      {
+        tab: 'Dispatched',
+        endpoint: '/dispatched',
+        approve: false,
+        reject: false,
+        block: false,
+        change: false,
+        detail: true,
+        unblock: false,
+        title: 'Dispatched Orders',
+        columns: [
+          {
+            text: '#',
+            value: 'orderNo'
+          },
+          {
+            text: 'Name',
+            value: 'customer.profile.name'
+          },
+          { text: 'Contact', value: 'customer.profile.contact' },
+          { text: 'Service', value: 'service' },
+          { text: 'Payment Type', value: 'paymentType' },
+          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Date', value: 'createdAt' },
+          { text: 'Status', value: 'status' }
+        ]
+      },
+      {
+        tab: 'Delivered',
+        endpoint: '/completed',
+        approve: false,
+        reject: false,
+        block: false,
+        change: false,
+        detail: true,
+        unblock: false,
+        title: 'Delivered Orders',
         columns: [
           {
             text: '#',
@@ -201,12 +256,39 @@ export default {
       {
         tab: 'Rejected',
         endpoint: '/getrejected',
-        approve: false,
+        approve: true,
         reject: false,
         block: false,
         detail: true,
         unblock: false,
         title: 'Rejected Orders',
+        columns: [
+          {
+            text: '#',
+            value: 'orderNo'
+          },
+          {
+            text: 'Name',
+            value: 'customer.profile.name'
+          },
+          { text: 'Contact', value: 'customer.profile.contact' },
+          { text: 'Service', value: 'service' },
+          { text: 'Payment Type', value: 'paymentType' },
+          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Date', value: 'createdAt' },
+          { text: 'Status', value: 'status' }
+        ]
+      },
+      {
+        tab: 'Cancelled',
+        endpoint: '/cancelled',
+        approve: false,
+        reject: false,
+        block: false,
+        change: false,
+        detail: true,
+        unblock: false,
+        title: 'Cancelled Orders',
         columns: [
           {
             text: '#',

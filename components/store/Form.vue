@@ -54,6 +54,57 @@
             hint="0307 - 7355699"
             label="Contact"
           />
+          <div v-if="!isUpdate">
+            <v-text-field
+              v-model="password"
+              :rules="[required]"
+              type="password"
+              color="#313F53"
+              outlined
+              style="color: #313F53"
+              dense
+              label="Password"
+            />
+            <v-text-field
+              v-model="confirmPassword"
+              :rules="[
+                required,
+                (v) => v === password || 'Could Not Confirm Password'
+              ]"
+              type="password"
+              color="#313F53"
+              outlined
+              style="color: #313F53"
+              dense
+              label="Confirm Password"
+            />
+          </div>
+          <div v-else>
+            <v-text-field
+              v-model="password"
+              type="password"
+              color="#313F53"
+              outlined
+              style="color: #313F53"
+              dense
+              label="Password"
+            />
+            <v-text-field
+              v-model="confirmPassword"
+              type="password"
+              :rules="[
+                password ? required : true,
+                password
+                  ? (v) => v === password || 'Could Not Confirm Password'
+                  : true
+              ]"
+              color="#313F53"
+              outlined
+              style="color: #313F53"
+              dense
+              label="Confirm Password"
+            />
+          </div>
         </v-card>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Media</v-card-title>
@@ -211,7 +262,9 @@ export default {
     mergeCheck: false,
     errorCheck: false,
     error: '',
-    response: null
+    response: null,
+    password: null,
+    confirmPassword: null
   }),
   mounted() {
     if (this.isUpdate) {
@@ -242,6 +295,11 @@ export default {
         formData.append('email', this.supplier.person.email)
       } else {
         formData.append('email', '')
+      }
+      if (this.password) {
+        formData.append('password', this.password)
+      } else {
+        formData.append('password', this.supplier.profile.password)
       }
       formData.append(
         'contact',

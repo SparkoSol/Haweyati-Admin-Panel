@@ -74,6 +74,7 @@
               style="margin: 5px;padding: 0px"
             >
               <img
+                alt="person"
                 :src="
                   $axios.defaults.baseURL + 'uploads/' + item.person.image.name
                 "

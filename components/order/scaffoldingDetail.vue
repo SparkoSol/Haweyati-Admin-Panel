@@ -25,6 +25,7 @@
             <img
               v-if="order.customer.profile.image"
               style="object-fit: cover"
+              alt="customer"
               :src="
                 $axios.defaults.baseURL +
                   'uploads/' +
@@ -35,6 +36,7 @@
               v-else
               style="object-fit: cover"
               src="../../assets/images/placeholders/placeholder_person.jpg"
+              alt="placeholder"
             />
           </v-avatar>
         </div>
@@ -104,6 +106,15 @@
           style="color: #313F53"
           readonly
           label="Total Bill"
+          dense
+        ></v-text-field>
+        <v-text-field
+          v-model="order.deliveryFee"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Delivery Fee"
           dense
         ></v-text-field>
         <v-text-field

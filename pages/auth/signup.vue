@@ -11,6 +11,7 @@
         >
           <img
             src="../../assets/Haweyati_Logo.png"
+            alt="logo"
             width="130px"
             height="130px"
           />
@@ -25,6 +26,7 @@
         >
           <img
             src="../../assets/Haweyati_Logo.png"
+            alt="logo"
             width="130px"
             height="130px"
           />

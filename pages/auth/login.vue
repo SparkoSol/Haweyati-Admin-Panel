@@ -7,6 +7,7 @@
         style="display: flex;justify-content: center;align-items: center;"
       >
         <img
+          alt="logo"
           src="../../assets/Haweyati_Logo.png"
           width="130px"
           height="130px"

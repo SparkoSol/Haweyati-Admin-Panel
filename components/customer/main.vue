@@ -87,10 +87,12 @@
                           'uploads/' +
                           customer.profile.image.name
                       "
+                      alt="customer"
                     />
                     <img
                       v-else
                       src="../../assets/images/placeholders/placeholder_person.jpg"
+                      alt="placeholder"
                     />
                   </v-avatar>
                 </div>
@@ -155,10 +157,12 @@
                           'uploads/' +
                           customer.profile.image.name
                       "
+                      alt="customer"
                     />
                     <img
                       v-else
                       src="../../assets/images/placeholders/placeholder_person.jpg"
+                      alt="placeholder"
                     />
                   </v-avatar>
                 </div>

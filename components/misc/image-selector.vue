@@ -21,6 +21,7 @@
           height="100%"
           style="object-fit: contain"
           :src="$axios.defaults.baseURL + 'uploads/' + image_.image.name"
+          alt="select"
           @input="onSelectFile"
         />
       </div>

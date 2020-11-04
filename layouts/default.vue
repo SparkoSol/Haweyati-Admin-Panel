@@ -61,10 +61,12 @@
       </v-list>
     </v-navigation-drawer>
     <v-app-bar clipped-left elevation="0" dense color="#313F53" fixed app>
-      <v-app-bar-nav-icon
+      <v-icon
+        aria-hidden="true"
         style="color: white;margin-right: 30px;text-align: center"
         @click.stop="drawer = !drawer"
-      />
+        >mdi-menu</v-icon
+      >
       <v-spacer />
       <img
         alt="logo"
@@ -78,7 +80,9 @@
       <v-menu offset-y bottom transition="slide-y-transition">
         <template v-slot:activator="{ on, attrs }">
           <v-badge :value="badge === 'true'" overlap color="#ff974d" dot>
-            <v-icon v-bind="attrs" color="#ff974d" v-on="on">mdi-bell</v-icon>
+            <v-icon aria-hidden="true" v-bind="attrs" color="#ff974d" v-on="on"
+              >mdi-bell</v-icon
+            >
           </v-badge>
         </template>
         <div style="max-height: 500px; overflow: auto" class="scrollbar">
@@ -327,7 +331,7 @@ export default {
     audio() {
       try {
         const data = {
-          soundurl: 'http://178.128.16.246:4000/uploads/notificationTone.mpeg'
+          soundurl: 'http://192.168.100.100:4000/uploads/notificationTone.mpeg'
         }
         const audio = new Audio(data.soundurl)
         audio.play()

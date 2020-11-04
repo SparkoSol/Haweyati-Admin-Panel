@@ -11,11 +11,13 @@
         v-if="image"
         style="object-fit: cover"
         :src="$axios.defaults.baseURL + 'uploads/' + image.name"
+        alt="view"
       />
       <img
         v-else
         style="object-fit: cover"
         src="../../assets/images/placeholders/placeholder_person.jpg"
+        alt="placeholder"
       />
     </v-avatar>
     <v-dialog v-model="imageView" width="700px">
@@ -26,11 +28,13 @@
           v-if="image"
           style="object-fit: cover;width: 700px"
           :src="$axios.defaults.baseURL + 'uploads/' + image.name"
+          alt="view"
         />
         <img
           v-else
           style="object-fit: cover;width: 700px;height: 480px"
           src="../../assets/images/placeholders/placeholder_person.jpg"
+          alt="placeholder"
         />
       </div>
     </v-dialog>

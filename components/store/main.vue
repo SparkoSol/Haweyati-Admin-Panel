@@ -141,7 +141,8 @@ export default {
           remove: false,
           detail: true,
           detailRoute: '/store/detail/$id',
-          approve: false,
+          approve: true,
+          approveRoute: '/suppliers/approve/$id',
           reject: false,
           columns: [
             {
