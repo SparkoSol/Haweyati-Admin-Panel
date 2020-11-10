@@ -5,7 +5,7 @@
     >
       <nuxt-link to="/product" style="text-decoration: none">
         <StatsCard
-          title="Products Sold"
+          title="Products"
           :stat="stats ? stats.productSold + '' : '-'"
           icon="mdi-cart"
         />

@@ -270,7 +270,7 @@ export default {
         console.log(this.customer.profile.email)
         formData.append('email', this.customer.profile.email)
       } else {
-        formData.append('email', null)
+        formData.append('email', '')
       }
       formData.append(
         'contact',

@@ -299,7 +299,7 @@ export default {
       if (this.password) {
         formData.append('password', this.password)
       } else {
-        formData.append('password', this.supplier.profile.password)
+        formData.append('password', this.supplier.person.password)
       }
       formData.append(
         'contact',

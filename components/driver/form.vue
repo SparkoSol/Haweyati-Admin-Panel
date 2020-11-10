@@ -4,8 +4,7 @@
       :method="isUpdate ? 'patch' : 'post'"
       :data="formData"
       return
-      endpoint="/persons"
-      @response="formDataAxios"
+      endpoint="/drivers"
     >
       <template v-slot:header>
         <v-row>
@@ -47,6 +46,7 @@
             v-model="driver.profile.contact"
             v-mask="['+### - #######', '+#### - ########']"
             style="align-items: center !important;"
+            readonly
             outlined
             hint="0307 - 7355699"
             label="Driver Contact"
@@ -67,6 +67,7 @@
             v-model="driver.city"
             style="align-items: center !important;"
             outlined
+            readonly
             label="Driver City"
             :value="driver.city"
             :rules="[required]"
@@ -154,9 +155,7 @@ export default {
       let image = false
       for (const key of Object.keys(this.driver)) {
         console.log(key)
-        if (key === '_id') {
-          continue
-        } else if (key === 'profile') {
+        if (key === 'profile') {
           for (const profile of Object.keys(this.driver[key])) {
             if (profile === 'image') {
               if (this.sendImage) {
@@ -165,6 +164,8 @@ export default {
               } else {
                 continue
               }
+            } else if (profile === '_id') {
+              formData.append('profile', this.driver[key][profile])
             } else if (profile === 'contact') {
               formData.append(
                 profile,
@@ -175,9 +176,13 @@ export default {
             }
           }
         } else if (key === 'vehicle') {
-          continue
-        } else if (key === 'license') {
-          continue
+          for (const vehicle of Object.keys(this.driver[key])) {
+            if (vehicle === 'name') {
+              formData.append('vehicleName', this.driver[key][vehicle])
+            } else {
+              formData.append(vehicle, this.driver[key][vehicle])
+            }
+          }
         } else if (key === 'city') {
           continue
         } else if (key === 'location') {
@@ -193,6 +198,8 @@ export default {
           formData.append('image', this.sendImage)
         }
       }
+      formData.append('isVehicleInfoChanged', true)
+      formData.append('isAdmin', true)
       formData.forEach((item) => window.console.log(item))
       return formData
     },
