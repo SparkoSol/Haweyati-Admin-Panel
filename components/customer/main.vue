@@ -9,7 +9,7 @@
     <v-tabs-items v-model="tab">
       <v-tab-item v-for="item in tabs" :key="item.tab">
         <div
-          v-if="!item.blocked"
+          v-if="!item.blocked && !item.guest"
           style="display: flex;justify-content: right;align-items: center"
         >
           <v-col cols="12" md="8" sm="8"></v-col>
@@ -42,7 +42,7 @@
           </v-col>
         </div>
         <div
-          v-if="item.blocked"
+          v-if="item.blocked && !item.guest"
           style="display: flex;justify-content: right;align-items: center"
         >
           <v-col cols="12" md="8" sm="8"></v-col>
@@ -61,7 +61,27 @@
             </v-text-field>
           </v-col>
         </div>
-        <div v-if="!item.blocked">
+        <div
+          v-if="!item.blocked && item.guest"
+          style="display: flex;justify-content: right;align-items: center"
+        >
+          <v-col cols="12" md="8" sm="8"></v-col>
+          <v-col cols="12" md="4" sm="4">
+            <v-text-field
+              v-model="searchQueryGuest"
+              outlined
+              color="#FF974D"
+              hide-details
+              dense
+              label="Search..."
+              append-icon="mdi-magnify"
+              @click:append="searchGuest"
+              @keypress.enter="searchGuest"
+            >
+            </v-text-field>
+          </v-col>
+        </div>
+        <div v-if="!item.blocked && !item.guest">
           <div
             v-if="(customers === null || customers.length <= 0) && !loading"
             style="display: flex;justify-content: center;align-items: center;"
@@ -126,7 +146,7 @@
             </v-card>
           </div>
         </div>
-        <div v-if="item.blocked">
+        <div v-if="item.blocked && !item.guest">
           <div
             v-if="
               (blockedCustomers === null || blockedCustomers.length <= 0) &&
@@ -168,7 +188,7 @@
                 </div>
                 <div>
                   <h3>{{ customer.profile.name }}</h3>
-                  <p>{{ customer.location.address }}</p>
+                  <!--                  <p>{{ customer.location.address }}</p>-->
                   <h5 style="color: grey">{{ customer.profile.contact }}</h5>
                 </div>
                 <div>
@@ -190,6 +210,76 @@
                     width="100%"
                     @click="unblockItem(customer)"
                     >Unblock
+                  </v-btn>
+                </div>
+              </div>
+            </v-card>
+          </div>
+        </div>
+        <div v-if="item.guest && !item.blocked">
+          <div
+            v-if="
+              (guestCustomers === null || guestCustomers.length <= 0) &&
+                !loading
+            "
+            style="display: flex;justify-content: center;align-items: center;"
+          >
+            <h3>No Data Found</h3>
+          </div>
+          <div
+            v-if="guestCustomers !== null && guestCustomers.length > 0"
+            style="display: grid; grid-template-columns: calc(50% - 10px) calc(50% - 10px); grid-column-gap: 20px; grid-row-gap: 20px"
+          >
+            <v-card
+              v-for="(customer, i) in guestCustomers"
+              :key="i"
+              style="padding: 10px;"
+            >
+              <div
+                style="display: grid;grid-template-columns: 20% 60% 20%; padding: 20px;"
+              >
+                <div>
+                  <v-avatar size="80" color="white">
+                    <img
+                      v-if="customer.profile && customer.profile.image"
+                      :src="
+                        $axios.defaults.baseURL +
+                          'uploads/' +
+                          customer.profile.image.name
+                      "
+                      alt="customer"
+                    />
+                    <img
+                      v-else
+                      src="../../assets/images/placeholders/placeholder_person.jpg"
+                      alt="placeholder"
+                    />
+                  </v-avatar>
+                </div>
+                <div>
+                  <h3>{{ customer.profile.name }}</h3>
+                  <!--                  <p>{{ customer.location.address }}</p>-->
+                  <h5 style="color: grey">{{ customer.profile.contact }}</h5>
+                </div>
+                <div>
+                  <v-btn
+                    color="#FF974D"
+                    style="margin-bottom: 10px"
+                    dark
+                    tile
+                    small
+                    width="100%"
+                    @click="detail(customer)"
+                    >Detail
+                  </v-btn>
+                  <v-btn
+                    color="red"
+                    dark
+                    tile
+                    small
+                    width="100%"
+                    @click="blockItem(customer)"
+                    >Block
                   </v-btn>
                 </div>
               </div>
@@ -227,22 +317,32 @@ export default {
   data: () => ({
     searchQueryActive: null,
     searchQueryBlocked: null,
+    searchQueryGuest: null,
     snackbarText: 'Success!',
     snackbarColor: 'green',
     snackbar: false,
     loading: true,
     customers: [],
     blockedCustomers: [],
+    guestCustomers: [],
     tabs: [
       {
         tab: 'Active',
         title: 'Active Customers',
-        blocked: false
+        blocked: false,
+        guest: false
       },
       {
         tab: 'Blocked',
         title: 'Blocked Customers',
-        blocked: true
+        blocked: true,
+        guest: false
+      },
+      {
+        tab: 'Guest',
+        title: 'Guest Customers',
+        blocked: false,
+        guest: true
       }
     ],
     tab: null
@@ -250,6 +350,7 @@ export default {
   mounted() {
     this.getCustomers()
     this.getBlockedCustomers()
+    this.getGuestCustomers()
     this.loading = false
   },
   methods: {
@@ -261,7 +362,7 @@ export default {
         )
       } else {
         this.loading = true
-        this.getCustomers()
+        await this.getCustomers()
       }
       this.loading = false
     },
@@ -273,7 +374,19 @@ export default {
         )
       } else {
         this.loading = true
-        this.getBlockedCustomers()
+        await this.getBlockedCustomers()
+      }
+      this.loading = false
+    },
+    async searchGuest() {
+      if (this.searchQueryGuest !== null && this.searchQueryGuest !== '') {
+        this.loading = true
+        this.guestCustomers = await this.$axios.$get(
+          '/customers/guest-search?name=' + this.searchQueryGuest
+        )
+      } else {
+        this.loading = true
+        await this.getGuestCustomers()
       }
       this.loading = false
     },
@@ -282,6 +395,9 @@ export default {
     },
     async getBlockedCustomers() {
       this.blockedCustomers = await this.$axios.$get('customers/getblocked')
+    },
+    async getGuestCustomers() {
+      this.guestCustomers = await this.$axios.$get('customers/guest')
     },
     onBlock() {
       this.snackbarColor = 'red'
