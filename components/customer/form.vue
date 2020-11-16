@@ -4,7 +4,7 @@
       :method="isUpdate ? 'patch' : 'post'"
       :data="formData"
       return
-      endpoint="/customers"
+      :endpoint="!isUpdate ? endpoint : 'customers'"
     >
       <template v-slot:header>
         <v-row>
@@ -244,7 +244,8 @@ export default {
     mergeCheck: false,
     errorCheck: false,
     error: '',
-    response: null
+    response: null,
+    endpoint: '/customers/new-admin'
   }),
   mounted() {
     if (this.isUpdate) {
@@ -336,6 +337,7 @@ export default {
       this.mergeCheck = false
       this.errorCheck = false
       this.contactCheck = true
+      this.response = null
     }
   }
 }

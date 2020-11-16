@@ -253,6 +253,12 @@ export default {
           active: false
         },
         {
+          action: 'mdi-car',
+          title: 'Manage Vehicle Type',
+          to: '/vehicle-type',
+          active: false
+        },
+        {
           action: 'mdi-cog',
           title: 'Settings',
           to: '/setting',

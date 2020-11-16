@@ -75,16 +75,16 @@ export default {
       local: {
         endpoints: {
           login: {
-            url: 'http://178.128.16.246:4000/auth/sign-in',
+            url: '/auth/sign-in',
             method: 'post',
             propertyName: 'access_token'
           },
           logout: {
-            url: 'http://178.128.16.246:4000/auth/sign-out',
+            url: '/auth/sign-out',
             method: 'post'
           },
           user: {
-            url: 'http://178.128.16.246:4000/auth/profile',
+            url: '/auth/profile',
             method: 'get',
             propertyName: 'profile'
           }

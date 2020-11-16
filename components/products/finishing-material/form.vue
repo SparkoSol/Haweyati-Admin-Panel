@@ -60,6 +60,26 @@
             dense
             prepend-inner-icon="mdi-cash"
           ></v-text-field>
+          <v-text-field
+            v-if="!allowVariants"
+            v-model="finishingMaterial.volume"
+            :rules="[required, priceWZ]"
+            type="number"
+            outlined
+            label="Volume"
+            dense
+            prepend-inner-icon="mdi-cash"
+          ></v-text-field>
+          <v-text-field
+            v-if="!allowVariants"
+            v-model="finishingMaterial.weight"
+            :rules="[required, priceWZ]"
+            type="number"
+            outlined
+            label="Weight"
+            dense
+            prepend-inner-icon="mdi-cash"
+          ></v-text-field>
           <v-checkbox
             v-model="allowVariants"
             label="This product has multiple variants"
@@ -120,16 +140,40 @@
               hide-default-footer
             >
               <template v-slot:item.varientPrice="{ item }">
-                <v-text-field
-                  v-model="item.varientPrice"
-                  :rules="[required, priceWZ]"
-                  type="number"
-                  style="align-items: center !important;"
-                  outlined
-                  label="Price"
-                  dense
-                  hide-details
-                ></v-text-field>
+                <div
+                  style="display: grid; grid-template-columns: 1fr 1fr 1fr; grid-column-gap: 5px"
+                >
+                  <v-text-field
+                    v-model="item.varientPrice"
+                    :rules="[required, priceWZ]"
+                    type="number"
+                    style="align-items: center !important;"
+                    outlined
+                    label="Price"
+                    dense
+                    hide-details
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="item.varientVolume"
+                    :rules="[required, priceWZ]"
+                    type="number"
+                    style="align-items: center !important;"
+                    outlined
+                    label="Volume"
+                    dense
+                    hide-details
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="item.varientWeight"
+                    :rules="[required, priceWZ]"
+                    type="number"
+                    style="align-items: center !important;"
+                    outlined
+                    label="Weight"
+                    dense
+                    hide-details
+                  ></v-text-field>
+                </div>
               </template>
             </v-data-table>
           </v-card>
@@ -253,8 +297,13 @@ export default {
       for (const variant of variants) {
         const obj = { varientName: [] }
         for (const key of Object.keys(variant)) {
+          console.log(key)
           if (key === 'price') {
             obj.varientPrice = variant[key]
+          } else if (key === 'volume') {
+            obj.varientVolume = variant[key]
+          } else if (key === 'weight') {
+            obj.varientWeight = variant[key]
           } else {
             obj.varientName.push(variant[key])
           }

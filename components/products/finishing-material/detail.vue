@@ -45,6 +45,26 @@
           dense
           hide-details
         ></v-text-field>
+        <v-text-field
+          v-if="finishingMaterial.volume > 0"
+          style="align-items: center !important;"
+          outlined
+          label="Volume"
+          readonly
+          :value="finishingMaterial.volume"
+          dense
+          hide-details
+        ></v-text-field>
+        <v-text-field
+          v-if="finishingMaterial.weight > 0"
+          style="align-items: center !important;"
+          outlined
+          label="Weight"
+          readonly
+          :value="finishingMaterial.weight"
+          dense
+          hide-details
+        ></v-text-field>
       </v-card>
     </v-container>
     <v-container>

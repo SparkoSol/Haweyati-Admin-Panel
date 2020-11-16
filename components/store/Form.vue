@@ -351,6 +351,7 @@ export default {
         console.log('not found')
         this.supplier = new Supplier()
         this.supplier.person.contact = this.contact
+        this.response = null
         this.contactCheck = false
       }
     },
@@ -364,6 +365,7 @@ export default {
     notMerge() {
       this.supplier = new Supplier()
       this.contact = null
+      this.response = null
       this.mergeCheck = false
       this.errorCheck = false
       this.contactCheck = true

@@ -147,7 +147,7 @@ export default {
       confirmPassword: '',
       contact: '',
       type: 0,
-      scope: 'Admin',
+      scope: 'admin',
       image: ''
     },
     imageFile: null,
