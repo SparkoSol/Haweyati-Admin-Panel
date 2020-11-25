@@ -232,7 +232,11 @@ export default {
             formData.append(key, item._id)
           }
         } else if (key === 'parent') {
-          formData.append(key, this.$route.params.id)
+          if (!this.isUpdate) {
+            formData.append(key, this.$route.params.iid)
+          } else {
+            formData.append(key, this.buildingMaterial.parent)
+          }
         } else if (key === 'image') {
           if (this.sendImage) {
             formData.append(key, this.sendImage)

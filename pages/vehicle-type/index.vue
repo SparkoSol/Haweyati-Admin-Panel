@@ -4,7 +4,7 @@
   >
     <VehicleTypeMain
       title="Manage Vehicle Types"
-      endpoint="fcm/get-history"
+      endpoint="vehicle-type"
       route="/vehicle-type"
     />
   </div>

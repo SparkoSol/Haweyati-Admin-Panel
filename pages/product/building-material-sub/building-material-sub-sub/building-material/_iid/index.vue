@@ -3,10 +3,10 @@
     style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 10px"
   >
     <building-material-main
-      :endpoint="'building-materials/getbyparent/' + this.$route.params.id"
+      :endpoint="'building-materials/getbyparent/' + this.$route.params.iid"
       :route="
-        'product/building-material-sub/building-material/' +
-          this.$route.params.id
+        'product/building-material-sub/building-material-sub-sub/building-material/' +
+          this.$route.params.iid
       "
       title="Building Materials"
     />
@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import BuildingMaterialMain from '../../../../../components/products/building-material/main'
+import BuildingMaterialMain from '../../../../../../components/products/building-material/main'
 export default {
   name: 'Index',
   components: { BuildingMaterialMain },

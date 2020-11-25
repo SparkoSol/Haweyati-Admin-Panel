@@ -10,10 +10,12 @@
       change
       :change-route="'/product/building-material-sub/edit-sub/$id'"
       remove
-      :remove-route="'/building-materials/deletecategory/$id'"
+      :remove-route="'/building-materials/delete-category/$id'"
       detail
       :detail-route="'/product/building-material-sub/sub-detail/$id'"
-      :products-route="'/product/building-material-sub/building-material/$id'"
+      :products-route="
+        '/product/building-material-sub/building-material-sub-sub/$id'
+      "
     />
   </div>
 </template>

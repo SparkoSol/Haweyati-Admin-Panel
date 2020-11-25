@@ -1,5 +1,6 @@
 export class VehicleType {
-  icon = undefined
-  type = undefined
-  capacity = undefined
+  image = undefined
+  name = undefined
+  weight = undefined
+  volume = undefined
 }

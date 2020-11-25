@@ -8,7 +8,18 @@
       :create-route="route + '/add'"
       change
       :change-route="route + '/edit/$id'"
+      remove
+      remove-route="vehicle-type/$id"
+      :on-delete="onDelete"
     />
+    <v-snackbar
+      v-model="snackbar"
+      bottom
+      :color="snackbarColor"
+      :timeout="1500"
+    >
+      {{ snackbarText }}
+    </v-snackbar>
   </div>
 </template>
 
@@ -36,14 +47,25 @@ export default {
   data: () => ({
     columns: [
       {
-        text: 'Icon',
-        value: 'message.title',
+        text: 'Image',
+        value: 'image',
         width: '150px'
       },
-      { text: 'Type', value: 'message.body' },
-      { text: 'Capacity', value: 'person' }
-    ]
-  })
+      { text: 'Title', value: 'name' },
+      { text: 'Weight Capacity', value: 'weight' },
+      { text: 'Volume Capacity', value: 'volume' }
+    ],
+    snackbarText: 'Success!',
+    snackbarColor: 'green',
+    snackbar: false
+  }),
+  methods: {
+    onDelete() {
+      this.snackbarColor = 'red'
+      this.snackbarText = 'Successfully Deleted Vehicle Type!'
+      this.snackbar = true
+    }
+  }
 }
 </script>
 

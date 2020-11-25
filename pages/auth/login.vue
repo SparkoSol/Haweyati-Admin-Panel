@@ -106,9 +106,14 @@ export default {
           this.errors = []
           this.messageCheck = false
           window.localStorage.removeItem('messageCheck')
-          this.login.username = this.login.username.replace(/[^+0-9]/g, '')
+          const number = await this.login.username.replace(/[^+0-9]/g, '')
+          this.login.username = number
+          const dataSend = {
+            username: number,
+            password: this.login.password
+          }
           await this.$auth.loginWith('local', {
-            data: this.login
+            data: dataSend
           })
         } catch (err) {
           this.loading = false

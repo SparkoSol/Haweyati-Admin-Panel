@@ -70,7 +70,6 @@
             readonly
             label="Driver City"
             :value="driver.city"
-            :rules="[required]"
             dense
           ></v-text-field>
         </v-card>
@@ -103,6 +102,21 @@
             :value="driver.vehicle.identificationNo"
             dense
           ></v-text-field>
+          <v-autocomplete
+            v-model="driver.vehicle.type"
+            :value="driver.vehicle.type"
+            outlined
+            dense
+            :rules="[required]"
+            hide-details
+            flat
+            :items="types"
+            item-text="name"
+            :value-comparator="(a, b) => a && b && a._id === b._id"
+            :item-value="(type) => type"
+            @change="(item) => itemChanged(item)"
+          >
+          </v-autocomplete>
         </v-card>
       </div>
     </SimpleForm>
@@ -141,14 +155,24 @@ export default {
   },
   data: () => ({
     imageFile: null,
-    sendImage: null
+    sendImage: null,
+    types: []
   }),
+  mounted() {
+    this.getTypes()
+  },
   methods: {
     emailValidator,
     required,
     phoneValidator,
     returnBack() {
       this.$router.back()
+    },
+    async getTypes() {
+      this.types = await this.$axios.$get('vehicle-type')
+    },
+    itemChanged(item) {
+      console.log(item)
     },
     formData() {
       const formData = new FormData()
@@ -179,6 +203,39 @@ export default {
           for (const vehicle of Object.keys(this.driver[key])) {
             if (vehicle === 'name') {
               formData.append('vehicleName', this.driver[key][vehicle])
+            } else if (vehicle === 'type') {
+              for (const type of Object.keys(this.driver[key][vehicle])) {
+                if (type === 'name') {
+                  formData.append(
+                    'vehicleTypeName',
+                    this.driver[key][vehicle][type]
+                  )
+                } else if (type === 'weight') {
+                  formData.append(
+                    'vehicleTypeWeight',
+                    this.driver[key][vehicle][type]
+                  )
+                } else if (type === 'volume') {
+                  formData.append(
+                    'vehicleTypeVolume',
+                    this.driver[key][vehicle][type]
+                  )
+                } else if (type === '_id') {
+                  formData.append(
+                    'vehicleTypeId',
+                    this.driver[key][vehicle][type]
+                  )
+                } else if (type === 'image') {
+                  formData.append(
+                    'imageName',
+                    this.driver[key][vehicle][type].path
+                  )
+                  formData.append(
+                    'imagePath',
+                    this.driver[key][vehicle][type].name
+                  )
+                }
+              }
             } else {
               formData.append(vehicle, this.driver[key][vehicle])
             }

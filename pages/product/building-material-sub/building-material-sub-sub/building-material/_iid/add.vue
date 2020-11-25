@@ -10,7 +10,7 @@
 </template>
 
 <script>
-import BuildingMaterialForm from '../../../../../components/products/building-material/form'
+import BuildingMaterialForm from '../../../../../../components/products/building-material/form'
 export default {
   name: 'Add',
   components: { BuildingMaterialForm }

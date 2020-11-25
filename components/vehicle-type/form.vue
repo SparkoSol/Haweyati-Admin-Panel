@@ -3,7 +3,7 @@
     <SimpleForm
       :method="isUpdate ? 'patch' : 'post'"
       :data="formData"
-      :endpoint="isUpdate ? 'vehicle-type' + vehicleType.id : 'vehicle-type'"
+      :endpoint="isUpdate ? 'vehicle-type' : 'vehicle-type'"
       return
     >
       <template v-slot:header>
@@ -25,20 +25,36 @@
       </template>
       <div class="span-2">
         <v-text-field
-          v-model="vehicleType.type"
+          v-model="vehicleType.name"
           :rules="[required]"
           outlined
-          :label="'Type'"
+          :label="'Title'"
           dense
         ></v-text-field>
         <v-text-field
-          v-model="vehicleType.capacity"
+          v-model="vehicleType.weight"
           :rules="[required, priceWZ]"
           type="number"
           outlined
-          :label="'Capacity'"
+          :label="'Weight Capacity'"
           dense
         ></v-text-field>
+        <v-text-field
+          v-model="vehicleType.volume"
+          :rules="[required, priceWZ]"
+          type="number"
+          outlined
+          :label="'Volume Capacity'"
+          dense
+        ></v-text-field>
+        <v-card style="padding:20px;margin-bottom: 20px">
+          <v-card-title>Media</v-card-title>
+          <ImageSelector
+            v-model="imageFile"
+            :image="vehicleType"
+            @input="sendImage = $event"
+          />
+        </v-card>
       </div>
     </SimpleForm>
   </v-container>
@@ -46,13 +62,16 @@
 
 <script>
 import SimpleForm from '../../common/ui/widgets/SimpleForm'
+import ImageSelector from '../misc/image-selector'
 import { required } from '@/common/utils/validators'
 import { priceWZ } from '@/common/lib/validator'
 import { VehicleType } from '@/models/vehicle-type'
+
 export default {
   name: 'VehicleTypeForm',
   components: {
-    SimpleForm
+    SimpleForm,
+    ImageSelector
   },
   props: {
     title: {
@@ -68,7 +87,10 @@ export default {
       default: () => new VehicleType()
     }
   },
-  data: () => ({}),
+  data: () => ({
+    imageFile: null,
+    sendImage: null
+  }),
   methods: {
     required,
     priceWZ,
@@ -76,7 +98,18 @@ export default {
       this.$router.back()
     },
     formData() {
-      return this.reward
+      const formData = new FormData()
+      if (this.vehicleType._id) {
+        formData.append('_id', this.vehicleType._id)
+      }
+      formData.append('name', this.vehicleType.name)
+      formData.append('weight', this.vehicleType.weight)
+      formData.append('volume', this.vehicleType.volume)
+      if (this.sendImage !== null) {
+        formData.append('image', this.sendImage)
+      }
+      formData.forEach((item) => window.console.log(item))
+      return formData
     }
   }
 }
