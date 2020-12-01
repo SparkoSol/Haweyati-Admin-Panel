@@ -106,7 +106,7 @@ export default {
         } else formData.append(key, this.buildingMaterialSub[key])
       }
       if (!this.isUpdate) {
-        formData.append('category', this.$route.params.id)
+        formData.append('parent', this.$route.params.id)
       }
       formData.forEach((item) => window.console.log(item))
       return formData
