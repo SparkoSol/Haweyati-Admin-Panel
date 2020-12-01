@@ -93,7 +93,6 @@
               dense
               :items="citiesData"
               :label="'City ' + (i + 1)"
-              item-text="name"
             >
             </v-select>
             <v-text-field
