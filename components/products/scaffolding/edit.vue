@@ -194,10 +194,31 @@ export default {
       { text: 'Services', value: 'services' }
     ],
     columnsSelected: [{ text: 'Name', value: 'person.name' }],
-    citiesData: []
+    citiesData: [
+      'Riyadh',
+      'Jeddah',
+      'Damman',
+      'Al-Khobar',
+      'Dhahran',
+      'Al-Ahsa',
+      'Qatif',
+      'Jubail',
+      'Taif',
+      'Tabouk',
+      'Abba',
+      'Al Baha',
+      'Jizan',
+      'Najran',
+      'Hail',
+      'Makkah Al-Mukkaramah',
+      'Al-Madinah Al-Munawarah',
+      'Al Qaseen',
+      'Jouf',
+      'Yanbu'
+    ]
   }),
   mounted() {
-    this.getCities()
+    // this.getCities()
   },
   methods: {
     required,
