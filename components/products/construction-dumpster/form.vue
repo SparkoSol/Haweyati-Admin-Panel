@@ -209,11 +209,32 @@ export default {
     suppliersList: [],
     imageFile: null,
     sendImage: null,
-    citiesData: []
+    citiesData: [
+      'Riyadh',
+      'Jeddah',
+      'Damman',
+      'Al-Khobar',
+      'Dhahran',
+      'Al-Ahsa',
+      'Qatif',
+      'Jubail',
+      'Taif',
+      'Tabouk',
+      'Abba',
+      'Al Baha',
+      'Jizan',
+      'Najran',
+      'Hail',
+      'Makkah Al-Mukkaramah',
+      'Al-Madinah Al-Munawarah',
+      'Al Qaseen',
+      'Jouf',
+      'Yanbu'
+    ]
   }),
   mounted() {
     this.getSuppliers()
-    this.getCities()
+    // this.getCities()
   },
   methods: {
     priceWZ,
@@ -267,10 +288,10 @@ export default {
       console.log(this.suppliersList)
       this.suppliersList = await this.$axios.$get('suppliers/all')
       console.log(this.suppliersList)
-    },
-    async getCities() {
-      this.citiesData = await this.$axios.$get('suppliers/cities')
     }
+    // async getCities() {
+    //   this.citiesData = await this.$axios.$get('suppliers/cities')
+    // }
   }
 }
 </script>
