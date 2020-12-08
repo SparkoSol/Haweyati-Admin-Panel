@@ -27,6 +27,10 @@ export default {
     search: {
       type: Boolean,
       default: false
+    },
+    city: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -145,6 +149,9 @@ export default {
 
       if (this.click) {
         saudiaPolygon.addListener('click', (event) => {
+          if (this.city) {
+            this.getCity(event.latLng.lat(), event.latLng.lng())
+          }
           this.updateMarker(event.latLng.lat(), event.latLng.lng())
         })
       }
@@ -172,6 +179,13 @@ export default {
           } else {
             map.setCenter(place.geometry.location)
             map.setZoom(17) // Why 17? Because it looks good.
+          }
+          console.log(place)
+          if (this.city) {
+            this.getCity(
+              place.geometry.location.lat(),
+              place.geometry.location.lng()
+            )
           }
           this.updateMarker(
             place.geometry.location.lat(),
@@ -208,6 +222,38 @@ export default {
         map: this.map
       })
       this.$emit('input', this.marker)
+    },
+    async getCity(lat, lng) {
+      console.log('getCity')
+      const latlng = { lat, lng }
+      const cityName = await this.findCity(latlng)
+      console.log('out of geocode')
+      console.log(cityName)
+      this.$emit('city', cityName)
+    },
+    findCity(latlng) {
+      // eslint-disable-next-line no-undef
+      const geocoder = new google.maps.Geocoder()
+      return new Promise((resolve, reject) => {
+        geocoder.geocode({ location: latlng }, function(results, status) {
+          if (status === 'OK') {
+            for (const address of results[0].address_components) {
+              if (address.types.includes('locality')) {
+                console.log('found')
+                console.log(address)
+                resolve(address.long_name)
+              } else if (
+                address.types.includes('administrative_area_level_2')
+              ) {
+                console.log('found')
+                console.log(address)
+                resolve(address.long_name)
+              }
+            }
+          }
+          resolve('Error')
+        })
+      })
     }
   }
 }

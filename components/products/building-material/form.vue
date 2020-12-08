@@ -221,28 +221,7 @@ export default {
     suppliersList: [],
     imageFile: null,
     sendImage: null,
-    citiesData: [
-      'Riyadh',
-      'Jeddah',
-      'Damman',
-      'Al-Khobar',
-      'Dhahran',
-      'Al-Ahsa',
-      'Qatif',
-      'Jubail',
-      'Taif',
-      'Tabouk',
-      'Abba',
-      'Al Baha',
-      'Jizan',
-      'Najran',
-      'Hail',
-      'Makkah Al-Mukkaramah',
-      'Al-Madinah Al-Munawarah',
-      'Al Qaseen',
-      'Jouf',
-      'Yanbu'
-    ],
+    citiesData: [],
     units: [],
     columns: [
       { text: 'City', value: 'city' },
@@ -253,7 +232,7 @@ export default {
   mounted() {
     this.getSuppliers()
     this.getUnits()
-    // this.getCities()
+    this.getCities()
   },
   methods: {
     required,
@@ -354,7 +333,7 @@ export default {
       this.suppliersList = await this.$axios.$get('suppliers/all')
     },
     async getCities() {
-      this.citiesData = await this.$axios.$get('suppliers/cities')
+      this.citiesData = await this.$axios.$get('city')
     },
     async getUnits() {
       this.units = await this.$axios.$get('unit')

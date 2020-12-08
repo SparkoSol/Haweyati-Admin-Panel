@@ -260,8 +260,14 @@ export default {
         },
         {
           action: 'mdi-vector-square',
-          title: 'Manage Unit',
+          title: 'Manage Units',
           to: '/unit',
+          active: false
+        },
+        {
+          action: 'mdi-city',
+          title: 'Manage Cities',
+          to: '/city',
           active: false
         },
         {
@@ -343,7 +349,7 @@ export default {
     audio() {
       try {
         const data = {
-          soundurl: 'http://192.168.18.4:4000/uploads/notificationTone.mpeg'
+          soundurl: 'http://178.128.16.246:4000/uploads/notificationTone.mpeg'
         }
         const audio = new Audio(data.soundurl)
         audio.play()

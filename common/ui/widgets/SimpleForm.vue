@@ -192,6 +192,9 @@ export default defineComponent({
         }
       } catch (error) {
         this.valid = true
+        if (error.response.data.message) {
+          error.message = error.response.data.message
+        }
         state.error = error
       } finally {
         this.valid = true

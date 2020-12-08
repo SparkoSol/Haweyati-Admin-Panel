@@ -23,7 +23,7 @@ export default defineComponent({
      * @since 1.0.0
      */
     error: {
-      type: [Error, Object],
+      type: [Error, Object, String],
       default: null
     }
   },
