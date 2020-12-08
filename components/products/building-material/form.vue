@@ -55,75 +55,100 @@
           <v-card-title style="color: #313F53">Pricing</v-card-title>
           <v-divider></v-divider>
           <v-row>
-            <v-col cols="12" md="9" sm="9">
+            <v-col cols="12" md="7" sm="7">
               <v-card-title style="color: #313F53">City</v-card-title>
             </v-col>
             <v-col
               cols="12"
-              md="3"
-              sm="3"
-              style="display: flex; align-items: center"
+              md="2"
+              sm="2"
+              style="display: flex; align-items: center;"
             >
-              <v-btn
-                color="#FF974D"
-                style="color:#ffffff"
-                @click="
-                  pricing.push({
-                    city: '',
-                    price12yard: '',
-                    price20yard: ''
-                  })
-                "
+              <v-btn color="#FF974D" style="color:#ffffff" @click="addCity"
                 >Add City
               </v-btn>
             </v-col>
-          </v-row>
-          <v-row
-            v-for="(price, i) of pricing"
-            :key="i"
-            style="display: grid;grid-template-columns: auto auto auto  50px"
-          >
-            <v-col>
-              <v-select
-                v-model="price.city"
-                color="#313F53"
-                outlined
-                dense
-                :rules="[city(price.city, pricing)]"
-                :items="citiesData"
-                :label="'City ' + (i + 1)"
-                item-text="name"
-              >
-              </v-select>
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model="price.price12yard"
-                :rules="[required, priceWZ]"
-                type="number"
-                color="#313F53"
-                outlined
-                label="12 Yard Price"
-                dense
-              ></v-text-field>
-            </v-col>
-            <v-col>
-              <v-text-field
-                v-model="price.price20yard"
-                :rules="[required, priceWZ]"
-                type="number"
-                color="#313F53"
-                outlined
-                label="20 Yard Price"
-                dense
-              ></v-text-field>
-            </v-col>
-            <v-col cols="12" md="1" sm="1">
-              <v-btn icon @click="removeCity(i)">
-                <v-icon color="red">mdi-delete</v-icon>
+            <v-col
+              v-if="pricing[0].price.length < units.length"
+              cols="12"
+              md="2"
+              sm="2"
+              style="display: flex; align-items: center"
+            >
+              <v-btn color="#FF974D" style="color:#ffffff" @click="addUnitPrice"
+                >Add Price
               </v-btn>
             </v-col>
           </v-row>
+          <v-data-table
+            :items="pricing"
+            :headers="columns"
+            hide-default-footer
+            disable-pagination
+            dense
+          >
+            <template v-slot:item.city="{ item }">
+              <slot name="city" :item="item" />
+              <div style="padding: 5px 0">
+                <v-select
+                  v-model="item.city"
+                  color="#313F53"
+                  outlined
+                  dense
+                  hide-details
+                  :rules="[city(item.city, pricing), required]"
+                  :items="citiesData"
+                  :label="'City'"
+                  item-text="name"
+                >
+                </v-select>
+              </div>
+            </template>
+            <template v-slot:item.price="{ item }">
+              <slot name="price" :item="item" />
+              <div v-for="(price, j) of item.price" :key="j">
+                <v-card
+                  style="display: grid; grid-template-columns: calc(50% - 5px) calc(50% - 5px); grid-column-gap: 5px;margin: 10px 0;padding: 10px"
+                >
+                  <v-text-field
+                    v-model="price.price"
+                    :rules="[required, priceWZ]"
+                    type="number"
+                    color="#313F53"
+                    hide-details
+                    outlined
+                    label="Price"
+                    dense
+                  ></v-text-field>
+                  <v-select
+                    v-model="price.unit"
+                    color="#313F53"
+                    outlined
+                    dense
+                    :items="units"
+                    hide-details
+                    :rules="[unit(price.unit, item.price), required]"
+                    :label="'Unit ' + (j + 1)"
+                    item-text="name"
+                    :append-outer-icon="
+                      item.price.length > 1 ? 'mdi-close' : ''
+                    "
+                    @click:append-outer="deletePrice(item, price)"
+                  />
+                </v-card>
+              </div>
+            </template>
+            <template v-slot:item.action="{ item }">
+              <slot name="action" :item="item" />
+              <div style="padding: 5px 0">
+                <div v-if="pricing.length > 1" class="pricing-delete">
+                  <v-btn icon @click="removeCity(item)">
+                    <v-icon color="red">mdi-delete</v-icon>
+                  </v-btn>
+                </div>
+              </div>
+            </template>
+          </v-data-table>
         </v-card>
         <v-card style="padding: 20px">
           <v-card-title style="color: #313F53">Stores</v-card-title>
@@ -152,7 +177,7 @@
 import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
 import ImageSelector from '../../misc/image-selector'
-import { required, priceWZ, city } from '@/common/lib/validator'
+import { required, priceWZ, city, unit } from '@/common/lib/validator'
 import { BuildingMaterial } from '@/models/products/building-material'
 import { BuildingMaterialPricing } from '@/models/products/building-material-pricing'
 
@@ -217,32 +242,74 @@ export default {
       'Al Qaseen',
       'Jouf',
       'Yanbu'
+    ],
+    units: [],
+    columns: [
+      { text: 'City', value: 'city' },
+      { text: 'Pricing', value: 'price' },
+      { text: 'Actions', value: 'action', width: '10px' }
     ]
   }),
   mounted() {
     this.getSuppliers()
+    this.getUnits()
     // this.getCities()
   },
   methods: {
     required,
     priceWZ,
     city,
+    unit,
     returnBack() {
       this.$router.back()
+    },
+    addUnitPrice() {
+      for (const price of this.pricing) {
+        console.log(price)
+        price.price.push({
+          name: '',
+          price: ''
+        })
+      }
+    },
+    addCity() {
+      const priceArray = []
+      if (this.pricing[0].price.length > 0) {
+        // eslint-disable-next-line no-unused-vars
+        for (const item of this.pricing[0].price) {
+          priceArray.push({
+            unit: '',
+            price: ''
+          })
+        }
+      }
+      this.pricing.push({
+        city: '',
+        price: priceArray
+      })
     },
     reroute(route) {
       this.$router.push(route)
     },
     removeCity(i) {
+      const index = this.pricing.indexOf(i)
       if (this.pricing.length <= 1) {
         return
       }
-      this.pricing.splice(i, 1)
+      this.pricing.splice(index, 1)
+    },
+    deletePrice(i, j) {
+      const indexCity = this.pricing.indexOf(i)
+      const indexPrice = this.pricing[indexCity].price.indexOf(j)
+      for (const city of this.pricing) {
+        city.price.splice(indexPrice, 1)
+      }
+      // this.pricing[indexCity].price.splice(indexPrice, 1)
     },
     formData() {
       const formData = new FormData()
       for (const key of Object.keys(this.buildingMaterial)) {
-        window.console.log(key)
+        console.log(key)
         if (key === 'pricing') continue
         else if (key === 'price12yard') {
           continue
@@ -266,14 +333,21 @@ export default {
       }
       for (const price of this.pricing) {
         for (const key of Object.keys(price)) {
-          // console.log(key + ': ' + price[key])
           if (key === '_id') {
             continue
+          } else if (key === 'price') {
+            for (const cityPrice of price[key]) {
+              formData.append('price', cityPrice.price)
+              formData.append('unit', cityPrice.unit)
+            }
+          } else {
+            formData.append(key, price[key])
           }
-          formData.append(key, price[key])
         }
       }
-      // formData.forEach((item) => window.console.log(item))
+      formData.append('count', this.pricing[0].price.length)
+
+      formData.forEach((item) => window.console.log(item))
       return formData
     },
     async getSuppliers() {
@@ -281,6 +355,9 @@ export default {
     },
     async getCities() {
       this.citiesData = await this.$axios.$get('suppliers/cities')
+    },
+    async getUnits() {
+      this.units = await this.$axios.$get('unit')
     }
   }
 }
@@ -289,5 +366,49 @@ export default {
 <style>
 .form {
   width: 800px !important;
+}
+.pricing-table {
+  overflow-x: scroll;
+  overflow-y: hidden;
+  padding: 20px 0;
+  border: 1px solid black;
+}
+.pricing-price {
+  min-width: 40%;
+  max-width: 40%;
+  margin: 0 5px;
+}
+.pricing-city {
+  min-width: 30%;
+  max-width: 30%;
+  margin: 0 5px;
+}
+.pricing-delete {
+  min-width: 10%;
+  max-width: 10%;
+  margin: 0 5px;
+}
+.pricing-table::-webkit-scrollbar {
+  display: inline-block;
+}
+/* width */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
 }
 </style>

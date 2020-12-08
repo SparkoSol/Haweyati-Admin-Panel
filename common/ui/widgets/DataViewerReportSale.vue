@@ -263,7 +263,7 @@ export default {
       let win
       if (this.all) {
         win = window.open(
-          'http://178.128.16.246:4000/reports/orders-report?type=all',
+          'http://192.168.18.4:4000/reports/orders-report?type=all',
           '_blank'
         )
       } else if (this.date && !this.dateTo) {
@@ -271,7 +271,7 @@ export default {
           ? moment(this.dateSend).format('MM-DD-YYYY')
           : moment().format('MM-DD-YYYY')
         win = window.open(
-          'http://178.128.16.246:4000/reports/orders-report?type=daily&date=' +
+          'http://192.168.18.4:4000/reports/orders-report?type=daily&date=' +
             date,
           '_blank'
         )
@@ -280,7 +280,7 @@ export default {
           ? moment(this.weekSend).week()
           : moment().week()
         win = window.open(
-          'http://178.128.16.246:4000/reports/orders-report?type=weekly&date=' +
+          'http://192.168.18.4:4000/reports/orders-report?type=weekly&date=' +
             week,
           '_blank'
         )
@@ -289,14 +289,14 @@ export default {
           ? moment(this.monthSend).month() + 1
           : moment().month() + 1
         win = window.open(
-          'http://178.128.16.246:4000/reports/orders-report?type=monthly&date=' +
+          'http://192.168.18.4:4000/reports/orders-report?type=monthly&date=' +
             month,
           '_blank'
         )
       } else if (this.year) {
         const year = this.yearSend ? this.yearSend : moment().year()
         win = window.open(
-          'http://178.128.16.246:4000/reports/orders-report?type=yearly&date=' +
+          'http://192.168.18.4:4000/reports/orders-report?type=yearly&date=' +
             year,
           '_blank'
         )
@@ -308,7 +308,7 @@ export default {
           ? moment(this.dateToSend).format('MM-DD-YYYY')
           : moment().format('MM-DD-YYYY')
         win = window.open(
-          'http://178.128.16.246:4000/reports/orders-report?type=custom&date=' +
+          'http://192.168.18.4:4000/reports/orders-report?type=custom&date=' +
             date +
             '&dateTo=' +
             dateTo,

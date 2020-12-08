@@ -311,6 +311,14 @@
         <slot name="points" :item="item" />
         <p style="margin: 0">{{ item.description.substr(0, 75) }}</p>
       </template>
+      <template v-slot:item.weight="{ item }">
+        <slot name="weight" :item="item" />
+        <p style="margin: 0">{{ item.minWeight }} - {{ item.maxWeight }}</p>
+      </template>
+      <template v-slot:item.volume="{ item }">
+        <slot name="volume" :item="item" />
+        <p style="margin: 0">{{ item.minVolume }} - {{ item.maxVolume }}</p>
+      </template>
     </v-data-table>
   </v-card>
 </template>

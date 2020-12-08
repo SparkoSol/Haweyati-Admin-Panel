@@ -259,6 +259,12 @@ export default {
           active: false
         },
         {
+          action: 'mdi-vector-square',
+          title: 'Manage Unit',
+          to: '/unit',
+          active: false
+        },
+        {
           action: 'mdi-cog',
           title: 'Settings',
           to: '/setting',
@@ -337,7 +343,7 @@ export default {
     audio() {
       try {
         const data = {
-          soundurl: 'http://178.128.16.246:4000/uploads/notificationTone.mpeg'
+          soundurl: 'http://192.168.18.4:4000/uploads/notificationTone.mpeg'
         }
         const audio = new Audio(data.soundurl)
         audio.play()

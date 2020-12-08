@@ -1,6 +1,8 @@
 export class VehicleType {
   image = undefined
   name = undefined
-  weight = undefined
-  volume = undefined
+  minWeight = undefined
+  maxWeight = undefined
+  minVolume = undefined
+  maxVolume = undefined
 }

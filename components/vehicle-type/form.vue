@@ -31,22 +31,46 @@
           :label="'Title'"
           dense
         ></v-text-field>
-        <v-text-field
-          v-model="vehicleType.weight"
-          :rules="[required, priceWZ]"
-          type="number"
-          outlined
-          :label="'Weight Capacity'"
-          dense
-        ></v-text-field>
-        <v-text-field
-          v-model="vehicleType.volume"
-          :rules="[required, priceWZ]"
-          type="number"
-          outlined
-          :label="'Volume Capacity'"
-          dense
-        ></v-text-field>
+        <div
+          style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 5px"
+        >
+          <v-text-field
+            v-model="vehicleType.minWeight"
+            :rules="[required, rentHelper]"
+            type="number"
+            outlined
+            :label="'Min Weight Capacity'"
+            dense
+          ></v-text-field>
+          <v-text-field
+            v-model="vehicleType.maxWeight"
+            :rules="[required, priceWZ]"
+            type="number"
+            outlined
+            :label="'Max Weight Capacity'"
+            dense
+          ></v-text-field>
+        </div>
+        <div
+          style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 5px"
+        >
+          <v-text-field
+            v-model="vehicleType.minVolume"
+            :rules="[required, rentHelper]"
+            type="number"
+            outlined
+            :label="'Min Volume Capacity'"
+            dense
+          ></v-text-field>
+          <v-text-field
+            v-model="vehicleType.maxVolume"
+            :rules="[required, priceWZ]"
+            type="number"
+            outlined
+            :label="'Max Volume Capacity'"
+            dense
+          ></v-text-field>
+        </div>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Media</v-card-title>
           <ImageSelector
@@ -64,7 +88,7 @@
 import SimpleForm from '../../common/ui/widgets/SimpleForm'
 import ImageSelector from '../misc/image-selector'
 import { required } from '@/common/utils/validators'
-import { priceWZ } from '@/common/lib/validator'
+import { priceWZ, rentHelper } from '@/common/lib/validator'
 import { VehicleType } from '@/models/vehicle-type'
 
 export default {
@@ -94,6 +118,7 @@ export default {
   methods: {
     required,
     priceWZ,
+    rentHelper,
     returnBack() {
       this.$router.back()
     },
@@ -103,8 +128,10 @@ export default {
         formData.append('_id', this.vehicleType._id)
       }
       formData.append('name', this.vehicleType.name)
-      formData.append('weight', this.vehicleType.weight)
-      formData.append('volume', this.vehicleType.volume)
+      formData.append('minWeight', this.vehicleType.minWeight)
+      formData.append('maxWeight', this.vehicleType.maxWeight)
+      formData.append('minVolume', this.vehicleType.minVolume)
+      formData.append('maxVolume', this.vehicleType.maxVolume)
       if (this.sendImage !== null) {
         formData.append('image', this.sendImage)
       }

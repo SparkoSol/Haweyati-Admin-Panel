@@ -46,6 +46,19 @@
           :items="buildingMaterial.pricing"
           fixed-header
         >
+          <template v-slot:item.price="{ item }">
+            <slot name="price" :item="item" />
+            <div v-for="(price, j) of item.price" :key="j">
+              <div
+                style="display: grid; grid-template-columns: calc(40% - 5px) calc(60% - 5px); grid-column-gap: 0;"
+              >
+                <v-chip class="ma-2"> {{ price.price }} SR </v-chip>
+                <v-chip class="ma-2">
+                  {{ price.unit }}
+                </v-chip>
+              </div>
+            </div>
+          </template>
         </v-data-table>
       </v-card>
     </v-container>
@@ -97,9 +110,8 @@ export default {
   },
   data: () => ({
     columnsPrice: [
-      { text: 'City', value: 'city' },
-      { text: '12 Yard Price', value: 'price12yard' },
-      { text: '20 Yard Price', value: 'price20yard' }
+      { text: 'City', value: 'city', width: '300px' },
+      { text: 'Pricing', value: 'price', width: '300px' }
     ],
     columnsStore: [
       { text: 'Image', value: 'person.image', sortable: false },

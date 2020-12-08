@@ -52,3 +52,13 @@ export const city = (v, list) => {
 
   return count > 1 ? 'City is already selected.' : true
 }
+export const unit = (v, list) => {
+  let count = 0
+  for (const item of list) {
+    if (item.unit === v) {
+      count++
+    }
+  }
+
+  return count > 1 ? 'Unit is already selected.' : true
+}

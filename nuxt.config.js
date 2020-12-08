@@ -59,7 +59,7 @@ export default {
     // module options
     sockets: [
       {
-        url: 'http://178.128.16.246:4000/'
+        url: 'http://192.168.18.4:4000/'
       }
     ]
   },
@@ -68,7 +68,7 @@ export default {
    ** See https://axios.nuxtjs.org/options
    */
   axios: {
-    baseURL: 'http://178.128.16.246:4000/'
+    baseURL: 'http://192.168.18.4:4000/'
   },
   auth: {
     strategies: {
