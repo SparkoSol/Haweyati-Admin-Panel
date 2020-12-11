@@ -71,6 +71,14 @@
             dense
           ></v-text-field>
         </div>
+        <v-text-field
+          v-model="vehicleType.deliveryCharges"
+          :rules="[required, priceWZ]"
+          type="number"
+          outlined
+          :label="'Delivery Charges'"
+          dense
+        ></v-text-field>
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Media</v-card-title>
           <ImageSelector
@@ -132,6 +140,7 @@ export default {
       formData.append('maxWeight', this.vehicleType.maxWeight)
       formData.append('minVolume', this.vehicleType.minVolume)
       formData.append('maxVolume', this.vehicleType.maxVolume)
+      formData.append('deliveryCharges', this.vehicleType.deliveryCharges)
       if (this.sendImage !== null) {
         formData.append('image', this.sendImage)
       }

@@ -53,7 +53,8 @@ export default {
       },
       { text: 'Title', value: 'name' },
       { text: 'Weight Capacity', value: 'weight' },
-      { text: 'Volume Capacity', value: 'volume' }
+      { text: 'Volume Capacity', value: 'volume' },
+      { text: 'Delivery Charges', value: 'deliveryCharges' }
     ],
     snackbarText: 'Success!',
     snackbarColor: 'green',
