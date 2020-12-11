@@ -319,6 +319,26 @@
         <slot name="volume" :item="item" />
         <p style="margin: 0">{{ item.minVolume }} - {{ item.maxVolume }}</p>
       </template>
+      <template v-slot:item.sr="{ item }">
+        <p style="margin: 0">
+          {{
+            data
+              .map(function(x) {
+                return x
+              })
+              .indexOf(item) + 1
+          }}
+        </p>
+      </template>
+      <template v-slot:item.subSupplier="{ item }">
+        <slot name="subSupplier" :item="item" />
+        <p style="margin: 0">
+          <v-icon style="margin: 0">
+            mdi-account-multiple
+          </v-icon>
+          {{ item.__v }}
+        </p>
+      </template>
     </v-data-table>
   </v-card>
 </template>
@@ -527,6 +547,17 @@ export default defineComponent({
 
     const search = ref('')
     const filter = ref(false)
+    console.log(props.columns[0])
+    if (props.columns[0].text !== 'SR') {
+      props.columns.unshift({
+        text: 'SR',
+        value: 'sr',
+        sortable: false,
+        filterable: false,
+        align: 'center',
+        width: '50px'
+      })
+    }
     if (
       props.columns[props.columns.length - 1].text !== 'Action' &&
       props.action
@@ -665,7 +696,6 @@ export default defineComponent({
     }
     async function save() {
       this.editItem.type = props.type
-      console.log(this.editItem)
       await this.$axios.$patch('reward-points', this.editItem)
       this.editItem = null
       this.dialog = false

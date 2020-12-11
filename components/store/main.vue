@@ -85,12 +85,18 @@ export default {
             { text: 'Name', value: 'person.name' },
             { text: 'Email', value: 'person.email' },
             { text: 'Contact', value: 'person.contact' },
-            { text: 'Address', value: 'location.address', sortable: false },
+            { text: 'City', value: 'city', sortable: false },
             {
               text: 'Services',
               value: 'services',
               sortable: false,
               width: '300px'
+            },
+            {
+              text: 'Sub Suppliers',
+              value: 'subSupplier',
+              sortable: false,
+              width: '100px'
             },
             {
               text: 'status',
@@ -122,7 +128,7 @@ export default {
             { text: 'Name', value: 'person.name' },
             { text: 'Email', value: 'person.email' },
             { text: 'Contact', value: 'person.contact' },
-            { text: 'Address', value: 'location.address', sortable: false },
+            { text: 'City', value: 'city', sortable: false },
             {
               text: 'Services',
               value: 'services',
@@ -154,7 +160,7 @@ export default {
             { text: 'Name', value: 'person.name' },
             { text: 'Email', value: 'person.email' },
             { text: 'Contact', value: 'person.contact' },
-            { text: 'Address', value: 'location.address', sortable: false },
+            { text: 'City', value: 'city', sortable: false },
             {
               text: 'Services',
               value: 'services',
@@ -187,7 +193,7 @@ export default {
             { text: 'Name', value: 'person.name' },
             { text: 'Email', value: 'person.email' },
             { text: 'Contact', value: 'person.contact' },
-            { text: 'Address', value: 'location.address', sortable: false },
+            { text: 'City', value: 'city', sortable: false },
             {
               text: 'Services',
               value: 'services',

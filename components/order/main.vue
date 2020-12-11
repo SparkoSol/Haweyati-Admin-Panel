@@ -95,7 +95,7 @@ export default {
       {
         tab: 'Pending',
         endpoint: '/getpending',
-        approve: true,
+        approve: false,
         reject: true,
         detail: true,
         block: false,
@@ -118,33 +118,33 @@ export default {
           { text: 'Status', value: 'status' }
         ]
       },
-      {
-        tab: 'Approved',
-        endpoint: '/approved',
-        approve: false,
-        reject: true,
-        block: false,
-        change: false,
-        detail: true,
-        unblock: false,
-        title: 'Approved Orders',
-        columns: [
-          {
-            text: '#',
-            value: 'orderNo'
-          },
-          {
-            text: 'Name',
-            value: 'customer.profile.name'
-          },
-          { text: 'Contact', value: 'customer.profile.contact' },
-          { text: 'Service', value: 'service' },
-          { text: 'Payment Type', value: 'paymentType' },
-          { text: 'Total', value: 'details.netTotal' },
-          { text: 'Date', value: 'createdAt' },
-          { text: 'Status', value: 'status' }
-        ]
-      },
+      // {
+      //   tab: 'Approved',
+      //   endpoint: '/approved',
+      //   approve: false,
+      //   reject: true,
+      //   block: false,
+      //   change: false,
+      //   detail: true,
+      //   unblock: false,
+      //   title: 'Approved Orders',
+      //   columns: [
+      //     {
+      //       text: '#',
+      //       value: 'orderNo'
+      //     },
+      //     {
+      //       text: 'Name',
+      //       value: 'customer.profile.name'
+      //     },
+      //     { text: 'Contact', value: 'customer.profile.contact' },
+      //     { text: 'Service', value: 'service' },
+      //     { text: 'Payment Type', value: 'paymentType' },
+      //     { text: 'Total', value: 'details.netTotal' },
+      //     { text: 'Date', value: 'createdAt' },
+      //     { text: 'Status', value: 'status' }
+      //   ]
+      // },
       {
         tab: 'Accepted',
         endpoint: '/getactive',

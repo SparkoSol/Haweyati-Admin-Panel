@@ -135,7 +135,7 @@ export default {
             { text: 'Email', value: 'person.email' },
             { text: 'Contact', value: 'person.contact' },
             { text: 'Status', value: 'status' },
-            { text: 'Address', value: 'location.address', sortable: false },
+            { text: 'City', value: 'city', sortable: false },
             {
               text: 'Services',
               value: 'services',

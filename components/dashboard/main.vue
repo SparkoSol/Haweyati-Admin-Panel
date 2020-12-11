@@ -33,7 +33,7 @@
       </nuxt-link>
       <nuxt-link to="/order" style="text-decoration: none">
         <StatsCard
-          title="Orders"
+          title="Pending Orders"
           :stat="stats ? stats.orders + '' : '-'"
           icon="mdi-clipboard-multiple"
         />
@@ -145,7 +145,7 @@
                   </div>
                 </div>
                 <div
-                  style="display: grid;grid-template-columns: 30% 30% 30%;grid-column-gap: 10px"
+                  style="display: grid;grid-template-columns: calc(50% - 5px) calc(50% - 5px);grid-column-gap: 10px"
                 >
                   <v-btn
                     color="#FF974D"
@@ -157,16 +157,16 @@
                     @click="getDetail(order)"
                     >Detail
                   </v-btn>
-                  <v-btn
-                    color="green"
-                    style="margin-bottom: 10px"
-                    dark
-                    tile
-                    small
-                    width="100%"
-                    @click="getAccepted(order)"
-                    >Accept
-                  </v-btn>
+                  <!--                  <v-btn-->
+                  <!--                    color="green"-->
+                  <!--                    style="margin-bottom: 10px"-->
+                  <!--                    dark-->
+                  <!--                    tile-->
+                  <!--                    small-->
+                  <!--                    width="100%"-->
+                  <!--                    @click="getAccepted(order)"-->
+                  <!--                    >Accept-->
+                  <!--                  </v-btn>-->
                   <v-btn
                     color="red"
                     style="margin-bottom: 10px"
@@ -324,12 +324,20 @@ export default {
       }
     },
     async getRejected(item) {
-      if (confirm('Are you sure?')) {
-        await this.$axios.$patch('orders/getrejected/' + item._id)
+      const result = prompt(
+        'Please provide reason for rejection!',
+        'Credential are not according to our policy!'
+      )
+      if (result != null && result !== '') {
+        await this.$axios.$patch('orders/getrejected/' + item._id, {
+          message: result
+        })
         this.snackbar = true
         this.snackbarColor = 'red'
         this.snackbarText = 'Successfully Cancelled Order'
         await this.getPendingOrders()
+      } else if (result === '') {
+        await this.$axios.$patch('orders/getrejected/' + item._id)
       }
     },
     getDetail(item) {

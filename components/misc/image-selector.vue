@@ -73,7 +73,7 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .base-image-input {
   display: block;
   width: 200px;
@@ -98,5 +98,10 @@ export default {
 }
 .file-input {
   display: none;
+}
+.v-badge__badge > .v-icon {
+  color: inherit !important;
+  font-size: 12px !important;
+  margin: 0 -2px;
 }
 </style>
