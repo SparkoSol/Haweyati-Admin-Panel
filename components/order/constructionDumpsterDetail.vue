@@ -142,6 +142,11 @@
                 <span v-else>{{ item.variant[detail] }} / </span>
               </span>
             </template>
+            <template v-slot:item.rent="{ item }">
+              <p style="margin: 0">
+                {{ item['item'].product.pricing[0].rent }}
+              </p>
+            </template>
           </v-data-table>
         </v-card>
       </v-card>
@@ -208,7 +213,7 @@ export default {
   data: () => ({
     columns: [
       { text: 'Size', value: 'item.product.size' },
-      { text: 'Rent', value: 'item.product.pricing.rent' },
+      { text: 'Rent', value: 'rent' },
       { text: 'Extra Days', value: 'item.extraDays' },
       { text: 'Extra Days Rent', value: 'item.extraDaysPrice' },
       { text: 'Total', value: 'subtotal' }

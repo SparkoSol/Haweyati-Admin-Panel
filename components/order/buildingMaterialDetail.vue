@@ -208,8 +208,8 @@ export default {
   data: () => ({
     columns: [
       { text: 'Name', value: 'item.product.name' },
-      { text: 'Size', value: 'item.size' },
-      { text: 'Price', value: 'item.price' },
+      { text: 'Size', value: 'item.price.unit' },
+      { text: 'Price', value: 'item.price.price' },
       { text: 'Quantity', value: 'item.qty' },
       { text: 'Total', value: 'subtotal' }
     ]
