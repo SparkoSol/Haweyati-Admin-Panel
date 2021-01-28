@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <v-tabs v-model="tab" background-color="#313F53" color="#ff974d" dark>
       <v-tab v-for="item in tabs" :key="item.tab">
         {{ item.tab }}
@@ -20,11 +20,13 @@
           :detail-route="'/' + route + '/detail/$id'"
           :block="item.block"
           :unblock="item.unblock"
+          :refund="item.refund"
           :change="item.change"
           :on-block="onBlock"
           :on-unblock="onUnblocked"
           :on-accepted="onAccepted"
           :on-rejected="onRejected"
+          :on-refund="onRefund"
         />
       </v-tab-item>
     </v-tabs-items>
@@ -36,11 +38,126 @@
     >
       {{ snackbarText }}
     </v-snackbar>
-  </v-container>
+    <v-dialog v-model="dialog" width="70%">
+      <v-card class="refund-card-padding">
+        <div v-if="order" class="refund-detail-div">
+          <div>
+            <div>
+              <v-card class="card-margin">
+                <v-card-title>Refund Items</v-card-title>
+                <div
+                  v-for="(item, i) of order.items"
+                  :key="i"
+                  class="refund-items"
+                >
+                  <v-avatar>
+                    <img
+                      alt="logo"
+                      :src="
+                        $axios.defaults.baseURL +
+                          'uploads/' +
+                          item.item.product.image.name
+                      "
+                  /></v-avatar>
+                  <div>
+                    <p style="margin: 0">{{ item.item.product.size }}</p>
+                    <p style="margin: 0">
+                      {{ item.item.product.pricing[0].rent }}
+                    </p>
+                  </div>
+                  <p style="text-align: right">{{ item.item.qty }}</p>
+                  <p style="text-align: right">SR {{ item.subtotal }}</p>
+                </div>
+              </v-card>
+            </div>
+            <div>
+              <v-card class="card-margin">
+                <v-card-title>Refund shipping</v-card-title>
+                <p style="padding: 0 16px">Shipping Fee: (Delivery Fee Here)</p>
+                <p style="padding: 0 0 0 16px">Refund Amount:</p>
+                <v-text-field
+                  dense
+                  outlined
+                  style="width: 30%;padding: 0 16px"
+                  :rules="[rentHelper]"
+                  prepend-inner-icon="mdi-currency-usd"
+                  type="number"
+                ></v-text-field>
+              </v-card>
+            </div>
+            <div>
+              <v-card class="card-margin">
+                <v-card-title>Reason for refund</v-card-title>
+                <v-text-field
+                  dense
+                  outlined
+                  style="width: 100%;padding: 0 16px"
+                  hint="Only You and Staff Member can see this"
+                  persistent-hint
+                ></v-text-field>
+              </v-card>
+            </div>
+          </div>
+          <div>
+            <div>
+              <v-card class="card-margin summary-card">
+                <v-card-title>Summary</v-card-title>
+                <div style="padding: 0 16px; display: flex">
+                  <p>Items subtotal</p>
+                  <v-spacer />
+                  <p>SR {{ order.total }}</p>
+                </div>
+                <div style="padding: 0 16px; display: flex">
+                  <p>Tax</p>
+                  <v-spacer />
+                  <p>SR 0.0</p>
+                </div>
+                <div style="padding: 0 16px; display: flex">
+                  <p>Shipping</p>
+                  <v-spacer />
+                  <p>SR 0.0</p>
+                </div>
+                <div style="padding: 0 16px; display: flex">
+                  <p><strong>Refund Total</strong></p>
+                  <v-spacer />
+                  <p>
+                    <strong>SR {{ order.total }}</strong>
+                  </p>
+                </div>
+                <v-divider style="margin: 2px 0" />
+                <p style="padding: 16px 16px 0 16px">
+                  <strong>Refund Amount</strong>
+                </p>
+                <v-text-field
+                  dense
+                  outlined
+                  style="padding: 0 16px"
+                  type="number"
+                  :rules="[rentHelper]"
+                  prepend-inner-icon="mdi-currency-usd"
+                ></v-text-field>
+                <v-divider style="margin: 2px 0" />
+                <v-btn
+                  width="80%"
+                  color="#FF974D"
+                  style="color:#ffffff;margin: 60px 10%;"
+                  elevation="0"
+                  large
+                >
+                  Refund
+                </v-btn>
+              </v-card>
+            </div>
+          </div>
+        </div>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 
 <script>
 import DataViewer from '../../common/ui/widgets/DataViewer'
+import { price, rentHelper } from '@/common/lib/validator'
 
 export default {
   name: 'OrderMain',
@@ -65,6 +182,8 @@ export default {
     snackbarText: 'Success!',
     snackbarColor: 'green',
     snackbar: false,
+    dialog: false,
+    order: null,
     tabs: [
       {
         tab: 'All',
@@ -118,33 +237,6 @@ export default {
           { text: 'Status', value: 'status' }
         ]
       },
-      // {
-      //   tab: 'Approved',
-      //   endpoint: '/approved',
-      //   approve: false,
-      //   reject: true,
-      //   block: false,
-      //   change: false,
-      //   detail: true,
-      //   unblock: false,
-      //   title: 'Approved Orders',
-      //   columns: [
-      //     {
-      //       text: '#',
-      //       value: 'orderNo'
-      //     },
-      //     {
-      //       text: 'Name',
-      //       value: 'customer.profile.name'
-      //     },
-      //     { text: 'Contact', value: 'customer.profile.contact' },
-      //     { text: 'Service', value: 'service' },
-      //     { text: 'Payment Type', value: 'paymentType' },
-      //     { text: 'Total', value: 'total' },
-      //     { text: 'Date', value: 'createdAt' },
-      //     { text: 'Status', value: 'status' }
-      //   ]
-      // },
       {
         tab: 'Accepted',
         endpoint: '/getactive',
@@ -234,6 +326,7 @@ export default {
         block: false,
         change: false,
         detail: true,
+        refund: true,
         unblock: false,
         title: 'Delivered Orders',
         columns: [
@@ -261,6 +354,7 @@ export default {
         block: false,
         detail: true,
         unblock: false,
+        refund: true,
         title: 'Rejected Orders',
         columns: [
           {
@@ -287,6 +381,7 @@ export default {
         block: false,
         change: false,
         detail: true,
+        refund: true,
         unblock: false,
         title: 'Cancelled Orders',
         columns: [
@@ -310,6 +405,8 @@ export default {
     tab: null
   }),
   methods: {
+    price,
+    rentHelper,
     returnBack() {
       this.$router.back()
     },
@@ -343,9 +440,35 @@ export default {
       this.snackbarColor = 'green'
       this.snackbarText = 'Successfully Approved Order!'
       this.snackbar = true
+    },
+    onRefund(item) {
+      console.log('we in on refund')
+      this.dialog = true
+      this.order = item
     }
   }
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+.refund-card-padding {
+  padding: 15px;
+}
+.card-margin {
+  margin: 20px 3px;
+}
+.refund-detail-div {
+  display: grid;
+  grid-template-columns: calc(65% - 10px) calc(35% - 10px);
+  grid-column-gap: 10px;
+}
+.refund-items {
+  display: grid;
+  grid-template-columns: 10% 40% 25% 25%;
+  padding: 16px;
+  align-items: center;
+}
+.summary-card {
+  height: 100%;
+}
+</style>

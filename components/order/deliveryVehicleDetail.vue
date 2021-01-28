@@ -125,10 +125,15 @@
             :items="order.items"
             fixed-header
           >
-            <template v-slot:item.rent="{ item }">
-              <p style="margin: 0">
-                {{ item['item'].product.pricing[0].rent }}
-              </p>
+            <template v-slot:item.item.variant="{ item }">
+              <span
+                v-for="(detail, i) of Object.keys(item.item.variant)"
+                :key="i"
+              >
+                <p style="margin: 0">
+                  {{ detail }}: {{ item.item.variant[detail] }}
+                </p>
+              </span>
             </template>
           </v-data-table>
         </v-card>
@@ -136,16 +141,33 @@
     </v-container>
     <v-container>
       <v-card style="padding: 20px">
-        <v-card-title>Drop Off</v-card-title>
+        <v-card-title>Pickup & Dropoff</v-card-title>
+        <v-text-field
+          v-model="order.items[0].item.pickUpLocation.address"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Pickup Address"
+          dense
+        >
+          <template v-slot:prepend-inner>
+            <v-icon color="light-green">mdi-map-marker</v-icon>
+          </template>
+        </v-text-field>
         <v-text-field
           v-model="order.dropoff.dropoffAddress"
           color="#313F53"
           outlined
           style="color: #313F53"
           readonly
-          label="Address"
+          label="Drop off Address"
           dense
-        ></v-text-field>
+        >
+          <template v-slot:prepend-inner>
+            <v-icon color="blue">mdi-map-marker</v-icon>
+          </template>
+        </v-text-field>
         <v-text-field
           v-if="order.dropoff.dropoffDate"
           :value="date(order.dropoff.dropoffDate)"
@@ -168,11 +190,101 @@
         ></v-text-field>
         <image-viewer-wide :image="order.image" />
         <div>
-          <GoogleMap
-            :old-marker="order.dropoff.dropoffLocation"
-            :click="false"
+          <GoogleMapTwoMarker
+            :drop-off-marker="order.dropoff.dropoffLocation"
+            :pick-up-marker="order.items[0].item.pickUpLocation"
           />
         </div>
+      </v-card>
+    </v-container>
+    <v-container v-if="order.driver">
+      <v-card style="padding: 20px">
+        <v-card-title>Driver Information</v-card-title>
+        <div
+          style="display: flex;justify-content: center;align-items: center;margin-bottom: 30px"
+        >
+          <v-avatar size="80" color="white">
+            <img
+              v-if="order.driver.profile.image"
+              style="object-fit: cover"
+              alt="customer"
+              :src="
+                $axios.defaults.baseURL +
+                  'uploads/' +
+                  order.driver.profile.image.name
+              "
+            />
+            <img
+              v-else
+              style="object-fit: cover"
+              src="../../assets/images/placeholders/placeholder_person.jpg"
+              alt="placeholder"
+            />
+          </v-avatar>
+        </div>
+        <v-text-field
+          v-model="order.driver.profile.name"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Name"
+          dense
+        ></v-text-field>
+        <v-text-field
+          v-model="order.driver.profile.contact"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Contact"
+          dense
+        ></v-text-field>
+        <v-text-field
+          v-model="order.driver.profile.email"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Email"
+          dense
+        ></v-text-field>
+        <v-card-title>Vehicle Information</v-card-title>
+        <v-text-field
+          v-model="order.driver.vehicle.name"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Vehicle Name"
+          dense
+        ></v-text-field>
+        <v-text-field
+          v-model="order.driver.vehicle.model"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Vehicle Model"
+          dense
+        ></v-text-field>
+        <v-text-field
+          v-model="order.driver.vehicle.identificationNo"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Vehicle Identification Number"
+          dense
+        ></v-text-field>
+        <v-text-field
+          style="align-items: center !important;"
+          outlined
+          label="Vehicle Type"
+          readonly
+          :value="order.driver.vehicle.type.name"
+          dense
+        ></v-text-field>
       </v-card>
     </v-container>
   </v-container>
@@ -181,12 +293,12 @@
 <script>
 import moment from 'moment'
 import { Order } from '../../models/order'
-import GoogleMap from '../misc/GoogleMap'
 import ImageViewerWide from '../misc/image-viewer-wide'
+import GoogleMapTwoMarker from '@/components/misc/GoogleMapTwoMarker'
 
 export default {
-  name: 'ScaffoldingDetail',
-  components: { ImageViewerWide, GoogleMap },
+  name: 'DeliveryVehicleDetail',
+  components: { GoogleMapTwoMarker, ImageViewerWide },
   props: {
     order: {
       type: [Object, Order],
@@ -195,14 +307,10 @@ export default {
   },
   data: () => ({
     columns: [
-      { text: 'Name', value: 'item.product.type' },
-      { text: 'Rent', value: 'rent' },
+      { text: 'Name', value: 'item.product.name' },
       { text: 'Quantity', value: 'item.qty' },
-      { text: 'Days', value: 'item.days' },
-      { text: 'Mesh', value: 'item.mesh' },
-      { text: 'Mesh Quantity', value: 'item.meshQty' },
-      { text: 'Wheels', value: 'item.wheels' },
-      { text: 'Connections', value: 'item.connections' },
+      { text: 'Distance', value: 'item.distance' },
+      { text: 'Price / Km', value: 'item.product.deliveryCharges' },
       { text: 'Sub Total', value: 'subtotal' }
     ]
   }),

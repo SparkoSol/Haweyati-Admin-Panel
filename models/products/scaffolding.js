@@ -4,4 +4,8 @@ export class Scaffolding {
   description = undefined
   pricing = []
   suppliers = []
+  volumetricWeight = undefined
+  cbmLength = undefined
+  cbmWidth = undefined
+  cbmHeight = undefined
 }

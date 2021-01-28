@@ -262,6 +262,15 @@
           @click="unblockItem(item)"
           >mdi-check</v-icon
         >
+        <v-icon
+          v-if="refund"
+          style="margin: 5px"
+          small
+          color="green"
+          aria-hidden="true"
+          @click="handleRefundEvent(item)"
+          >mdi-cash-refund</v-icon
+        >
       </template>
       <template v-slot:item.custom-edit="{ item }">
         <slot name="custom-edit" :item="item" />
@@ -339,6 +348,17 @@
           {{ item.__v }}
         </p>
       </template>
+      <template v-slot:item.cbm="{ item }">
+        <slot name="cbm" :item="item" />
+        <p style="margin: 0">
+          {{
+            parseInt(item.cbmLength) *
+              parseInt(item.cbmWidth) *
+              parseInt(item.cbmHeight)
+          }}
+          <v-icon>mdi-cube</v-icon>
+        </p>
+      </template>
     </v-data-table>
   </v-card>
 </template>
@@ -394,6 +414,7 @@ export default defineComponent({
     onAccepted: Function,
     onRejected: Function,
     onDelete: Function,
+    onRefund: Function,
 
     /**
      * Options or additional action that need to be
@@ -450,6 +471,10 @@ export default defineComponent({
       default: false
     },
     unblock: {
+      type: Boolean,
+      default: false
+    },
+    refund: {
       type: Boolean,
       default: false
     },
@@ -649,6 +674,11 @@ export default defineComponent({
         }
       }
     }
+    function handleRefundEvent(item) {
+      console.log('open dialog for refund')
+      console.log(item)
+      this.onRefund(item)
+    }
 
     function returnBack() {
       this.$router.back()
@@ -670,18 +700,16 @@ export default defineComponent({
         case 0:
           return 'Pending'
         case 1:
-          return 'Approved'
-        case 2:
           return 'Accepted'
-        case 3:
+        case 2:
           return 'Preparing'
-        case 4:
+        case 3:
           return 'Dispatched'
-        case 5:
+        case 4:
           return 'Delivered'
-        case 6:
+        case 5:
           return 'Rejected'
-        case 7:
+        case 6:
           return 'Cancelled'
         default:
           return ''
@@ -711,6 +739,7 @@ export default defineComponent({
       getStatus,
       removeItem,
       unblockItem,
+      handleRefundEvent,
       returnBack,
       changeItem,
       detailItem,

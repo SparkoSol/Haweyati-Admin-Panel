@@ -1,5 +1,5 @@
 <template>
-  <v-container style="display: flex;justify-content: center">
+  <div style="display: flex;justify-content: center">
     <SimpleForm
       :method="'patch'"
       :data="formData"
@@ -65,7 +65,7 @@
         <v-progress-circular color="#FF974D" :value="loading" rotate />
       </div>
     </SimpleForm>
-  </v-container>
+  </div>
 </template>
 
 <script>

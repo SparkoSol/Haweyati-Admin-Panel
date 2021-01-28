@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <div>
     <v-tabs v-model="tab" background-color="#313F53" color="#ff974d" dark>
       <v-tab v-for="item in tabs" :key="item.tab">
         {{ item.tab }}
@@ -38,7 +38,7 @@
     >
       {{ snackbarText }}
     </v-snackbar>
-  </v-container>
+  </div>
 </template>
 
 <script>

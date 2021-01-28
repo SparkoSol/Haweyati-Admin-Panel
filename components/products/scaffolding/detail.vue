@@ -65,6 +65,16 @@
       </v-card>
     </v-container>
     <v-container>
+      <VolumetricWeightCalculator
+        title="Scaffolding Size"
+        readonly
+        :length="scaffolding.cbmLength"
+        :width="scaffolding.cbmWidth"
+        :height="scaffolding.cbmHeight"
+        :weight="scaffolding.volumetricWeight"
+      />
+    </v-container>
+    <v-container>
       <v-card v-if="scaffolding.suppliers !== null">
         <v-card-title>Stores</v-card-title>
         <v-data-table
@@ -100,9 +110,11 @@
 
 <script>
 import { Scaffolding } from '../../../models/products/scaffolding'
+import VolumetricWeightCalculator from '@/components/misc/volumetric-weight-calculator'
 
 export default {
   name: 'ScaffoldingDetail',
+  components: { VolumetricWeightCalculator },
   props: {
     scaffolding: {
       type: [Object, Scaffolding],
@@ -118,7 +130,11 @@ export default {
       { text: 'City', value: 'city' },
       { text: 'Rent', value: 'rent' },
       { text: 'Days', value: 'days' },
-      { text: 'Extra Days Rent', value: 'extraDayRent' }
+      { text: 'Extra Days Rent', value: 'extraDayRent' },
+      { text: 'Half Mesh Plate Price', value: 'mesh.half' },
+      { text: 'Full Mesh Plate Price', value: 'mesh.full' },
+      { text: 'Wheels Price (Set Of 4)', value: 'wheels' },
+      { text: 'Connections Price (Set Of 4)', value: 'connections' }
     ],
     columnsStore: [
       { text: 'Image', value: 'person.image', sortable: false },

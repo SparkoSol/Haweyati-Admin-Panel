@@ -1,6 +1,6 @@
 <template>
   <div
-    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 10px"
+    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 15px"
   >
     <DriverMain title="Driver Requests" endpoint="/drivers" route="driver" />
   </div>

@@ -86,6 +86,14 @@
           :value="driver.vehicle.identificationNo"
           dense
         ></v-text-field>
+        <v-text-field
+          style="align-items: center !important;"
+          outlined
+          label="Vehicle Type"
+          readonly
+          :value="driver.vehicle.type.name"
+          dense
+        ></v-text-field>
       </v-card>
     </v-container>
   </v-container>

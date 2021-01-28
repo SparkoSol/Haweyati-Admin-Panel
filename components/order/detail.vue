@@ -13,6 +13,10 @@
       :order="order"
     />
     <ScaffoldingDetail v-if="order.service === 'Scaffolding'" :order="order" />
+    <DeliveryVehicleDetail
+      v-if="order.service === 'Delivery Vehicle'"
+      :order="order"
+    />
   </div>
 </template>
 
@@ -23,10 +27,12 @@ import ConstructionDumpsterDetail from '@/components/order/constructionDumpsterD
 import BuildingMaterialDetail from '@/components/order/buildingMaterialDetail'
 import FinishingMaterialDetail from '@/components/order/finishinMaterialDetail'
 import ScaffoldingDetail from '@/components/order/scaffoldingDetail'
+import DeliveryVehicleDetail from '@/components/order/deliveryVehicleDetail'
 
 export default {
   name: 'OrderDetail',
   components: {
+    DeliveryVehicleDetail,
     ScaffoldingDetail,
     FinishingMaterialDetail,
     BuildingMaterialDetail,

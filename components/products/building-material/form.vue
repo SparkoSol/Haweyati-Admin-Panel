@@ -150,7 +150,15 @@
             </template>
           </v-data-table>
         </v-card>
-        <v-card style="padding: 20px">
+        <VolumetricWeightCalculator
+          title="Material Size"
+          :length="buildingMaterial.cbmLength"
+          :width="buildingMaterial.cbmWidth"
+          :height="buildingMaterial.cbmHeight"
+          :weight="buildingMaterial.volumetricWeight"
+          @data="data = $event"
+        />
+        <v-card style="padding: 20px; margin-bottom: 10px">
           <v-card-title style="color: #313F53">Stores</v-card-title>
           <EntitySelector
             endpoint="suppliers/getbyservice/Building Material"
@@ -164,10 +172,6 @@
             @selected="buildingMaterial.suppliers = $event"
           />
         </v-card>
-        <v-container
-          style="margin-top:20px;display: flex;align-items: center;justify-content: center"
-        >
-        </v-container>
       </div>
     </SimpleForm>
   </v-container>
@@ -180,10 +184,12 @@ import ImageSelector from '../../misc/image-selector'
 import { required, priceWZ, city, unit } from '@/common/lib/validator'
 import { BuildingMaterial } from '@/models/products/building-material'
 import { BuildingMaterialPricing } from '@/models/products/building-material-pricing'
+import VolumetricWeightCalculator from '@/components/misc/volumetric-weight-calculator'
 
 export default {
   name: 'BuildingMaterialForm',
   components: {
+    VolumetricWeightCalculator,
     SimpleForm,
     EntitySelector,
     ImageSelector
@@ -227,7 +233,8 @@ export default {
       { text: 'City', value: 'city' },
       { text: 'Pricing', value: 'price' },
       { text: 'Actions', value: 'action', width: '10px' }
-    ]
+    ],
+    data: null
   }),
   mounted() {
     this.getSuppliers()
@@ -325,7 +332,10 @@ export default {
         }
       }
       formData.append('count', this.pricing[0].price.length)
-
+      formData.append('cbmLength', this.data.length)
+      formData.append('cbmWidth', this.data.width)
+      formData.append('cbmHeight', this.data.height)
+      formData.append('volumetricWeight', this.data.weight)
       formData.forEach((item) => window.console.log(item))
       return formData
     },

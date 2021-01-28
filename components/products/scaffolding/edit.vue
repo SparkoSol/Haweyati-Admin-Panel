@@ -67,20 +67,29 @@
                       city: '',
                       rent: '',
                       days: '',
-                      extraDayRent: ''
+                      extraDayRent: '',
+                      mesh: {
+                        half: '',
+                        full: ''
+                      },
+                      wheels: '',
+                      connections: ''
                     })
                   "
                   >Add City
                 </v-btn></v-col
               >
             </v-row>
-            <v-card style="padding: 5px;box-shadow: none">
-              <v-row
+            <v-card
+              style="padding: 5px;box-shadow: none;overflow-x: scroll"
+              class="scaffolding-price"
+            >
+              <div
                 v-for="(price, i) of scaffolding.pricing"
                 :key="i"
-                style="display: grid;grid-template-columns: calc(25% - 10px) calc(25% - 10px) calc(25% - 10px) calc(25% - 10px) 50px"
+                style="display: flex;"
               >
-                <v-col>
+                <v-col style="min-width: 30%">
                   <v-select
                     v-model="price.city"
                     color="#313F53"
@@ -93,7 +102,7 @@
                   >
                   </v-select>
                 </v-col>
-                <v-col>
+                <v-col style="min-width: 20%">
                   <v-text-field
                     v-model="price.rent"
                     :rules="[required, priceWZ]"
@@ -104,7 +113,7 @@
                     dense
                   ></v-text-field>
                 </v-col>
-                <v-col>
+                <v-col style="min-width: 20%">
                   <v-text-field
                     v-model="price.days"
                     :rules="[required, priceWZ]"
@@ -115,7 +124,7 @@
                     dense
                   ></v-text-field>
                 </v-col>
-                <v-col>
+                <v-col style="min-width: 20%">
                   <v-text-field
                     v-model="price.extraDayRent"
                     :rules="[required, priceWZ]"
@@ -126,15 +135,67 @@
                     dense
                   ></v-text-field>
                 </v-col>
-                <v-col cols="12" md="1" sm="1">
+                <v-col style="min-width: 20%">
+                  <v-text-field
+                    v-model="price.mesh.half"
+                    :rules="[required, priceWZ]"
+                    type="number"
+                    color="#313F53"
+                    outlined
+                    label="Half Mesh Plate Price"
+                    dense
+                  ></v-text-field>
+                </v-col>
+                <v-col style="min-width: 20%">
+                  <v-text-field
+                    v-model="price.mesh.full"
+                    :rules="[required, priceWZ]"
+                    type="number"
+                    color="#313F53"
+                    outlined
+                    label="Full Mesh Plate Price"
+                    dense
+                  ></v-text-field>
+                </v-col>
+                <v-col style="min-width: 20%">
+                  <v-text-field
+                    v-model="price.wheels"
+                    :rules="[required, priceWZ]"
+                    type="number"
+                    color="#313F53"
+                    outlined
+                    label="Wheels Price (Set Of 4)"
+                    dense
+                  ></v-text-field>
+                </v-col>
+                <v-col style="min-width: 20%">
+                  <v-text-field
+                    v-model="price.connections"
+                    :rules="[required, priceWZ]"
+                    type="number"
+                    color="#313F53"
+                    outlined
+                    label="Connections Price (Set Of 4)"
+                    dense
+                  ></v-text-field>
+                </v-col>
+                <v-col style="min-width: 10%" cols="12" md="1" sm="1">
                   <v-btn icon @click="removeCity(i)">
                     <v-icon color="red">mdi-delete</v-icon>
                   </v-btn>
                 </v-col>
-              </v-row>
+              </div>
             </v-card>
           </v-card>
         </v-container>
+        <VolumetricWeightCalculator
+          title="Scaffolding Size"
+          :length="scaffolding.cbmLength"
+          :width="scaffolding.cbmWidth"
+          :height="scaffolding.cbmHeight"
+          :weight="scaffolding.volumetricWeight"
+          @data="getData($event)"
+        />
         <v-container>
           <v-card style="padding: 20px">
             <v-card-title>Stores</v-card-title>
@@ -161,12 +222,14 @@ import SimpleForm from '../../../common/ui/widgets/SimpleForm'
 import EntitySelector from '../../../common/ui/widgets/EntitySelector'
 import { required, priceWZ, city } from '@/common/lib/validator'
 import { Scaffolding } from '@/models/products/scaffolding'
+import VolumetricWeightCalculator from '@/components/misc/volumetric-weight-calculator'
 
 export default {
   name: 'ScaffoldingEdit',
   components: {
     SimpleForm,
-    EntitySelector
+    EntitySelector,
+    VolumetricWeightCalculator
   },
   props: {
     scaffolding: {
@@ -183,7 +246,11 @@ export default {
       { text: 'City', value: 'city' },
       { text: 'Rent', value: 'rent' },
       { text: 'Days', value: 'days' },
-      { text: 'Extra Days Rent', value: 'extraDayRent' }
+      { text: 'Extra Days Rent', value: 'extraDayRent' },
+      { text: 'Half Mesh Plate Price', value: 'mesh.half' },
+      { text: 'Full Mesh Plate Price', value: 'mesh.full' },
+      { text: 'Wheels Price (Set Of 4)', value: 'wheels' },
+      { text: 'Connections Price (Set Of 4)', value: 'connections' }
     ],
     columnsStore: [
       { text: 'Image', value: 'image' },
@@ -218,7 +285,7 @@ export default {
     ]
   }),
   mounted() {
-    // this.getCities()
+    this.getCities()
   },
   methods: {
     required,
@@ -236,12 +303,21 @@ export default {
       }
       this.scaffolding.pricing.splice(i, 1)
     },
+    getData(e) {
+      this.scaffolding.cbmLength = e.length
+      this.scaffolding.cbmWidth = e.width
+      this.scaffolding.cbmHeight = e.height
+      this.scaffolding.volumetricWeight = e.weight
+    },
     formData() {
       const formData = new FormData()
       for (const key of Object.keys(this.scaffolding)) {
         if (key === 'pricing') {
           for (const price of this.scaffolding[key]) {
             for (const data of Object.keys(price)) {
+              console.log('in price')
+              console.log(data)
+              console.log(price[data])
               formData.append(data, price[data])
             }
           }
@@ -259,11 +335,18 @@ export default {
           }
         } else formData.append(key, this.scaffolding[key])
       }
+      formData.append('cbmLength', this.data.length)
+      formData.append('cbmWidth', this.data.width)
+      formData.append('cbmHeight', this.data.height)
+      formData.append('volumetricWeight', this.data.weight)
+      if (this.sendImage !== null) {
+        formData.append('image', this.sendImage)
+      }
       formData.forEach((item) => window.console.log(item))
       return formData
     },
     async getCities() {
-      this.citiesData = await this.$axios.$get('suppliers/cities')
+      this.citiesData = await this.$axios.$get('city')
     },
     cityValidator(v) {
       this.scaffolding.pricing.forEach((item) => {
@@ -283,6 +366,24 @@ export default {
 
 <style>
 .form {
-  width: 800px !important;
+  width: 100% !important;
+}
+.scaffolding-price::-webkit-scrollbar {
+  height: 20px;
+  background-color: #41b883;
+}
+
+.scaffolding-price::-webkit-scrollbar-track {
+  background-color: #fff;
+}
+
+.scaffolding-price::-webkit-scrollbar-thumb {
+  background-color: #babac0;
+  border-radius: 16px;
+  border: 5px solid #fff;
+}
+
+.scaffolding-price::-webkit-scrollbar {
+  display: block;
 }
 </style>

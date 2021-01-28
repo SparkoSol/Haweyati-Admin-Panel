@@ -31,46 +31,6 @@
           :label="'Title'"
           dense
         ></v-text-field>
-        <div
-          style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 5px"
-        >
-          <v-text-field
-            v-model="vehicleType.minWeight"
-            :rules="[required, rentHelper]"
-            type="number"
-            outlined
-            :label="'Min Weight Capacity'"
-            dense
-          ></v-text-field>
-          <v-text-field
-            v-model="vehicleType.maxWeight"
-            :rules="[required, priceWZ]"
-            type="number"
-            outlined
-            :label="'Max Weight Capacity'"
-            dense
-          ></v-text-field>
-        </div>
-        <div
-          style="display: grid; grid-template-columns: 1fr 1fr; grid-column-gap: 5px"
-        >
-          <v-text-field
-            v-model="vehicleType.minVolume"
-            :rules="[required, rentHelper]"
-            type="number"
-            outlined
-            :label="'Min Volume Capacity'"
-            dense
-          ></v-text-field>
-          <v-text-field
-            v-model="vehicleType.maxVolume"
-            :rules="[required, priceWZ]"
-            type="number"
-            outlined
-            :label="'Max Volume Capacity'"
-            dense
-          ></v-text-field>
-        </div>
         <v-text-field
           v-model="vehicleType.deliveryCharges"
           :rules="[required, priceWZ]"
@@ -79,6 +39,15 @@
           :label="'Delivery Charges'"
           dense
         ></v-text-field>
+        <VolumetricWeightCalculator
+          title="Vehicle Capacity"
+          is-vehicle
+          :length="vehicleType.cbmLength"
+          :width="vehicleType.cbmWidth"
+          :height="vehicleType.cbmHeight"
+          :payload="vehicleType.volumetricWeight"
+          @data="data = $event"
+        />
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-card-title>Media</v-card-title>
           <ImageSelector
@@ -98,10 +67,12 @@ import ImageSelector from '../misc/image-selector'
 import { required } from '@/common/utils/validators'
 import { priceWZ, rentHelper } from '@/common/lib/validator'
 import { VehicleType } from '@/models/vehicle-type'
+import VolumetricWeightCalculator from '@/components/misc/volumetric-weight-calculator'
 
 export default {
   name: 'VehicleTypeForm',
   components: {
+    VolumetricWeightCalculator,
     SimpleForm,
     ImageSelector
   },
@@ -121,7 +92,8 @@ export default {
   },
   data: () => ({
     imageFile: null,
-    sendImage: null
+    sendImage: null,
+    data: null
   }),
   methods: {
     required,
@@ -136,11 +108,11 @@ export default {
         formData.append('_id', this.vehicleType._id)
       }
       formData.append('name', this.vehicleType.name)
-      formData.append('minWeight', this.vehicleType.minWeight)
-      formData.append('maxWeight', this.vehicleType.maxWeight)
-      formData.append('minVolume', this.vehicleType.minVolume)
-      formData.append('maxVolume', this.vehicleType.maxVolume)
       formData.append('deliveryCharges', this.vehicleType.deliveryCharges)
+      formData.append('cbmLength', this.data.length)
+      formData.append('cbmWidth', this.data.width)
+      formData.append('cbmHeight', this.data.height)
+      formData.append('volumetricWeight', this.data.payload)
       if (this.sendImage !== null) {
         formData.append('image', this.sendImage)
       }

@@ -148,7 +148,8 @@ export default defineComponent({
           this.valid = true
           return
         }
-
+        console.log('before data')
+        console.log(data)
         let res = null
         switch (props.method.toLowerCase()) {
           case 'post':

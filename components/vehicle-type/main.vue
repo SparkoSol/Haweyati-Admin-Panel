@@ -8,8 +8,6 @@
       :create-route="route + '/add'"
       change
       :change-route="route + '/edit/$id'"
-      remove
-      remove-route="vehicle-type/$id"
       :on-delete="onDelete"
     />
     <v-snackbar
@@ -52,8 +50,8 @@ export default {
         width: '150px'
       },
       { text: 'Title', value: 'name' },
-      { text: 'Weight Capacity', value: 'weight' },
-      { text: 'Volume Capacity', value: 'volume' },
+      { text: 'Weight Capacity', value: 'volumetricWeight' },
+      { text: 'Volume Capacity', value: 'cbm' },
       { text: 'Delivery Charges', value: 'deliveryCharges' }
     ],
     snackbarText: 'Success!',

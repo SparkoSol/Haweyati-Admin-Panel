@@ -1,8 +1,8 @@
 <template>
   <div
-    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 10px"
+    style="width: 100%;height: 100%;background-color:#fff;border-top-left-radius:40px;padding: 15px"
   >
-    <v-container>
+    <div>
       <h1 style="margin: 20px">Product Types</h1>
       <div class="my-row">
         <v-card
@@ -61,7 +61,7 @@
           ></v-card-title>
         </v-card>
       </div>
-    </v-container>
+    </div>
   </div>
 </template>
 
@@ -72,7 +72,7 @@ export default {}
 <style>
 .my-row {
   display: grid !important;
-  grid-template-columns: 50% 50%;
+  grid-template-columns: calc(50% - 10px) calc(50% - 10px);
   grid-column-gap: 20px;
   grid-row-gap: 20px;
 }

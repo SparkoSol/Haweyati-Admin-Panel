@@ -109,15 +109,6 @@
           dense
         ></v-text-field>
         <v-text-field
-          v-model="order.deliveryFee"
-          color="#313F53"
-          outlined
-          style="color: #313F53"
-          readonly
-          label="Delivery Fee"
-          dense
-        ></v-text-field>
-        <v-text-field
           v-model="order.note"
           color="#313F53"
           outlined
