@@ -94,6 +94,7 @@ export default {
           { text: 'Vehicle Name', value: 'vehicle.name' },
           { text: 'Vehicle Model', value: 'vehicle.model' },
           { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+          { text: 'Has Supplier', value: 'hasSupplier' },
           { text: 'Status', value: 'status' }
         ]
       },
@@ -119,6 +120,7 @@ export default {
           { text: 'Vehicle Name', value: 'vehicle.name' },
           { text: 'Vehicle Model', value: 'vehicle.model' },
           { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+          { text: 'Has Supplier', value: 'hasSupplier' },
           { text: 'Status', value: 'status' }
         ]
       },
@@ -144,6 +146,7 @@ export default {
           { text: 'Vehicle Name', value: 'vehicle.name' },
           { text: 'Vehicle Model', value: 'vehicle.model' },
           { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+          { text: 'Has Supplier', value: 'hasSupplier' },
           { text: 'Status', value: 'status' }
         ]
       },
@@ -169,6 +172,7 @@ export default {
           { text: 'Vehicle Name', value: 'vehicle.name' },
           { text: 'Vehicle Model', value: 'vehicle.model' },
           { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+          { text: 'Has Supplier', value: 'hasSupplier' },
           { text: 'Status', value: 'status' }
         ]
       },
@@ -194,6 +198,7 @@ export default {
           { text: 'Vehicle Name', value: 'vehicle.name' },
           { text: 'Vehicle Model', value: 'vehicle.model' },
           { text: 'Vehicle ID', value: 'vehicle.identificationNo' },
+          { text: 'Has Supplier', value: 'hasSupplier' },
           { text: 'Status', value: 'status' }
         ]
       }

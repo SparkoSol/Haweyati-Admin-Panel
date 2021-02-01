@@ -4,7 +4,7 @@
   >
     <DeliveryVehicleMain
       title="Delivery Vehicle"
-      endpoint="/drivers/getverified"
+      endpoint="/drivers/getverified/stand-alone"
       route="product/delivery-vehicle"
     />
   </div>

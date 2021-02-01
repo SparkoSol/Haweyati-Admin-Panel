@@ -62,16 +62,16 @@
         </v-data-table>
       </v-card>
     </v-container>
-    <v-container>
-      <VolumetricWeightCalculator
-        readonly
-        title="Material Size"
-        :length="buildingMaterial.cbmLength"
-        :width="buildingMaterial.cbmWidth"
-        :height="buildingMaterial.cbmHeight"
-        :weight="buildingMaterial.volumetricWeight"
-      />
-    </v-container>
+    <!--    <v-container>-->
+    <!--      <VolumetricWeightCalculator-->
+    <!--        readonly-->
+    <!--        title="Material Size"-->
+    <!--        :length="buildingMaterial.cbmLength"-->
+    <!--        :width="buildingMaterial.cbmWidth"-->
+    <!--        :height="buildingMaterial.cbmHeight"-->
+    <!--        :weight="buildingMaterial.volumetricWeight"-->
+    <!--      />-->
+    <!--    </v-container>-->
     <v-container>
       <v-card>
         <v-card-title>Stores</v-card-title>
@@ -106,11 +106,11 @@
 <script>
 import { BuildingMaterial } from '../../../models/products/building-material'
 import ImageViewer from '../../../components/misc/image-viewer'
-import VolumetricWeightCalculator from '@/components/misc/volumetric-weight-calculator'
+// import VolumetricWeightCalculator from '@/components/misc/volumetric-weight-calculator'
 export default {
   name: 'BuildingMaterialDetail',
   components: {
-    VolumetricWeightCalculator,
+    // VolumetricWeightCalculator,
     ImageViewer
   },
   props: {

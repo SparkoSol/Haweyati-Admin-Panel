@@ -359,6 +359,15 @@
           <v-icon>mdi-cube</v-icon>
         </p>
       </template>
+      <template v-slot:item.hasSupplier="item">
+        <slot name="hasSupplier" :item="item" />
+        <p style="margin: 0" v-if="item.item.supplier">
+          <v-icon color="green">mdi-check-circle-outline</v-icon>
+        </p>
+        <p style="margin: 0" v-else>
+          <v-icon>mdi-check-circle-outline</v-icon>
+        </p>
+      </template>
     </v-data-table>
   </v-card>
 </template>
