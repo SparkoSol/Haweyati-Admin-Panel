@@ -349,7 +349,7 @@ export default {
     audio() {
       try {
         const data = {
-          soundurl: 'http://178.128.16.246:4000/uploads/notificationTone.mpeg'
+          soundurl: 'http://128.199.69.75:4000/uploads/notificationTone.mpeg'
         }
         const audio = new Audio(data.soundurl)
         audio.play()
