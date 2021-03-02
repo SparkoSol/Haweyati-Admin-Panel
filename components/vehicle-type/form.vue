@@ -39,6 +39,22 @@
           :label="'Delivery Charges'"
           dense
         ></v-text-field>
+        <v-text-field
+          v-model="vehicleType.minDeliveryCharges"
+          :rules="[required, priceWZ]"
+          type="number"
+          outlined
+          :label="'Minimum Delivery Charges'"
+          dense
+        ></v-text-field>
+        <v-text-field
+          v-model="vehicleType.minDistance"
+          :rules="[required, priceWZ]"
+          type="number"
+          outlined
+          :label="'Minimum Delivery Distance'"
+          dense
+        ></v-text-field>
         <VolumetricWeightCalculator
           title="Vehicle Capacity"
           is-vehicle
@@ -109,6 +125,8 @@ export default {
       }
       formData.append('name', this.vehicleType.name)
       formData.append('deliveryCharges', this.vehicleType.deliveryCharges)
+      formData.append('minDeliveryCharges', this.vehicleType.minDeliveryCharges)
+      formData.append('minDistance', this.vehicleType.minDistance)
       formData.append('cbmLength', this.data.length)
       formData.append('cbmWidth', this.data.width)
       formData.append('cbmHeight', this.data.height)

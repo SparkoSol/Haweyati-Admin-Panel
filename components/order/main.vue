@@ -62,7 +62,7 @@
                   <div>
                     <p style="margin: 0">{{ item.item.product.size }}</p>
                     <p style="margin: 0">
-                      {{ item.item.product.pricing[0].rent }}
+                      {{ item.item.product.name }}
                     </p>
                   </div>
                   <p style="text-align: right">{{ item.item.qty }}</p>

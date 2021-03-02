@@ -4,6 +4,7 @@
   >
     <store-form
       :supplier="supplier"
+      :cities="supplier.cities"
       :is-update="true"
       title="Update Supplier"
     />

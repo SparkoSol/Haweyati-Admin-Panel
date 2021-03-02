@@ -6,4 +6,6 @@ export class VehicleType {
   minVolume = undefined
   maxVolume = undefined
   deliveryCharges = undefined
+  minDeliveryCharges = undefined
+  minDistance = undefined
 }

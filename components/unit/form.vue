@@ -31,6 +31,14 @@
           :label="'Unit Name'"
           dense
         ></v-text-field>
+        <VolumetricWeightCalculator
+          title="Unit Size"
+          :length="unit.cbmLength"
+          :width="unit.cbmWidth"
+          :height="unit.cbmHeight"
+          :weight="unit.volumetricWeight"
+          @data="getData($event)"
+        />
       </div>
     </SimpleForm>
   </v-container>
@@ -41,10 +49,12 @@ import SimpleForm from '../../common/ui/widgets/SimpleForm'
 import { required } from '@/common/utils/validators'
 import { priceWZ } from '@/common/lib/validator'
 import { Unit } from '@/models/unit'
+import VolumetricWeightCalculator from '@/components/misc/volumetric-weight-calculator'
 
 export default {
   name: 'UnitForm',
   components: {
+    VolumetricWeightCalculator,
     SimpleForm
   },
   props: {
@@ -72,7 +82,15 @@ export default {
       this.$router.back()
     },
     formData() {
+      console.log(this.unit)
       return this.unit
+    },
+    getData(e) {
+      console.log(e)
+      this.unit.cbmLength = e.length
+      this.unit.cbmWidth = e.width
+      this.unit.cbmHeight = e.height
+      this.unit.volumetricWeight = e.weight
     }
   }
 }

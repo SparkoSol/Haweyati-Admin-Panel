@@ -98,6 +98,7 @@ export default {
               sortable: false,
               width: '100px'
             },
+            { text: 'Rating', value: 'rating' },
             {
               text: 'status',
               value: 'status'
@@ -134,7 +135,8 @@ export default {
               value: 'services',
               sortable: false,
               width: '300px'
-            }
+            },
+            { text: 'Rating', value: 'rating' }
           ]
         },
         {
@@ -166,7 +168,8 @@ export default {
               value: 'services',
               sortable: false,
               width: '300px'
-            }
+            },
+            { text: 'Rating', value: 'rating' }
           ]
         },
         {
@@ -199,7 +202,8 @@ export default {
               value: 'services',
               sortable: false,
               width: '300px'
-            }
+            },
+            { text: 'Rating', value: 'rating' }
           ]
         }
       ],

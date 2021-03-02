@@ -12,12 +12,29 @@
       <v-list>
         <div v-for="item in items" :key="item.title">
           <v-list-item
-            v-if="!item.items"
+            v-if="!item.items && !item.dialog"
             ripple
             :to="item.to"
             dense
             active-class="drawer-menu-item-active"
             class="drawer-menu-item"
+          >
+            <v-list-item-action>
+              <v-icon color="#FF974D" dense>{{ item.action }}</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title class="drawer-menu-item-title">{{
+                item.title
+              }}</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item
+            v-else-if="item.dialog === true"
+            ripple
+            dense
+            active-class="drawer-menu-item-active"
+            class="drawer-menu-item"
+            @click.prevent.stop="openDialog"
           >
             <v-list-item-action>
               <v-icon color="#FF974D" dense>{{ item.action }}</v-icon>
@@ -175,17 +192,46 @@
     <v-content style="background-color: #313F53;">
       <nuxt />
     </v-content>
+    <v-dialog v-model="dialog" width="50%">
+      <SimpleForm
+        style="margin: 0"
+        title="Reward Points"
+        :data="reward"
+        method="patch"
+        endpoint="unit/update-point-value"
+        @response="closeDialog"
+      >
+        <div class="span-2">
+          <v-text-field
+            v-model="reward.value"
+            outlined
+            :rules="[required]"
+            :label="'Point Conversion'"
+            dense
+          ></v-text-field>
+        </div>
+      </SimpleForm>
+    </v-dialog>
   </v-app>
 </template>
 
 <script>
 import moment from 'moment'
+import SimpleForm from '../common/ui/widgets/SimpleForm'
+import { required } from '@/common/utils/validators'
+import { Reward } from '@/models/reward'
+
 export default {
+  components: {
+    SimpleForm
+  },
   data() {
     return {
+      dialog: null,
       drawer: 'true',
       notifications: null,
       badge: null,
+      reward: new Reward(),
       dropdownMenuItems: [
         { title: this.$auth.user.name, subtitle: this.$auth.user.contact },
         { title: 'Settings' },
@@ -195,90 +241,104 @@ export default {
         {
           action: 'mdi-home',
           title: 'Dashboard',
+          dialog: false,
           to: '/',
           active: false
         },
         {
           action: 'mdi-account-multiple',
           title: 'Customers',
+          dialog: false,
           to: '/customer',
           active: true
         },
         {
           action: 'mdi-account',
           title: 'Drivers',
+          dialog: false,
           to: '/driver',
           active: false
         },
         {
           action: 'mdi-store',
           title: 'Suppliers',
+          dialog: false,
           to: '/store',
           active: false
         },
         {
           action: 'mdi-gavel',
           title: 'Products',
+          dialog: false,
           to: '/product',
           active: false
         },
         {
           action: 'mdi-gavel',
           title: 'Requests',
+          dialog: false,
           to: '/request',
           active: false
         },
         {
           action: 'mdi-clipboard-multiple',
           title: 'Orders',
+          dialog: false,
           to: '/order',
           active: false
         },
         {
           action: 'mdi-star',
           title: 'Rewards',
-          to: '/reward',
+          dialog: true,
           active: false
         },
         {
           action: 'mdi-clock-time-four',
           title: 'Manage Time Slots',
+          dialog: false,
           to: '/time-slot',
           active: false
         },
         {
           action: 'mdi-bell',
           title: 'Manage Notifications',
+          dialog: false,
           to: '/notification',
           active: false
         },
         {
           action: 'mdi-car',
           title: 'Manage Vehicle Type',
+          dialog: false,
           to: '/vehicle-type',
           active: false
         },
         {
           action: 'mdi-vector-square',
           title: 'Manage Units',
+          dialog: false,
           to: '/unit',
           active: false
         },
         {
           action: 'mdi-city',
           title: 'Manage Cities',
+          dialog: false,
           to: '/city',
           active: false
         },
         {
           action: 'mdi-cog',
           title: 'Settings',
+          dialog: false,
           to: '/setting',
           active: false
         },
         {
           action: 'mdi-file-chart',
           title: 'Reports',
+          dialog: false,
           active: false,
           items: [
             // { title: 'Sales', to: '/report/sales' },
@@ -290,6 +350,7 @@ export default {
         {
           action: 'mdi-account-plus',
           title: 'Register Admin',
+          dialog: false,
           to: '/auth/signup',
           active: false
         }
@@ -310,8 +371,10 @@ export default {
     })
     this.getNotifications()
     this.getNotificationBadge()
+    this.getRewardPoint()
   },
   methods: {
+    required,
     getNotificationBadge() {
       if (!localStorage.getItem('badge')) {
         localStorage.setItem('badge', false)
@@ -349,7 +412,7 @@ export default {
     audio() {
       try {
         const data = {
-          soundurl: 'http://128.199.69.75:4000/uploads/notificationTone.mpeg'
+          soundurl: 'http://192.168.10.100:4000/uploads/notificationTone.mpeg'
         }
         const audio = new Audio(data.soundurl)
         audio.play()
@@ -375,6 +438,20 @@ export default {
       localStorage.setItem('badge', false)
       this.getNotificationBadge()
       await this.getNotifications()
+    },
+    openDialog() {
+      console.log('In Open Dialog')
+      this.dialog = true
+    },
+    async getRewardPoint() {
+      this.reward.value = await this.$axios.$get('unit/point-value')
+    },
+    formData() {
+      return this.reward
+    },
+    async closeDialog() {
+      this.reward.value = await this.$axios.$get('unit/point-value')
+      this.dialog = false
     }
   }
 }
@@ -442,5 +519,8 @@ export default {
   background-color: rgba(255, 255, 255, 1);
   border-bottom-left-radius: 20px;
   border-top-left-radius: 20px;
+}
+.form {
+  width: 100%;
 }
 </style>

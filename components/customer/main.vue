@@ -120,6 +120,7 @@
                   <h3>{{ customer.profile.name }}</h3>
                   <!--                  <p>{{ customer.location.address }}</p>-->
                   <h5 style="color: grey">{{ customer.profile.contact }}</h5>
+                  <h5 style="color: grey">Points: {{ customer.points }}</h5>
                 </div>
                 <div>
                   <v-btn
@@ -190,6 +191,7 @@
                   <h3>{{ customer.profile.name }}</h3>
                   <!--                  <p>{{ customer.location.address }}</p>-->
                   <h5 style="color: grey">{{ customer.profile.contact }}</h5>
+                  <h5 style="color: grey">Points: {{ customer.points }}</h5>
                 </div>
                 <div>
                   <v-btn
@@ -260,6 +262,7 @@
                   <h3>{{ customer.profile.name }}</h3>
                   <!--                  <p>{{ customer.location.address }}</p>-->
                   <h5 style="color: grey">{{ customer.profile.contact }}</h5>
+                  <h5 style="color: grey">Points: {{ customer.points }}</h5>
                 </div>
                 <div>
                   <v-btn

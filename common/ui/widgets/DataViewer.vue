@@ -361,11 +361,23 @@
       </template>
       <template v-slot:item.hasSupplier="item">
         <slot name="hasSupplier" :item="item" />
-        <p style="margin: 0" v-if="item.item.supplier">
+        <p v-if="item.item.supplier" style="margin: 0">
           <v-icon color="green">mdi-check-circle-outline</v-icon>
         </p>
-        <p style="margin: 0" v-else>
+        <p v-else style="margin: 0">
           <v-icon>mdi-check-circle-outline</v-icon>
+        </p>
+      </template>
+      <template v-slot:item.rating="item">
+        <slot name="rating" :item="item" />
+        <p v-if="item.item.rating" style="margin: 0">
+          <v-icon color="orange">mdi-star</v-icon>
+          <span v-if="item.item.rating">{{
+            parseFloat(item.item.rating).toFixed(2)
+          }}</span>
+        </p>
+        <p v-else style="margin: 0">
+          <v-icon color="grey">mdi-star</v-icon>
         </p>
       </template>
     </v-data-table>

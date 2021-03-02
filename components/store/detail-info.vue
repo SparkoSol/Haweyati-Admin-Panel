@@ -60,12 +60,22 @@
           dense
         ></v-text-field>
       </v-card>
-      <v-card style="padding: 20px">
+      <v-card style="padding: 20px;margin-bottom: 20px">
         <v-card-title>Location</v-card-title>
         <div>
           <GoogleMap :old-marker="supplier.location" :click="false" />
         </div>
       </v-card>
+      <v-card v-if="supplier.cities.length > 0" style="padding: 20px">
+        <v-card-title>Cities</v-card-title>
+        <div>
+          <v-data-table :headers="columns" :items="supplier.cities" />
+        </div>
+      </v-card>
+      <Reviews
+        title="Reviews"
+        :endpoint="'/reviews/supplier/' + supplier._id"
+      />
     </v-container>
   </v-container>
 </template>
@@ -74,10 +84,11 @@
 import { Supplier } from '../../models/supplier'
 import ImageViewer from '../misc/image-viewer'
 import GoogleMap from '../misc/GoogleMap'
+import Reviews from '@/components/misc/reviews'
 
 export default {
   name: 'SupplierDetailInfo',
-  components: { ImageViewer, GoogleMap },
+  components: { Reviews, ImageViewer, GoogleMap },
   props: {
     supplier: {
       type: [Object, Supplier],
@@ -88,7 +99,9 @@ export default {
       default: 'Title'
     }
   },
-  data: () => ({}),
+  data: () => ({
+    columns: [{ text: 'Name', value: 'name' }]
+  }),
   methods: {
     returnBack() {
       this.$router.back()

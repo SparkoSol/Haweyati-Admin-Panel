@@ -62,23 +62,43 @@
           ></v-text-field>
           <v-text-field
             v-if="!allowVariants"
-            v-model="finishingMaterial.volume"
+            v-model="finishingMaterial.cbmLength"
             :rules="[required, priceWZ]"
             type="number"
             outlined
-            label="Volume"
+            label="Length"
             dense
-            prepend-inner-icon="mdi-cash"
+            prepend-inner-icon="mdi-tape-measure"
           ></v-text-field>
           <v-text-field
             v-if="!allowVariants"
-            v-model="finishingMaterial.weight"
+            v-model="finishingMaterial.cbmWidth"
+            :rules="[required, priceWZ]"
+            type="number"
+            outlined
+            label="Width"
+            dense
+            prepend-inner-icon="mdi-tape-measure"
+          ></v-text-field>
+          <v-text-field
+            v-if="!allowVariants"
+            v-model="finishingMaterial.cbmHeight"
+            :rules="[required, priceWZ]"
+            type="number"
+            outlined
+            label="Height"
+            dense
+            prepend-inner-icon="mdi-tape-measure"
+          ></v-text-field>
+          <v-text-field
+            v-if="!allowVariants"
+            v-model="finishingMaterial.volumetricWeight"
             :rules="[required, priceWZ]"
             type="number"
             outlined
             label="Weight"
             dense
-            prepend-inner-icon="mdi-cash"
+            prepend-inner-icon="mdi-scale"
           ></v-text-field>
           <v-checkbox
             v-model="allowVariants"
@@ -141,7 +161,7 @@
             >
               <template v-slot:item.varientPrice="{ item }">
                 <div
-                  style="display: grid; grid-template-columns: 1fr 1fr 1fr; grid-column-gap: 5px"
+                  style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr; grid-column-gap: 5px"
                 >
                   <v-text-field
                     v-model="item.varientPrice"
@@ -154,12 +174,32 @@
                     hide-details
                   ></v-text-field>
                   <v-text-field
-                    v-model="item.varientVolume"
+                    v-model="item.varientLength"
                     :rules="[required, priceWZ]"
                     type="number"
                     style="align-items: center !important;"
                     outlined
-                    label="Volume"
+                    label="Length"
+                    dense
+                    hide-details
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="item.varientWidth"
+                    :rules="[required, priceWZ]"
+                    type="number"
+                    style="align-items: center !important;"
+                    outlined
+                    label="Width"
+                    dense
+                    hide-details
+                  ></v-text-field>
+                  <v-text-field
+                    v-model="item.varientHeight"
+                    :rules="[required, priceWZ]"
+                    type="number"
+                    style="align-items: center !important;"
+                    outlined
+                    label="Height"
                     dense
                     hide-details
                   ></v-text-field>
@@ -178,7 +218,6 @@
             </v-data-table>
           </v-card>
         </v-card>
-
         <v-card style="padding: 20px;margin-bottom: 20px">
           <v-card-title style="color: #313F53">Stores</v-card-title>
           <EntitySelector
@@ -300,9 +339,13 @@ export default {
           console.log(key)
           if (key === 'price') {
             obj.varientPrice = variant[key]
-          } else if (key === 'volume') {
-            obj.varientVolume = variant[key]
-          } else if (key === 'weight') {
+          } else if (key === 'cbmLength') {
+            obj.varientLength = variant[key]
+          } else if (key === 'cbmWidth') {
+            obj.varientWidth = variant[key]
+          } else if (key === 'cbmHeight') {
+            obj.varientHeight = variant[key]
+          } else if (key === 'volumetricWeight') {
             obj.varientWeight = variant[key]
           } else {
             obj.varientName.push(variant[key])
@@ -387,6 +430,14 @@ export default {
             for (const item of this.finishingMaterial[key]) {
               formData.append(key, item)
             }
+          } else if (key === 'cbmLength') {
+            formData.append(key, 0)
+          } else if (key === 'cbmWidth') {
+            formData.append(key, 0)
+          } else if (key === 'cbmHeight') {
+            formData.append(key, 0)
+          } else if (key === 'volumetricWeight') {
+            formData.append(key, 0)
           } else if (key === 'parent') {
             formData.append('parent', this.$route.params.id)
           } else formData.append(key, this.finishingMaterial[key])

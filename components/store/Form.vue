@@ -143,6 +143,26 @@
           >
           </v-select>
         </v-card>
+        <v-card
+          v-if="
+            supplier.services &&
+              supplier.services.includes('Finishing Material')
+          "
+          style="padding:20px;margin-bottom: 20px"
+        >
+          <v-card-title style="color: #313F53">Cities</v-card-title>
+          <EntitySelector
+            endpoint="city"
+            :selection="cities"
+            multiple
+            required
+            :columns-selected="columnsSelected"
+            :columns-selector="columnsSelected"
+            title-selected="Selected Cities"
+            title-selector="Cities"
+            @selected="supplier.cities = $event"
+          />
+        </v-card>
       </div>
     </SimpleForm>
     <v-dialog v-model="contactCheck" width="800px" persistent>
@@ -212,6 +232,7 @@
 import SimpleForm from '../../common/ui/widgets/SimpleForm'
 import ImageSelector from '../misc/image-selector'
 import GoogleMap from '../misc/GoogleMap'
+import EntitySelector from '../../common/ui/widgets/EntitySelector'
 import { Supplier } from '@/models/supplier'
 import {
   emailValidator,
@@ -224,7 +245,8 @@ export default {
   components: {
     GoogleMap,
     ImageSelector,
-    SimpleForm
+    SimpleForm,
+    EntitySelector
   },
   props: {
     mainSupplier: {
@@ -242,10 +264,14 @@ export default {
     title: {
       type: String,
       default: 'Form'
+    },
+    cities: {
+      type: Array,
+      default: () => []
     }
   },
   data: () => ({
-    columnsSelected: [{ text: 'Name', value: 'person.name' }],
+    columnsSelected: [{ text: 'Name', value: 'name' }],
     suppliers: [],
     services: [
       { name: 'Construction Dumpster' },
@@ -290,6 +316,7 @@ export default {
         formData.append('_id', this.supplier._id)
         formData.append('personId', this.supplier.person._id)
       }
+      console.log('here')
       formData.append('name', this.supplier.person.name)
       if (this.supplier.person.email) {
         formData.append('email', this.supplier.person.email)
@@ -319,6 +346,9 @@ export default {
       formData.append('longitude', this.location.lng)
       if (this.mainSupplier) {
         formData.append('parent', this.mainSupplier._id)
+      }
+      for (let i = 0; i < this.supplier.cities.length; i++) {
+        formData.append('cities', this.supplier.cities[i].name)
       }
       formData.forEach((item) => window.console.log(item))
       return formData
@@ -369,6 +399,14 @@ export default {
       this.mergeCheck = false
       this.errorCheck = false
       this.contactCheck = true
+    },
+    mapCities() {
+      // const cities = this.supplier.cities
+      // for (let i = 0; i < cities.length; i++) {
+      //   const obj = { name: cities[i] }
+      //   this.supplier.cities.push(obj)
+      // }
+      // console.log(this.supplier.cities)
     }
   }
 }
