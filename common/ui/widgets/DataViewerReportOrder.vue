@@ -4,6 +4,15 @@
       <span>{{ title }}</span>
       <v-spacer />
       <v-btn
+        elevation="0"
+        color="#FF974D"
+        style="padding: 0 13px 0 7px !important; border-radius: 4px; margin-right: 10px"
+        @click="dialog = true"
+      >
+        <v-icon small color="white">mdi-filter</v-icon>
+        <span style="margin-left: 10px;color:white">Filter</span>
+      </v-btn>
+      <v-btn
         v-if="data !== null && data.length !== 0"
         color="#FF974D"
         elevation="0"
@@ -11,72 +20,9 @@
         @click="generatePDF"
       >
         <v-icon small color="white">mdi-printer-eye</v-icon>
-        <span style="margin-left: 10px;color:white">PDF</span>
+        <span style="margin-left: 10px;color:white">Print</span>
       </v-btn>
     </v-card-title>
-
-    <v-container
-      style="padding: 20px;display: flex;align-items: start;justify-content: start"
-    >
-      <v-form ref="form" style="display: flex;align-items: start ">
-        <v-text-field
-          v-if="date"
-          v-model="dateSend"
-          style="margin-right: 10px"
-          :rules="[required]"
-          type="date"
-          dense
-          outlined
-        />
-        <v-text-field
-          v-if="dateTo"
-          v-model="dateToSend"
-          style="margin-right: 10px"
-          :rules="[required]"
-          type="date"
-          dense
-          outlined
-        />
-        <v-text-field
-          v-if="month"
-          v-model="monthSend"
-          style="margin-right: 10px"
-          :rules="[required]"
-          type="month"
-          dense
-          outlined
-        />
-        <v-text-field
-          v-if="week"
-          v-model="weekSend"
-          style="margin-right: 10px"
-          :rules="[required]"
-          type="week"
-          dense
-          outlined
-        />
-        <v-text-field
-          v-if="year"
-          v-model="yearSend"
-          style="margin-right: 10px"
-          type="number"
-          :rules="[yearValidator, required]"
-          dense
-          outlined
-        />
-        <v-btn
-          v-if="date || week || year || month"
-          color="primary"
-          elevation="0"
-          style="padding: 0 13px 0 7px !important; border-radius: 4px; margin-right: 10px"
-          height="40"
-          @click="generateSale"
-        >
-          <span>Generate</span>
-        </v-btn>
-      </v-form>
-    </v-container>
-
     <v-data-table
       :headers="columns"
       :items="data"
@@ -91,13 +37,131 @@
         <slot name="createdAt" :item="item" />
         {{ dateFormat(item.createdAt) }}
       </template>
+      <template v-slot:item.status="{ item }">
+        <slot name="status" :item="item" />
+        <p style="margin: 0">
+          {{
+            getStatus(item.status) !== '' ? getStatus(item.status) : item.status
+          }}
+        </p>
+      </template>
     </v-data-table>
+    <v-dialog v-model="dialog" width="50%">
+      <v-card>
+        <v-card-title>Filter Sales</v-card-title>
+        <v-container style="padding: 20px;">
+          <v-form ref="form">
+            <v-radio-group v-model="report.payment" style="display: inline">
+              <v-radio
+                v-for="(n, i) in payment"
+                :key="i"
+                :label="n"
+                :value="i"
+              ></v-radio>
+            </v-radio-group>
+            <v-autocomplete
+              v-model="report.customer"
+              :items="customers"
+              item-text="profile.name"
+              item-value="_id"
+              placeholder="Customer"
+              dense
+              outlined
+            ></v-autocomplete>
+            <v-autocomplete
+              v-model="report.driver"
+              :items="drivers"
+              item-text="profile.name"
+              item-value="_id"
+              placeholder="Driver"
+              dense
+              outlined
+            ></v-autocomplete>
+            <v-autocomplete
+              v-model="report.supplier"
+              :items="suppliers"
+              item-text="person.name"
+              item-value="_id"
+              placeholder="Supplier"
+              dense
+              outlined
+            ></v-autocomplete>
+            <v-text-field
+              v-if="this.tab === 'Daily' || this.tab === 'Custom'"
+              v-model="report.date"
+              style="margin-right: 10px"
+              :rules="[required]"
+              type="date"
+              dense
+              outlined
+            />
+            <v-text-field
+              v-if="this.tab === 'Custom'"
+              v-model="report.dateTo"
+              style="margin-right: 10px"
+              :rules="[required]"
+              type="date"
+              dense
+              outlined
+            />
+            <v-text-field
+              v-if="this.tab === 'Monthly'"
+              v-model="report.month"
+              style="margin-right: 10px"
+              :rules="[required]"
+              type="month"
+              dense
+              outlined
+            />
+            <v-text-field
+              v-if="this.tab === 'Weekly'"
+              v-model="report.week"
+              style="margin-right: 10px"
+              :rules="[required]"
+              type="week"
+              dense
+              outlined
+            />
+            <v-text-field
+              v-if="this.tab === 'Yearly'"
+              v-model="report.year"
+              style="margin-right: 10px"
+              type="number"
+              :rules="[yearValidator, required]"
+              dense
+              outlined
+            />
+            <div style="display: flex;justify-content: flex-end">
+              <v-btn
+                color="primary"
+                elevation="0"
+                style="padding: 0 13px 0 7px !important; border-radius: 4px; margin-right: 10px;text-align: right"
+                height="40"
+                @click="generateSale"
+              >
+                <span>Generate</span>
+              </v-btn>
+              <v-btn
+                color="red"
+                elevation="0"
+                style="padding: 0 13px 0 7px !important; border-radius: 4px; margin-right: 10px;text-align: right;color:white"
+                height="40"
+                @click="clearFilter"
+              >
+                <span>Clear</span>
+              </v-btn>
+            </div>
+          </v-form>
+        </v-container>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
 
 <script>
 import moment from 'moment'
 import { yearValidator, required } from '../../utils/validators'
+import { Report } from '@/models/report'
 export default {
   name: 'DataViewerReportOrder',
   props: {
@@ -117,199 +181,103 @@ export default {
       type: Boolean,
       default: false
     },
+    tab: {
+      type: String,
+      required: true
+    },
     endpoint: {
       type: String,
       required: true
     },
-    all: {
-      type: Boolean,
-      default: false
-    },
-    date: {
-      type: Boolean,
-      default: false
-    },
-    dateTo: {
-      type: Boolean,
-      default: false
-    },
-    week: {
-      type: Boolean,
-      default: false
-    },
-    month: {
-      type: Boolean,
-      default: false
-    },
-    year: {
-      type: Boolean,
-      default: false
+    report: {
+      type: Report,
+      default: new Report()
     }
   },
   data: () => ({
     data: [],
-    yearSend: new Date().getFullYear(),
-    weekSend: '',
-    dateSend: '',
-    monthSend: '',
-    dateToSend: ''
+    dialog: false,
+    customers: [],
+    drivers: [],
+    suppliers: [],
+    payment: ['All', 'Cash on Delivery', 'Online Payment']
   }),
   mounted() {
-    if (this.all) {
-      this.getAllOrdersReport()
-    } else if (this.date) {
-      this.getDailyOrdersReport()
-    } else if (this.week) {
-      this.getWeeklyOrdersReport()
-    } else if (this.month) {
-      this.getMonthlyOrdersReport()
-    } else if (this.year) {
-      this.getYearlyOrdersReport()
-    }
+    this.getFilters()
+    this.getReport()
   },
   methods: {
     yearValidator,
     required,
+    getStatus(i) {
+      switch (i) {
+        case 0:
+          return 'Pending'
+        case 1:
+          return 'Accepted'
+        case 2:
+          return 'Preparing'
+        case 3:
+          return 'Dispatched'
+        case 4:
+          return 'Delivered'
+        case 5:
+          return 'Rejected'
+        case 6:
+          return 'Cancelled'
+        default:
+          return ''
+      }
+    },
     returnBack() {
       this.$router.back()
     },
-    dateFormat: (date) => moment(date).format('MMMM Do YYYY'),
+    async getFilters() {
+      this.customers = await this.$axios.$get('/customers/getall')
+      this.drivers = await this.$axios.$get('/drivers')
+      this.suppliers = await this.$axios.$get('/suppliers')
+    },
+    dateFormat: (date) => moment(date).format('yyyy-MM-DD'),
+    clearFilter() {
+      this.report = new Report()
+      this.getReport()
+      this.dialog = false
+    },
     generateSale() {
       if (this.$refs.form.validate()) {
-        if (this.date && !this.dateToSend)
-          this.getDailyOrdersReport(this.dateSend)
-        else if (this.week) this.getWeeklyOrdersReport(this.weekSend)
-        else if (this.month) this.getMonthlyOrdersReport(this.monthSend)
-        else if (this.year) this.getYearlyOrdersReport(this.yearSend)
-        else if (this.date && this.dateTo)
-          this.getCustomOrdersReport(this.dateSend, this.dateToSend)
+        this.getReport()
+        this.dialog = false
       } else {
         window.console.log('error')
       }
     },
-    async getAllOrdersReport() {
-      this.data = await this.$axios.$post('/reports/orders', {
-        type: 'all'
+    getData() {
+      const value = {}
+      for (const item in this.report) {
+        if (this.report[item]) value[item] = this.report[item]
+      }
+      return value
+    },
+    async getReport() {
+      const value = this.getData()
+      this.data = await this.$axios.$get('/reports/orders', {
+        params: value
       })
     },
-    async getDailyOrdersReport(dateSend) {
-      if (dateSend) {
-        this.data = await this.$axios.$post('/reports/orders', {
-          type: 'daily',
-          date: moment(dateSend).format('MM-DD-YYYY')
-        })
-      } else {
-        this.data = await this.$axios.$post('/reports/orders', {
-          type: 'daily',
-          date: moment().format('MM-DD-YYYY')
-        })
-      }
-    },
-    async getWeeklyOrdersReport(weekSend) {
-      if (weekSend) {
-        this.data = await this.$axios.$post('/reports/orders', {
-          type: 'weekly',
-          date: moment(weekSend).week()
-        })
-      } else {
-        this.data = await this.$axios.$post('/reports/orders', {
-          type: 'weekly',
-          date: moment().week()
-        })
-      }
-    },
-    async getMonthlyOrdersReport(monthSend) {
-      if (monthSend) {
-        this.data = await this.$axios.$post('/reports/orders', {
-          type: 'monthly',
-          date: moment(monthSend).month() + 1
-        })
-      } else {
-        this.data = await this.$axios.$post('/reports/orders', {
-          type: 'monthly',
-          date: moment().month() + 1
-        })
-      }
-    },
-    async getYearlyOrdersReport(yearSend) {
-      if (yearSend) {
-        this.data = await this.$axios.$post('/reports/orders', {
-          type: 'yearly',
-          date: yearSend
-        })
-      } else {
-        this.data = await this.$axios.$post('/reports/orders', {
-          type: 'yearly',
-          date: moment().year()
-        })
-      }
-    },
-    async getCustomOrdersReport(dateSend, dateToSend) {
-      if (dateSend && dateToSend) {
-        this.data = await this.$axios.$post('/reports/orders', {
-          type: 'custom',
-          date: moment(dateSend).format('MM-DD-YYYY'),
-          dateTo: moment(dateToSend).format('MM-DD-YYYY')
-        })
-      }
-    },
     generatePDF() {
-      let win
-      if (this.all) {
-        win = window.open(
-          'http://192.168.10.100:4000/reports/orders-report?type=all',
-          '_blank'
-        )
-      } else if (this.date && !this.dateTo) {
-        const date = this.dateSend
-          ? moment(this.dateSend).format('MM-DD-YYYY')
-          : moment().format('MM-DD-YYYY')
-        win = window.open(
-          'http://192.168.10.100:4000/reports/orders-report?type=daily&date=' +
-            date,
-          '_blank'
-        )
-      } else if (this.week) {
-        const week = this.weekSend
-          ? moment(this.weekSend).week()
-          : moment().week()
-        win = window.open(
-          'http://192.168.10.100:4000/reports/orders-report?type=weekly&date=' +
-            week,
-          '_blank'
-        )
-      } else if (this.month) {
-        const month = this.monthSend
-          ? moment(this.monthSend).month() + 1
-          : moment().month() + 1
-        win = window.open(
-          'http://192.168.10.100:4000/reports/orders-report?type=monthly&date=' +
-            month,
-          '_blank'
-        )
-      } else if (this.year) {
-        const year = this.yearSend ? this.yearSend : moment().year()
-        win = window.open(
-          'http://192.168.10.100:4000/reports/orders-report?type=yearly&date=' +
-            year,
-          '_blank'
-        )
-      } else if (this.date && this.dateTo) {
-        const date = this.dateSend
-          ? moment(this.dateSend).format('MM-DD-YYYY')
-          : moment().format('MM-DD-YYYY')
-        const dateTo = this.dateToSend
-          ? moment(this.dateToSend).format('MM-DD-YYYY')
-          : moment().format('MM-DD-YYYY')
-        win = window.open(
-          'http://192.168.10.100:4000/reports/orders-report?type=custom&date=' +
-            date +
-            '&dateTo=' +
-            dateTo,
-          '_blank'
-        )
+      let param = '?'
+      const value = this.getData()
+      for (const item in value) {
+        console.log(item)
+        if (value[item]) param += item + '=' + value[item] + '&'
       }
+      console.log(param)
+      const win = window.open(
+        this.$axios.defaults.baseURL + 'reports/orders-report' + param,
+        '_blank'
+      )
       win.focus()
+      win.print()
     }
   }
 }

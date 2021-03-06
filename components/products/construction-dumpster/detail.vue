@@ -13,7 +13,7 @@
       </v-col>
       <v-col cols="12" md="11" sm="11">
         <v-card-title
-          >{{ constructionDumpster.size }} Yard Dumpster</v-card-title
+          >{{ constructionDumpster.name }} Yard Dumpster</v-card-title
         >
       </v-col>
     </v-row>
@@ -22,12 +22,12 @@
         <v-card-title>Information</v-card-title>
         <ImageViewer :image="constructionDumpster.image" />
         <v-text-field
-          v-model="constructionDumpster.size"
+          v-model="constructionDumpster.name"
           color="#313F53"
           outlined
           style="color: #313F53"
           readonly
-          label="Size"
+          label="Name"
           dense
         ></v-text-field>
         <v-textarea

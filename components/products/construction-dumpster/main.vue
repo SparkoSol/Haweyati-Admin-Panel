@@ -53,7 +53,7 @@ export default {
     snackbar: false,
     columns: [
       { text: 'Image', value: 'image', width: '90px', sortable: false },
-      { text: 'Size', value: 'size' },
+      { text: 'Name', value: 'name' },
       { text: 'Description', value: 'description', sortable: false }
     ]
   }),

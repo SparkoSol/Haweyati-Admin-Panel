@@ -63,6 +63,16 @@
     <v-container>
       <v-card style="padding: 20px">
         <v-card-title>Order Detail</v-card-title>
+        <div v-if="order.rating" style="margin-bottom: 20px">
+          <v-icon v-for="index in order.rating" :key="index" color="orange"
+            >mdi-star</v-icon
+          >
+          <div style="display: inline-block;margin-left: -4px">
+            <v-icon v-for="index in 5 - order.rating" :key="index" color="grey"
+              >mdi-star</v-icon
+            >
+          </div>
+        </div>
         <v-text-field
           v-model="order.orderNo"
           color="#313F53"
@@ -115,6 +125,15 @@
           style="color: #313F53"
           readonly
           label="Delivery Fee"
+          dense
+        ></v-text-field>
+        <v-text-field
+          v-model="order.coupon"
+          color="#313F53"
+          outlined
+          style="color: #313F53"
+          readonly
+          label="Coupon Code"
           dense
         ></v-text-field>
         <v-text-field

@@ -95,6 +95,11 @@
           dense
         ></v-text-field>
       </v-card>
+      <Reviews
+        title="Reviews"
+        :endpoint="'/reviews/driver/' + driver._id"
+        is-driver
+      />
     </v-container>
   </v-container>
 </template>
@@ -102,10 +107,11 @@
 <script>
 import { Driver } from '../../models/driver'
 import ImageViewer from '../misc/image-viewer'
+import Reviews from '@/components/misc/reviews'
 
 export default {
   name: 'DriverDetail',
-  components: { ImageViewer },
+  components: { Reviews, ImageViewer },
   props: {
     driver: {
       type: [Object, Driver],

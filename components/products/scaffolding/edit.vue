@@ -19,7 +19,7 @@
             </v-btn>
           </v-col>
           <v-col cols="12" md="9" sm="9">
-            <v-card-title>Edit {{ scaffolding.type }}</v-card-title>
+            <v-card-title>Edit {{ scaffolding.name }}</v-card-title>
           </v-col>
         </v-row>
       </template>
@@ -28,12 +28,12 @@
           <v-card style="padding: 20px">
             <v-card-title>Scaffolding Information</v-card-title>
             <v-text-field
-              v-model="scaffolding.type"
+              v-model="scaffolding.name"
               :rules="[required]"
               color="#313F53"
               outlined
               style="color: #313F53"
-              label="Type"
+              label="Name"
               dense
             ></v-text-field>
             <v-textarea

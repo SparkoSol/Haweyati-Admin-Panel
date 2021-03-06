@@ -12,7 +12,7 @@
         </v-btn>
       </v-col>
       <v-col cols="12" md="9" sm="9">
-        <v-card-title>{{ scaffolding.type }}</v-card-title>
+        <v-card-title>{{ scaffolding.name }}</v-card-title>
       </v-col>
       <v-col
         style="display: flex ; align-items: center; justify-content: center"
@@ -33,12 +33,12 @@
       <v-card style="padding: 20px">
         <v-card-title>Scaffolding Information</v-card-title>
         <v-text-field
-          v-model="scaffolding.type"
+          v-model="scaffolding.name"
           color="#313F53"
           outlined
           style="color: #313F53"
           readonly
-          label="Type"
+          label="Name"
           dense
         ></v-text-field>
         <v-textarea

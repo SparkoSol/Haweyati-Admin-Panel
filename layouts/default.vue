@@ -45,35 +45,6 @@
               }}</v-list-item-title>
             </v-list-item-content>
           </v-list-item>
-          <v-list-group
-            v-else
-            v-model="item.active"
-            class="drawer-menu-item"
-            no-action
-          >
-            <v-list-item slot="activator" style="padding: 0" dense>
-              <v-list-item-action>
-                <v-icon dense color="#FF974D">{{ item.action }}</v-icon>
-              </v-list-item-action>
-              <v-list-item-content>
-                <v-list-item-title class="drawer-menu-item-title">{{
-                  item.title
-                }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-            <v-list-item
-              v-for="subItem in item.items"
-              :key="subItem.title"
-              dense
-              :to="subItem.to"
-            >
-              <v-list-item-content>
-                <v-list-item-title class="drawer-menu-item-title">{{
-                  subItem.title
-                }}</v-list-item-title>
-              </v-list-item-content>
-            </v-list-item>
-          </v-list-group>
         </div>
       </v-list>
     </v-navigation-drawer>
@@ -322,6 +293,13 @@ export default {
           active: false
         },
         {
+          action: 'mdi-ticket-percent',
+          title: 'Manage Coupon',
+          dialog: false,
+          to: '/coupon',
+          active: false
+        },
+        {
           action: 'mdi-city',
           title: 'Manage Cities',
           dialog: false,
@@ -340,12 +318,7 @@ export default {
           title: 'Reports',
           dialog: false,
           active: false,
-          items: [
-            // { title: 'Sales', to: '/report/sales' },
-            // { title: 'Suppliers', to: '/report/suppliers' },
-            // { title: 'Products', to: '/report/products' },
-            { title: 'Orders', to: '/report/orders' }
-          ]
+          to: '/report/orders'
         },
         {
           action: 'mdi-account-plus',
@@ -412,7 +385,7 @@ export default {
     audio() {
       try {
         const data = {
-          soundurl: 'http://192.168.10.100:4000/uploads/notificationTone.mpeg'
+          soundurl: 'http://128.199.69.75:4000/uploads/notificationTone.mpeg'
         }
         const audio = new Audio(data.soundurl)
         audio.play()

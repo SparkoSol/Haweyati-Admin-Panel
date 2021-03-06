@@ -26,12 +26,12 @@
       <div class="span-2">
         <v-card style="padding:20px;margin-bottom: 20px">
           <v-text-field
-            v-model="constructionDumpster.size"
+            v-model="constructionDumpster.name"
             :rules="[required]"
             color="#313F53"
             outlined
             style="color: #313F53"
-            label="Size"
+            label="Name"
             dense
           ></v-text-field>
           <v-textarea

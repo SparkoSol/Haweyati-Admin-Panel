@@ -22,6 +22,7 @@
           :unblock="item.unblock"
           :refund="item.refund"
           :change="item.change"
+          :invoice="item.invoice"
           :on-block="onBlock"
           :on-unblock="onUnblocked"
           :on-accepted="onAccepted"
@@ -328,6 +329,7 @@ export default {
         detail: true,
         refund: true,
         unblock: false,
+        invoice: true,
         title: 'Delivered Orders',
         columns: [
           {

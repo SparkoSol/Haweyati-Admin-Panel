@@ -32,7 +32,7 @@
         >
           <v-card-title
             style="padding-left: 170px;"
-            v-text="scaffoldingSub.type"
+            v-text="scaffoldingSub.name"
           ></v-card-title>
         </v-card>
       </div>

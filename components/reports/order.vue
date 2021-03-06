@@ -12,13 +12,9 @@
           :title="item.title"
           :endpoint="item.endpoint"
           :columns="item.columns"
+          :report="item.report"
           back
-          :all="item.all"
-          :date="item.date"
-          :date-to="item.dateTo"
-          :week="item.week"
-          :month="item.month"
-          :year="item.year"
+          :tab="item.tab"
         />
       </v-tab-item>
     </v-tabs-items>
@@ -26,7 +22,9 @@
 </template>
 
 <script>
+import moment from 'moment'
 import DataViewerReport from '../../common/ui/widgets/DataViewerReportOrder'
+import { Report } from '@/models/report'
 
 export default {
   name: 'OrderReport',
@@ -39,13 +37,8 @@ export default {
       {
         tab: 'All',
         endpoint: '/drivers',
-        all: true,
-        date: false,
-        dateTo: false,
-        week: false,
-        month: false,
-        year: false,
         title: 'All Orders Report',
+        report: new Report(),
         columns: [
           {
             text: '#',
@@ -58,7 +51,7 @@ export default {
           { text: 'Contact', value: 'customer.profile.contact' },
           { text: 'Service', value: 'service' },
           { text: 'Payment Type', value: 'paymentType' },
-          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Total', value: 'total' },
           { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
@@ -66,13 +59,14 @@ export default {
       {
         tab: 'Daily',
         endpoint: '/drivers',
-        all: false,
-        date: true,
-        dateTo: false,
-        week: false,
-        month: false,
-        year: false,
         title: 'Daily Order Report',
+        report: new Report(
+          null,
+          null,
+          moment().format('yyyy-MM-DD'),
+          null,
+          null
+        ),
         columns: [
           {
             text: '#',
@@ -85,7 +79,7 @@ export default {
           { text: 'Contact', value: 'customer.profile.contact' },
           { text: 'Service', value: 'service' },
           { text: 'Payment Type', value: 'paymentType' },
-          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Total', value: 'total' },
           { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
@@ -93,13 +87,8 @@ export default {
       {
         tab: 'Weekly',
         endpoint: '/drivers',
-        all: false,
-        date: false,
-        dateTo: false,
-        week: true,
-        month: false,
-        year: false,
         title: 'Weekly Order Report',
+        report: new Report(null, moment().format('yyyy-w'), null, null, null),
         columns: [
           {
             text: '#',
@@ -112,7 +101,7 @@ export default {
           { text: 'Contact', value: 'customer.profile.contact' },
           { text: 'Service', value: 'service' },
           { text: 'Payment Type', value: 'paymentType' },
-          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Total', value: 'total' },
           { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
@@ -120,13 +109,8 @@ export default {
       {
         tab: 'Monthly',
         endpoint: '/drivers',
-        all: false,
-        date: false,
-        dateTo: false,
-        week: false,
-        month: true,
-        year: false,
         title: 'Monthly Order Report',
+        report: new Report(null, null, null, moment().format('yyyy-MM'), null),
         columns: [
           {
             text: '#',
@@ -139,7 +123,7 @@ export default {
           { text: 'Contact', value: 'customer.profile.contact' },
           { text: 'Service', value: 'service' },
           { text: 'Payment Type', value: 'paymentType' },
-          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Total', value: 'total' },
           { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
@@ -147,13 +131,8 @@ export default {
       {
         tab: 'Yearly',
         endpoint: '/drivers',
-        all: false,
-        date: false,
-        dateTo: false,
-        week: false,
-        month: false,
-        year: true,
         title: 'Yearly Order Report',
+        report: new Report(moment().year(), null, null, null, null),
         columns: [
           {
             text: '#',
@@ -166,7 +145,7 @@ export default {
           { text: 'Contact', value: 'customer.profile.contact' },
           { text: 'Service', value: 'service' },
           { text: 'Payment Type', value: 'paymentType' },
-          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Total', value: 'total' },
           { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]
@@ -174,13 +153,14 @@ export default {
       {
         tab: 'Custom',
         endpoint: '/drivers',
-        all: false,
-        date: true,
-        dateTo: true,
-        week: false,
-        month: false,
-        year: false,
         title: 'Custom Order Reports',
+        report: new Report(
+          null,
+          null,
+          moment().format('yyyy-MM-DD'),
+          null,
+          moment().format('yyyy-MM-DD')
+        ),
         columns: [
           {
             text: '#',
@@ -193,7 +173,7 @@ export default {
           { text: 'Contact', value: 'customer.profile.contact' },
           { text: 'Service', value: 'service' },
           { text: 'Payment Type', value: 'paymentType' },
-          { text: 'Total', value: 'details.netTotal' },
+          { text: 'Total', value: 'total' },
           { text: 'Date', value: 'createdAt' },
           { text: 'Status', value: 'status' }
         ]

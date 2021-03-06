@@ -271,6 +271,15 @@
           @click="handleRefundEvent(item)"
           >mdi-cash-refund</v-icon
         >
+        <v-icon
+          v-if="invoice"
+          style="margin: 5px"
+          small
+          color="green"
+          aria-hidden="true"
+          @click="handleInvoiceEvent(item)"
+          >mdi-printer</v-icon
+        >
       </template>
       <template v-slot:item.custom-edit="{ item }">
         <slot name="custom-edit" :item="item" />
@@ -368,6 +377,15 @@
           <v-icon>mdi-check-circle-outline</v-icon>
         </p>
       </template>
+      <template v-slot:item.isOneTime="item">
+        <slot name="isOneTime" :item="item" />
+        <p v-if="item.item.isOneTime" style="margin: 0">
+          <v-icon color="green">mdi-check-circle-outline</v-icon>
+        </p>
+        <p v-else style="margin: 0">
+          <v-icon color="red">mdi-close-circle-outline</v-icon>
+        </p>
+      </template>
       <template v-slot:item.rating="item">
         <slot name="rating" :item="item" />
         <p v-if="item.item.rating" style="margin: 0">
@@ -379,6 +397,14 @@
         <p v-else style="margin: 0">
           <v-icon color="grey">mdi-star</v-icon>
         </p>
+      </template>
+      <template v-slot:item.expiry="{ item }">
+        <slot name="expiry" :item="item" />
+        {{ date(item.expiry) }}
+      </template>
+      <template v-slot:item.usedBy="{ item }">
+        <slot name="usedBy" :item="item" />
+        {{ item.usedBy.length }} Customer(s)
       </template>
     </v-data-table>
   </v-card>
@@ -496,6 +522,10 @@ export default defineComponent({
       default: false
     },
     refund: {
+      type: Boolean,
+      default: false
+    },
+    invoice: {
       type: Boolean,
       default: false
     },
@@ -700,6 +730,12 @@ export default defineComponent({
       console.log(item)
       this.onRefund(item)
     }
+    function handleInvoiceEvent(item) {
+      window.open(
+        this.$axios.defaults.baseURL + 'reports/order-invoice/' + item._id,
+        '_blank'
+      )
+    }
 
     function returnBack() {
       this.$router.back()
@@ -761,6 +797,7 @@ export default defineComponent({
       removeItem,
       unblockItem,
       handleRefundEvent,
+      handleInvoiceEvent,
       returnBack,
       changeItem,
       detailItem,
