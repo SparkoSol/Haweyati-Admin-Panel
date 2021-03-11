@@ -62,7 +62,7 @@
             <v-autocomplete
               v-model="report.customer"
               :items="customers"
-              item-text="profile.name"
+              item-text="profile.contact"
               item-value="_id"
               placeholder="Customer"
               dense
@@ -71,7 +71,7 @@
             <v-autocomplete
               v-model="report.driver"
               :items="drivers"
-              item-text="profile.name"
+              item-text="profile.contact"
               item-value="_id"
               placeholder="Driver"
               dense
@@ -80,7 +80,7 @@
             <v-autocomplete
               v-model="report.supplier"
               :items="suppliers"
-              item-text="person.name"
+              item-text="person.contact"
               item-value="_id"
               placeholder="Supplier"
               dense
@@ -256,6 +256,7 @@ export default {
       for (const item in this.report) {
         if (this.report[item]) value[item] = this.report[item]
       }
+      console.log(value)
       return value
     },
     async getReport() {

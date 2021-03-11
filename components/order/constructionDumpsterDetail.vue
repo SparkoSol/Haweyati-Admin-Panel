@@ -159,6 +159,10 @@
             </template>
           </v-data-table>
         </v-card>
+        <Reviews
+          title="Reviews"
+          :endpoint="'/reviews?id=' + order._id + '&type=order'"
+        />
       </v-card>
     </v-container>
     <v-container>
@@ -207,13 +211,14 @@
 
 <script>
 import moment from 'moment'
+import Reviews from '../misc/order-reviews'
 import GoogleMap from '../misc/GoogleMap'
 import ImageViewerWide from '../misc/image-viewer-wide'
 import { Order } from '@/models/order'
 
 export default {
   name: 'ConstructionDumpsterDetail',
-  components: { ImageViewerWide, GoogleMap },
+  components: { ImageViewerWide, GoogleMap, Reviews },
   props: {
     order: {
       type: [Object, Order],

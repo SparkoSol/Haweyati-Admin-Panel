@@ -74,7 +74,7 @@
       </v-card>
       <Reviews
         title="Reviews"
-        :endpoint="'/reviews/supplier/' + supplier._id"
+        :endpoint="'/reviews?id=' + supplier._id + '&type=supplier'"
       />
     </v-container>
   </v-container>

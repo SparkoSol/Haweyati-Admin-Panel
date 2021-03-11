@@ -88,7 +88,15 @@ export default {
         tab: 'Weekly',
         endpoint: '/drivers',
         title: 'Weekly Order Report',
-        report: new Report(null, moment().format('yyyy-w'), null, null, null),
+        report: new Report(
+          null,
+          moment()
+            .format('yyyy-W')
+            .replace('-', '-W'),
+          null,
+          null,
+          null
+        ),
         columns: [
           {
             text: '#',

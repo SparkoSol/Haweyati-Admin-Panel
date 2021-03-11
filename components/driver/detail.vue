@@ -97,7 +97,7 @@
       </v-card>
       <Reviews
         title="Reviews"
-        :endpoint="'/reviews/driver/' + driver._id"
+        :endpoint="'/reviews?id=' + driver._id + '&type=driver'"
         is-driver
       />
     </v-container>
