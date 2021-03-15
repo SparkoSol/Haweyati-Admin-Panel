@@ -180,6 +180,20 @@
             :label="'Point Conversion'"
             dense
           ></v-text-field>
+          <v-text-field
+            v-model="reward.invitationPoints"
+            outlined
+            :rules="[required]"
+            :label="'Invitation Points'"
+            dense
+          ></v-text-field>
+          <v-text-field
+            v-model="reward.pointPercentage"
+            outlined
+            :rules="[required]"
+            :label="'Order Points Percentage'"
+            dense
+          ></v-text-field>
         </div>
       </SimpleForm>
     </v-dialog>
@@ -417,13 +431,16 @@ export default {
       this.dialog = true
     },
     async getRewardPoint() {
-      this.reward.value = await this.$axios.$get('unit/point-value')
+      const reward = await this.$axios.$get('unit/point-value')
+      this.reward.value = reward.value
+      this.reward.invitationPoints = reward.invitationPoints
+      this.reward.pointPercentage = reward.pointPercentage
     },
     formData() {
       return this.reward
     },
-    async closeDialog() {
-      this.reward.value = await this.$axios.$get('unit/point-value')
+    closeDialog() {
+      this.getRewardPoint()
       this.dialog = false
     }
   }

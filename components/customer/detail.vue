@@ -154,7 +154,7 @@ export default {
     columns: [
       { text: 'Service', value: 'service' },
       { text: 'Payment Type', value: 'paymentType' },
-      { text: 'Total', value: 'details.netTotal' },
+      { text: 'Total', value: 'total' },
       { text: 'Date', value: 'createdAt' },
       { text: 'Status', value: 'status' }
     ]
