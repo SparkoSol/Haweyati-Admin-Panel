@@ -15,6 +15,7 @@
 
 <script>
 import BuildingMaterialForm from '../../../../../../../components/products/building-material/form'
+
 export default {
   components: {
     BuildingMaterialForm
@@ -22,7 +23,7 @@ export default {
   async asyncData({ $axios, route }) {
     return {
       buildingMaterial: await $axios.$get(
-        'building-materials/' + route.params.iid
+        'building-materials/' + route.params.iid + '?withSuppliers=true'
       )
     }
   }

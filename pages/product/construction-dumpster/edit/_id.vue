@@ -15,13 +15,16 @@
 
 <script>
 import DumpsterForm from '../../../../components/products/construction-dumpster/form'
+
 export default {
   components: {
     DumpsterForm
   },
   async asyncData({ $axios, route }) {
     return {
-      constructionDumpster: await $axios.$get('dumpsters/' + route.params.id)
+      constructionDumpster: await $axios.$get(
+        'dumpsters/' + route.params.id + '?withSuppliers=true'
+      )
     }
   }
 }

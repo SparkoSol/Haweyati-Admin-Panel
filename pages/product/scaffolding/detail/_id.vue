@@ -16,7 +16,9 @@ export default {
   components: { ScaffoldingDetail },
   async asyncData({ $axios, route }) {
     return {
-      scaffolding: await $axios.$get('scaffoldings/' + route.params.id)
+      scaffolding: await $axios.$get(
+        'scaffoldings/' + route.params.id + '?withSuppliers=true'
+      )
     }
   }
 }

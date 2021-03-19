@@ -22,7 +22,7 @@ export default {
   async asyncData({ $axios, route }) {
     return {
       finishingMaterial: await $axios.$get(
-        'finishing-materials/' + route.params.iid
+        'finishing-materials/' + route.params.iid + '?withSuppliers=true'
       )
     }
   }

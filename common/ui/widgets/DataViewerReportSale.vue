@@ -101,6 +101,7 @@
 <script>
 import moment from 'moment'
 import { yearValidator, required } from '../../utils/validators'
+
 export default {
   name: 'DataViewerReportSale',
   props: {
@@ -263,7 +264,7 @@ export default {
       let win
       if (this.all) {
         win = window.open(
-          'http://128.199.69.75:4000/reports/orders-report?type=all',
+          this.$axios.defaults.baseURL + 'reports/orders-report?type=all',
           '_blank'
         )
       } else if (this.date && !this.dateTo) {
@@ -271,7 +272,8 @@ export default {
           ? moment(this.dateSend).format('MM-DD-YYYY')
           : moment().format('MM-DD-YYYY')
         win = window.open(
-          'http://128.199.69.75:4000/reports/orders-report?type=daily&date=' +
+          this.$axios.defaults.baseURL +
+            'reports/orders-report?type=daily&date=' +
             date,
           '_blank'
         )
@@ -280,7 +282,8 @@ export default {
           ? moment(this.weekSend).week()
           : moment().week()
         win = window.open(
-          'http://128.199.69.75:4000/reports/orders-report?type=weekly&date=' +
+          this.$axios.defaults.baseURL +
+            'reports/orders-report?type=weekly&date=' +
             week,
           '_blank'
         )
@@ -289,14 +292,16 @@ export default {
           ? moment(this.monthSend).month() + 1
           : moment().month() + 1
         win = window.open(
-          'http://128.199.69.75:4000/reports/orders-report?type=monthly&date=' +
+          this.$axios.defaults.baseURL +
+            'reports/orders-report?type=monthly&date=' +
             month,
           '_blank'
         )
       } else if (this.year) {
         const year = this.yearSend ? this.yearSend : moment().year()
         win = window.open(
-          'http://128.199.69.75:4000/reports/orders-report?type=yearly&date=' +
+          this.$axios.defaults.baseURL +
+            'reports/orders-report?type=yearly&date=' +
             year,
           '_blank'
         )
@@ -308,7 +313,8 @@ export default {
           ? moment(this.dateToSend).format('MM-DD-YYYY')
           : moment().format('MM-DD-YYYY')
         win = window.open(
-          'http://128.199.69.75:4000/reports/orders-report?type=custom&date=' +
+          this.$axios.defaults.baseURL +
+            'reports/orders-report?type=custom&date=' +
             date +
             '&dateTo=' +
             dateTo,
@@ -324,8 +330,10 @@ export default {
 <style lang="sass">
 .date-picker
   padding-right: 10px
+
 .data-viewer
   width: 100% !important
+
 .theme--light.v-data-table tbody tr:hover:not(.v-data-table__expanded__content):not(.v-data-table__empty-wrapper)
   background: #fff !important
 </style>

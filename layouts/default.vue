@@ -399,7 +399,8 @@ export default {
     audio() {
       try {
         const data = {
-          soundurl: 'http://128.199.69.75:4000/uploads/notificationTone.mpeg'
+          soundurl:
+            this.$axios.defaults.baseURL + 'uploads/notificationTone.mpeg'
         }
         const audio = new Audio(data.soundurl)
         audio.play()
